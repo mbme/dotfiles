@@ -1,0 +1,286 @@
+# i3 config file (v4)
+#
+
+set $mod Mod4
+
+set $primary_screen eDP1
+# set $secondary_screen DP1
+set $secondary_screen HDMI1
+
+set $border 5
+
+
+font xft:DejaVu Sans Mono 10
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# kill focused window
+bindsym $mod+c kill
+
+# change focus
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move focused window
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# split in horizontal orientation
+bindsym $mod+g split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+bindsym $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+
+# move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+
+bindsym $mod+Left workspace prev
+bindsym $mod+Shift+Left move container to workspace prev
+
+bindsym $mod+Right workspace next
+bindsym $mod+Shift+Right move container to workspace next
+
+# Move the current workspace to the next output
+# (effectively toggles when you only have two outputs)
+bindsym $mod+x move workspace to output right
+
+# reload the configuration file
+bindsym $mod+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+e exec $HOME/.config/i3/exit.sh
+
+# go to prev workspace
+bindsym $mod+Tab workspace back_and_forth
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+     # These bindings trigger as soon as you enter the resize mode
+
+     # Pressing left will shrink the window’s width.
+     # Pressing right will grow the window’s width.
+     # Pressing up will shrink the window’s height.
+     # Pressing down will grow the window’s height.
+     bindsym j resize shrink width 10 px or 10 ppt
+     bindsym k resize grow height 10 px or 10 ppt
+     bindsym l resize shrink height 10 px or 10 ppt
+     bindsym semicolon resize grow width 10 px or 10 ppt
+
+     # same bindings, but for the arrow keys
+     bindsym Left resize shrink width 10 px or 10 ppt
+     bindsym Down resize grow height 10 px or 10 ppt
+     bindsym Up resize shrink height 10 px or 10 ppt
+     bindsym Right resize grow width 10 px or 10 ppt
+
+     # back to normal: Enter or Escape
+     bindsym Return mode "default"
+     bindsym Escape mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+    font         xft:Ubuntu       Mono  12
+    position     top
+    tray_output  $primary_screen
+    output       $primary_screen
+    mode         invisible
+
+    colors {
+           # solarized
+           set  $c_active      #268bd2
+           set  $c_inactive    #859900
+           set  $c_background  #073642
+           set  $c_text        #eee8d5
+           set  $c_urgent      #cb4b16
+
+           background $c_background
+           statusline $c_text
+
+           #colorclass         border       background     text
+           focused_workspace   $c_active    $c_active      $c_text
+           active_workspace    $c_inactive  $c_inactive    $c_text
+           inactive_workspace  $c_inactive  $c_background  $c_text
+           urgent_workspace    $c_urgent    $c_urgent      $c_text
+    }
+
+    status_command $HOME/.config/i3/conky-i3bar.sh
+}
+
+bar {
+    font         xft:Ubuntu         Mono  12
+    position     top
+    output       $secondary_screen
+    tray_output  $primary_screen
+    mode         invisible
+
+    colors {
+           # solarized
+           set  $c_active      #268bd2
+           set  $c_inactive    #859900
+           set  $c_background  #073642
+           set  $c_text        #eee8d5
+           set  $c_urgent      #cb4b16
+
+           background $c_background
+           statusline $c_text
+
+           #colorclass         border       background     text
+           focused_workspace   $c_active    $c_active      $c_text
+           active_workspace    $c_inactive  $c_inactive    $c_text
+           inactive_workspace  $c_inactive  $c_background  $c_text
+           urgent_workspace    $c_urgent    $c_urgent      $c_text
+    }
+
+    status_command $HOME/.config/i3/conky-i3bar2.sh
+}
+
+exec_always --no-startup-id $HOME/.config/i3/toggle_bar.sh clear
+bindsym $mod+grave exec --no-startup-id $HOME/.config/i3/toggle_bar.sh toggle
+
+focus_follows_mouse            no
+popup_during_fullscreen        smart
+workspace_auto_back_and_forth  no
+default_orientation            horizontal
+workspace_layout               tabbed
+mouse_warping                  none
+
+#class                   border         backgr         text     indicator
+client.focused           $c_active      $c_active      $c_text  $c_active
+client.focused_inactive  $c_inactive    $c_inactive    $c_text  $c_inactive
+client.unfocused         $c_background  $c_background  $c_text  $c_background
+client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
+
+# startup on first workspace if single screen
+workspace 1 output $primary_screen
+workspace 2 output $primary_screen
+workspace 3 output $primary_screen
+workspace 4 output $secondary_screen
+workspace 5 output $primary_screen
+workspace 7 output $primary_screen
+workspace 8 output $primary_screen
+workspace 9 output $primary_screen
+
+assign [class="Firefox"] 2
+
+assign [class="^jetbrains-idea"] 3
+assign [class="^jetbrains-webstorm"] 3
+
+assign [class="Chromium"] 4
+assign [class="Chrome"] 4
+
+assign [class="Steam"] 5
+
+assign [class="Skype"] 7
+assign [class="Pidgin"] 7
+assign [class="Gitter"] 7
+
+assign [class="Liferea"]  8
+assign [class="Thunderbird" instance="Mail"] 8
+
+assign [title="Transmission" class="Transmission-gtk"]  9
+assign [class="Quodlibet"]  9
+
+
+new_window  normal  $border
+new_float   normal  $border
+# hide_edge_borders both
+
+for_window [class="^Oblogout"] fullscreen
+
+# browser pop-ups
+for_window [window_role="^pop-up"] floating enable
+
+for_window [class="^Firefox"] floating enable
+for_window [class="^Firefox" instance="Navigator"] layout tabbed, floating disable, border pixel $border
+
+for_window [class="^Chromium"] border pixel $border
+
+for_window [class="^Emacs"] border pixel $border
+
+for_window [class="^Skype"] floating enable
+for_window [class="^Skype" window_role="ConversationsWindow"] layout tabbed, floating disable
+
+for_window [class="^Thunderbird" instance="Calendar"] floating enable
+for_window [class="^Thunderbird" instance="Msgcompose"] floating enable
+for_window [class="^Thunderbird"] border pixel $border
+
+for_window [class="^jetbrains-idea"] layout   tabbed, border pixel $border
+for_window [class="^jetbrains-webstorm"] layout   tabbed, border pixel $border
+for_window [class="^Kupfer.py"]      floating enable, border pixel $border
+
+for_window [class="^Quodlibet"] border pixel $border
+for_window [class="^Pcmanfm"]   border pixel $border
+for_window [class="^Liferea"]   border pixel $border
+for_window [class="^Nitrogen"]    floating enable
+for_window [class="^Pavucontrol"] floating enable
+for_window [class="^Wine"]        floating enable
+for_window [class="^Workrave"]    floating enable
+for_window [class="^Gcolor2"]     floating enable
+for_window [class="^Vncviewer"]   floating enable
+for_window [class="^Remmina"]     floating enable
+for_window [class="^dota_linux"]  floating enable
+# for_window [class="^Termite"]     floating enable
+
+for_window [class="^Gnome-screenshot"] floating enable
+for_window [class="^Gnome-calculator"] floating enable border pixel $border
+for_window [class="^Gcr-prompter"]     floating enable
+for_window [class="^File-roller"]      floating enable border pixel $border
+
+for_window [class="^i3-exit"] border pixel $border
+
+for_window [class="^Chrome" title="^Developer Tools.*"] floating disable, move to workspace 5
+for_window [window_role="^bubble$"] floating enable
+
+# exec_always --no-startup-id wmname LG3D
+exec_always --no-startup-id wmname Sawfish
+
+# set per-workspace layouts
+# exec $HOME/.config/i3/per-workspace-layout.pl

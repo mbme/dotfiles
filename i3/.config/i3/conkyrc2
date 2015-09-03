@@ -1,0 +1,20 @@
+out_to_x              no
+own_window            no
+out_to_console        yes
+background            no
+max_text_width        0
+update_interval       2.0
+total_run_times       0
+short_units           yes
+use_spacer            no
+override_utf8_locale  no
+cpu_avg_samples       2
+
+TEXT
+
+[
+{"full_text":"[","color":"\#888888","separator":false},
+# PLAYER
+{"full_text":"${execi 5 quodlibet --print-playing}","color":"\#EEEEEE","separator":false,"align":"left"},
+{"full_text":"]","color":"\#888888","separator":false,"separator_block_width":300}
+],
