@@ -1,0 +1,45 @@
+"*":
+  "exception-reporting":
+    userId: "efc4c35c-5b7e-f9e3-8ab5-5c85454f7b66"
+  welcome:
+    showOnStartup: false
+  core:
+    disabledPackages: [
+      "metrics"
+      "open-on-github"
+      "package-generator"
+      "tabs"
+    ]
+    themes: [
+      "atom-material-ui"
+      "solarized-light-syntax"
+    ]
+  editor:
+    invisibles: {}
+    fontSize: 12
+    lineHeight: 1.2
+    showIndentGuide: true
+    zoomFontWhenCtrlScrolling: true
+  "status-bar": {}
+  "language-babel": {}
+  linter:
+    showErrorPanel: false
+    showErrorTabProject: false
+    statusIconScope: "File"
+    showErrorTabFile: false
+    lintOnFly: false
+  react: {}
+  "fuzzy-finder": {}
+  "linter-eslint":
+    useGlobalEslint: true
+    globalNodePath: "/Users/isymch/npm"
+    disableWhenNoEslintrcFileInPath: true
+  "autocomplete-plus": {}
+  "atom-terminal":
+    MacWinRunDirectly: true
+  tabs: {}
+  "recent-finder":
+    max: 100
+".coffee.jsx.source":
+  editor:
+    showIndentGuide: true
