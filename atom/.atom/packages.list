@@ -4,7 +4,6 @@ atom-terminal@0.8.0
 editorconfig@1.1.1
 file-icons@1.6.9
 highlight-line@0.11.0
-highlight-selected@0.10.1
 linter@1.5.0
 linter-eslint@3.0.2
 project-manager@2.4.0
