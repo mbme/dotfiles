@@ -8,18 +8,19 @@
       "metrics"
       "open-on-github"
       "package-generator"
-      "tabs"
     ]
     themes: [
       "atom-material-ui"
       "solarized-light-syntax"
     ]
+    autoHideMenuBar: true
   editor:
     invisibles: {}
-    fontSize: 12
     lineHeight: 1.2
     showIndentGuide: true
     zoomFontWhenCtrlScrolling: true
+    scrollPastEnd: true
+    tabLength: 4
   "status-bar": {}
   "language-babel": {}
   linter:
@@ -27,12 +28,10 @@
     showErrorTabProject: false
     statusIconScope: "File"
     showErrorTabFile: false
-    lintOnFly: false
   react: {}
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
-    globalNodePath: "/Users/isymch/npm"
     disableWhenNoEslintrcFileInPath: true
   "autocomplete-plus": {}
   "atom-terminal":
@@ -40,6 +39,19 @@
   tabs: {}
   "recent-finder":
     max: 100
+  "atom-material-ui":
+    compactTreeView: true
+    fontSize: "Big"
+    slimScrollbar: true
+    tabSize: "Small"
+  "vim-mode":
+    useClipboardAsDefaultRegister: true
+  "highlight-selected":
+    onlyHighlightWholeWords: true
+    lightTheme: true
+  emmet: {}
+  "save-session":
+    dataSaveFolder: "/home/mbme/dotfiles/atom/.atom/packages/save-session/projects"
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true

@@ -10,6 +10,24 @@
  //   editor.onDidSave ->
  //     console.log "Saved! #{editor.getPath()}"
 
+ function isPlatform(name) {
+   return document.body.classList.contains(`platform-${name}`);
+ }
+
+ function isLinux() {
+   return isPlatform('linux');
+ }
+
+ function isMac() {
+   return isPlatform('darwin');
+ }
+
+ function isWindows() {
+   return isPlatform('win32');
+ }
+
+
+
 atom.commands.add('atom-text-editor', 'mb:run-term', function (event) {
     alert('HERE');
 });

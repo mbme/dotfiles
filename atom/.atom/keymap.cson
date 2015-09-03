@@ -30,5 +30,29 @@
   'f4': 'atom-terminal:open'
   'shift-f4': 'atom-terminal:open-project-root'
 
-'atom-workspace:not([mini])':
-  'cmd-t': 'recent-finder:toggle'
+  'f12': 'window:toggle-menu-bar'
+
+  'alt-1': 'tree-view:toggle'
+  'alt-2': 'unset!'
+  'alt-3': 'unset!'
+  'alt-4': 'unset!'
+  'alt-5': 'unset!'
+  'alt-6': 'unset!'
+  'alt-7': 'unset!'
+  'alt-8': 'unset!'
+  'alt-9': 'unset!'
+
+
+  'alt-r': 'recent-finder:toggle'
+  'alt-f': 'fuzzy-finder:toggle-file-finder'
+  'alt-b': 'fuzzy-finder:toggle-buffer-finder'
+  'alt-i': 'symbols-view:toggle-file-symbols'
+  'alt-I': 'symbols-view:toggle-project-symbols'
+  'alt-p': 'command-palette:toggle'
+
+  'alt-]': 'pane:show-next-item'
+  'alt-[': 'pane:show-previous-item'
+
+'atom-text-editor':
+  'alt-b': 'unset!'
+  'alt-f': 'unset!'
