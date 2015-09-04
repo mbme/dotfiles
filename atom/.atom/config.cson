@@ -61,6 +61,8 @@
     detectGitProjectAndUseGitGrep: false
     preserveLastSearch: true
   "color-picker": {}
+  "git-diff": {}
+  "git-plus": {}
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true

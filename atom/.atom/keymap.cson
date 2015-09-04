@@ -32,6 +32,11 @@
   'ctrl-i': 'cursor-history:next'
   'ctrl-o': 'cursor-history:prev'
 
+  'alt-g j': 'git-diff:move-to-next-diff'
+  'alt-g k': 'git-diff:move-to-previous-diff'
+  'alt-g p': 'git-plus:menu'
+  'alt-g s': 'git-plus:status'
+
 
 'atom-text-editor':
   'alt-b': 'unset!'
@@ -44,7 +49,7 @@
 
 'atom-text-editor.vim-mode.normal-mode, atom-text-editor.vim-mode.visual-mode':
   's':           'lazy-motion:forward'
-  
+
 
 'atom-text-editor.lazy-motion':
   'ctrl-u': 'editor:delete-to-beginning-of-line'
