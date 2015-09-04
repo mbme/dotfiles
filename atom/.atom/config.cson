@@ -52,6 +52,9 @@
   "expand-region": {}
   "lazy-motion":
     showHoverIndicator: false
+  pigments: {}
+  "tree-view": {}
+  "autohide-tree-view": {}
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
