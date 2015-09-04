@@ -60,6 +60,7 @@
   "atom-fuzzy-grep":
     detectGitProjectAndUseGitGrep: false
     preserveLastSearch: true
+  "color-picker": {}
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
