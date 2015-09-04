@@ -27,11 +27,6 @@
 # https://atom.io/docs/latest/using-atom-basic-customization#cson
 
 'atom-workspace':
-  'f4': 'atom-terminal:open'
-  'shift-f4': 'atom-terminal:open-project-root'
-
-  'f12': 'window:toggle-menu-bar'
-
   'alt-1': 'tree-view:toggle'
   'alt-2': 'unset!'
   'alt-3': 'unset!'
