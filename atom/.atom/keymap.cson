@@ -1,33 +1,9 @@
-# Your keymap
-#
-# Atom keymaps work similarly to style sheets. Just as style sheets use
-# selectors to apply styles to elements, Atom keymaps use selectors to associate
-# keystrokes with events in specific contexts. Unlike style sheets however,
-# each selector can only be declared once.
-#
-# You can create a new keybinding in this file by typing "key" and then hitting
-# tab.
-#
-# Here's an example taken from Atom's built-in keymap:
-#
-# 'atom-text-editor':
-#   'enter': 'editor:newline'
-#
-# 'atom-workspace':
-#   'ctrl-shift-p': 'core:move-up'
-#   'ctrl-p': 'core:move-down'
-#
-# You can find more information about keymaps in these guides:
-# * https://atom.io/docs/latest/using-atom-basic-customization#customizing-key-bindings
-# * https://atom.io/docs/latest/behind-atom-keymaps-in-depth
-#
-# This file uses CoffeeScript Object Notation (CSON).
-# If you are unfamiliar with CSON, you can read more about it in the
-# Atom Flight Manual:
-# https://atom.io/docs/latest/using-atom-basic-customization#cson
+'body':
+  'ctrl-o': 'unset!'
+  'alt-j': 'core:move-down'
+  'alt-k': 'core:move-up'
 
-'atom-workspace':
-  'alt-1': 'tree-view:toggle'
+  'alt-1': 'unset!'
   'alt-2': 'unset!'
   'alt-3': 'unset!'
   'alt-4': 'unset!'
@@ -38,8 +14,12 @@
   'alt-9': 'unset!'
 
 
+'atom-workspace':
+  'alt-1': 'tree-view:toggle'
+
   'alt-r': 'recent-finder:toggle'
   'alt-f': 'fuzzy-finder:toggle-file-finder'
+  'alt-F': 'fuzzy-grep:toggleLastSearch'
   'alt-b': 'fuzzy-finder:toggle-buffer-finder'
   'alt-i': 'symbols-view:toggle-file-symbols'
   'alt-I': 'symbols-view:toggle-project-symbols'
@@ -52,18 +32,19 @@
   'ctrl-i': 'cursor-history:next'
   'ctrl-o': 'cursor-history:prev'
 
+
 'atom-text-editor':
   'alt-b': 'unset!'
   'alt-f': 'unset!'
+  'alt-F': 'unset!'
 
   'alt-w': 'expand-region:expand'
   'alt-W': 'expand-region:shrink'
 
-'body':
-  'ctrl-o': 'unset!'
 
 'atom-text-editor.vim-mode.normal-mode, atom-text-editor.vim-mode.visual-mode':
   's':           'lazy-motion:forward'
+  
 
 'atom-text-editor.lazy-motion':
   'ctrl-u': 'editor:delete-to-beginning-of-line'

@@ -57,6 +57,9 @@
   "autohide-tree-view": {}
   "advanced-open-file":
     helmDirSwitch: true
+  "atom-fuzzy-grep":
+    detectGitProjectAndUseGitGrep: false
+    preserveLastSearch: true
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
