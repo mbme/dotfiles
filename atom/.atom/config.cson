@@ -55,6 +55,8 @@
   pigments: {}
   "tree-view": {}
   "autohide-tree-view": {}
+  "advanced-open-file":
+    helmDirSwitch: true
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true

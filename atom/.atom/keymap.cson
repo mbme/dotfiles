@@ -44,6 +44,7 @@
   'alt-i': 'symbols-view:toggle-file-symbols'
   'alt-I': 'symbols-view:toggle-project-symbols'
   'alt-p': 'command-palette:toggle'
+  'alt-o': 'advanced-open-file:toggle'
 
   'alt-]': 'pane:show-next-item'
   'alt-[': 'pane:show-previous-item'
