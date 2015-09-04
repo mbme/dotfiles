@@ -54,9 +54,20 @@
 'atom-text-editor':
   'alt-b': 'unset!'
   'alt-f': 'unset!'
-  
+
   'alt-w': 'expand-region:expand'
   'alt-W': 'expand-region:shrink'
 
 'body':
   'ctrl-o': 'unset!'
+
+'atom-text-editor.vim-mode.normal-mode, atom-text-editor.vim-mode.visual-mode':
+  's':           'lazy-motion:forward'
+
+'atom-text-editor.lazy-motion':
+  'ctrl-u': 'editor:delete-to-beginning-of-line'
+  'alt-j':  'lazy-motion:forward'
+  'alt-k':  'lazy-motion:backward'
+  ';':      'core:confirm'
+  'ctrl-p': 'lazy-motion:set-history-prev'
+  'ctrl-n': 'lazy-motion:set-history-next'
