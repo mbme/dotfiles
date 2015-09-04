@@ -49,6 +49,7 @@
   "save-session":
     dataSaveFolder: "/home/mbme/dotfiles/atom/.atom/packages/save-session/projects"
   "cursor-history": {}
+  "expand-region": {}
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true

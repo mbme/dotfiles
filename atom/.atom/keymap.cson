@@ -54,6 +54,9 @@
 'atom-text-editor':
   'alt-b': 'unset!'
   'alt-f': 'unset!'
+  
+  'alt-w': 'expand-region:expand'
+  'alt-W': 'expand-region:shrink'
 
 'body':
   'ctrl-o': 'unset!'

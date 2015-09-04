@@ -2,6 +2,7 @@ atom-material-syntax@0.2.3
 atom-material-ui@0.6.0
 cursor-history@0.4.18
 editorconfig@1.1.1
+expand-region@0.2.3
 file-icons@1.6.9
 highlight-line@0.11.0
 linter@1.5.0
