@@ -48,6 +48,12 @@
   'alt-]': 'pane:show-next-item'
   'alt-[': 'pane:show-previous-item'
 
+  'ctrl-i': 'cursor-history:next'
+  'ctrl-o': 'cursor-history:prev'
+
 'atom-text-editor':
   'alt-b': 'unset!'
   'alt-f': 'unset!'
+
+'body':
+  'ctrl-o': 'unset!'

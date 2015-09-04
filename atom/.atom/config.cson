@@ -48,6 +48,7 @@
   "highlight-line": {}
   "save-session":
     dataSaveFolder: "/home/mbme/dotfiles/atom/.atom/packages/save-session/projects"
+  "cursor-history": {}
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
