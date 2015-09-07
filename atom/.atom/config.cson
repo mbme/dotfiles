@@ -32,6 +32,7 @@
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
+    globalNodePath: "/Users/isymch/npm"
     disableWhenNoEslintrcFileInPath: true
   "autocomplete-plus": {}
   tabs: {}
@@ -46,8 +47,6 @@
     useClipboardAsDefaultRegister: true
     wrapLeftRightMotion: true
   "highlight-line": {}
-  "save-session":
-    dataSaveFolder: "/home/mbme/dotfiles/atom/.atom/packages/save-session/projects"
   "cursor-history": {}
   "expand-region": {}
   "lazy-motion":

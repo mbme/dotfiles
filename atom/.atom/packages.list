@@ -1,8 +1,7 @@
-advanced-open-file@0.8.2
+advanced-open-file@0.9.1
 atom-fuzzy-grep@0.6.0
 atom-material-syntax@0.2.3
 atom-material-ui@0.6.0
-autohide-tree-view@0.24.3
 color-picker@2.0.11
 cursor-history@0.4.18
 editorconfig@1.1.1
@@ -17,7 +16,7 @@ pigments@0.13.2
 project-manager@2.4.0
 react@0.12.6
 recent-finder@0.4.4
-save-session@0.15.7
+save-session
 tree-view-breadcrumb@0.6.2
 vim-mode@0.60.0
 vim-mode-visual-block@0.2.13
