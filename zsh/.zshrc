@@ -11,3 +11,21 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Customize to your needs...
+alias svim='sudo vim'
+alias tailf='tail -f -n 1000'
+alias -r g='git'
+alias r='ranger'
+alias vg='vagrant'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -I'
+alias cd..='cd ..'
+
+export LC_ALL=en_US.UTF-8  
+export LANG=en_US.UTF-8
+
+# Source local config
+if [[ -s "$HOME/.zshrc_local" ]]; then
+  source "$HOME/.zshrc_local"
+fi
