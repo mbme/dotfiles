@@ -1,0 +1,22 @@
+[mergetool]
+    keepBackup = false
+[core]
+    autocrlf = input
+    editor = vim
+[push]
+    default = simple
+[pull]
+    ff = only
+[merge]
+    ff = no
+[alias]
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    st = status
+    comm = commit
+    ch = checkout
+[http]
+    postBuffer = 524288000
+
+# use local config file
+[include]
+    path = ~/.gitconfig_local
