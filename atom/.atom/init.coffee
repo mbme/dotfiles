@@ -28,7 +28,9 @@ if is_mac
 
 
 open_term = (base_dir) ->
-  exec 'termite', cwd: base_dir, (err, stdout, stderr) ->
+  command = 'termite' if is_linux
+  command = "open -a Terminal #{base_dir}" if is_mac
+  exec command, cwd: base_dir, (err, stdout, stderr) ->
     if stdout then console.log 'stdout:', stdout
     if stderr then console.log 'stderr:', stderr
     if err then console.log 'exec error:', err

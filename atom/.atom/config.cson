@@ -33,6 +33,7 @@
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
+    globalNodePath: "/Users/isymch/npm"
   "autocomplete-plus": {}
   tabs: {}
   "recent-finder":
