@@ -1,4 +1,5 @@
 path = require 'path'
+{exec} = require 'child_process'
 
 ATOM_HOME = path.dirname atom.config.getUserConfigPath()
 
@@ -24,3 +25,21 @@ apply_config = (config) ->
 
 if is_mac
   apply_config MAC_CONFIG
+
+
+open_term = (base_dir) ->
+  exec 'termite', cwd: base_dir, (err, stdout, stderr) ->
+    if stdout then console.log 'stdout:', stdout
+    if stderr then console.log 'stderr:', stderr
+    if err then console.log 'exec error:', err
+
+atom.commands.add 'atom-workspace',
+  'mb:terminal': ->
+    editor = atom.workspace.getActivePaneItem()
+    file = editor?.buffer?.file
+    filepath = file?.path
+    if filepath
+      open_term path.dirname(filepath)
+
+  'mb:root-terminal': ->
+    open_term pathname for pathname in atom.project.getPaths()

@@ -14,6 +14,7 @@
       "solarized-light-syntax"
     ]
     autoHideMenuBar: true
+    openEmptyEditorOnStart: false
   editor:
     invisibles: {}
     lineHeight: 1.2
@@ -32,8 +33,6 @@
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
-    globalNodePath: "/Users/isymch/npm"
-    disableWhenNoEslintrcFileInPath: true
   "autocomplete-plus": {}
   tabs: {}
   "recent-finder":
@@ -41,7 +40,6 @@
   "atom-material-ui":
     compactTreeView: true
     fontSize: "Big"
-    slimScrollbar: true
     tabSize: "Small"
   "vim-mode":
     useClipboardAsDefaultRegister: true
@@ -51,7 +49,8 @@
   "expand-region": {}
   "lazy-motion":
     showHoverIndicator: false
-  pigments: {}
+  pigments:
+    markerType: "dot"
   "tree-view": {}
   "autohide-tree-view": {}
   "advanced-open-file":
@@ -62,6 +61,9 @@
   "color-picker": {}
   "git-diff": {}
   "git-plus": {}
+  "atom-beautify":
+    analytics: false
+    beautifyEntireFileOnSave: false
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
