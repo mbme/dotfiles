@@ -14,6 +14,7 @@
       "solarized-light-syntax"
     ]
     autoHideMenuBar: true
+    openEmptyEditorOnStart: false
   editor:
     invisibles: {}
     lineHeight: 1.2
@@ -32,7 +33,6 @@
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
-    disableWhenNoEslintrcFileInPath: true
   "autocomplete-plus": {}
   tabs: {}
   "recent-finder":
@@ -49,7 +49,8 @@
   "expand-region": {}
   "lazy-motion":
     showHoverIndicator: false
-  pigments: {}
+  pigments:
+    markerType: "dot"
   "tree-view": {}
   "autohide-tree-view": {}
   "advanced-open-file":
