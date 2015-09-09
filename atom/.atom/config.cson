@@ -32,7 +32,6 @@
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
-    globalNodePath: "/Users/isymch/npm"
     disableWhenNoEslintrcFileInPath: true
   "autocomplete-plus": {}
   tabs: {}
@@ -41,7 +40,6 @@
   "atom-material-ui":
     compactTreeView: true
     fontSize: "Big"
-    slimScrollbar: true
     tabSize: "Small"
   "vim-mode":
     useClipboardAsDefaultRegister: true
