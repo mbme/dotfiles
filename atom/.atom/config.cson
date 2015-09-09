@@ -60,6 +60,9 @@
   "color-picker": {}
   "git-diff": {}
   "git-plus": {}
+  "atom-beautify":
+    analytics: false
+    beautifyEntireFileOnSave: false
 ".coffee.jsx.source":
   editor:
     showIndentGuide: true
