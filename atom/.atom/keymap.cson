@@ -37,6 +37,9 @@
   'alt-g p': 'git-plus:menu'
   'alt-g s': 'git-plus:status'
 
+  'f4': 'mb:terminal'
+  'shift-f4': 'mb:root-terminal'
+
 
 'atom-text-editor':
   'alt-b': 'unset!'
