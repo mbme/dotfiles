@@ -25,6 +25,7 @@
     zoomFontWhenCtrlScrolling: true
     scrollPastEnd: true
     tabLength: 4
+    fontSize: 12
   "status-bar": {}
   "language-babel": {}
   linter:
@@ -54,7 +55,8 @@
     showHoverIndicator: false
   pigments:
     markerType: "dot"
-  "tree-view": {}
+  "tree-view":
+    hideVcsIgnoredFiles: true
   "autohide-tree-view": {}
   "advanced-open-file":
     helmDirSwitch: true
