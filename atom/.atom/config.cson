@@ -8,6 +8,9 @@
       "metrics"
       "open-on-github"
       "package-generator"
+      "background-tips"
+      "go-to-line"
+      "styleguide"
     ]
     themes: [
       "atom-material-ui"
