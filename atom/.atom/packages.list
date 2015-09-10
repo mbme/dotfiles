@@ -16,7 +16,7 @@ linter@1.5.1
 linter-eslint@3.0.2
 pigments@0.14.0
 project-manager@2.5.0
-react@0.12.6
+react@0.12.8
 recent-finder@0.4.4
 tree-view-breadcrumb@0.6.2
 vim-mode@0.60.0
