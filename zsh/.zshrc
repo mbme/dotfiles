@@ -22,6 +22,9 @@ alias mv='mv -i'
 alias rm='rm -I'
 alias cd..='cd ..'
 
+alias ydl='noglob youtube-dl -o "%(title)s.%(ext)s"'
+alias ydl-mp3='noglob youtube-dl -x --audio-format mp3 -o "%(title)s.%(ext)s"'
+
 export LC_ALL=en_US.UTF-8  
 export LANG=en_US.UTF-8
 

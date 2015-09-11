@@ -8,6 +8,9 @@
       "metrics"
       "open-on-github"
       "package-generator"
+      "background-tips"
+      "go-to-line"
+      "styleguide"
     ]
     themes: [
       "atom-material-ui"
@@ -30,11 +33,11 @@
     showErrorTabProject: false
     statusIconScope: "File"
     showErrorTabFile: false
-  react: {}
+  react:
+    enabledForAllJavascriptFiles: true
   "fuzzy-finder": {}
   "linter-eslint":
     useGlobalEslint: true
-    globalNodePath: "/Users/isymch/npm"
   "autocomplete-plus": {}
   tabs: {}
   "recent-finder":
@@ -55,6 +58,7 @@
     markerType: "dot"
   "tree-view":
     hideVcsIgnoredFiles: true
+    hideIgnoredNames: true
   "autohide-tree-view": {}
   "advanced-open-file":
     helmDirSwitch: true
