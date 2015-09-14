@@ -16,7 +16,5 @@
     ch = checkout
 [http]
     postBuffer = 524288000
-
-# use local config file
 [include]
-    path = ~/.gitconfig_local
+    path = .gitconfig_local
