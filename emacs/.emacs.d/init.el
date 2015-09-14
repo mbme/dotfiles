@@ -1482,6 +1482,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  ;; ask me if I want a tracking upstream
  magit-set-upstream-on-push 'askifnotset)
 
+;; modes to show diff automatically
+(setq magit-diff-auto-show '(log-oneline log-select blame-follow))
+
+;; do not use native emacs git support
 (delete 'Git vc-handled-backends)
 
 ;; these two force a new line to be inserted into a commit window,
