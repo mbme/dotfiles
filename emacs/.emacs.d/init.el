@@ -107,7 +107,6 @@
 
     smart-mode-line
     nyan-mode
-    smooth-scrolling
 
     project-explorer ; side bar
     projectile ; project management
@@ -166,6 +165,7 @@
     scss-mode
     less-css-mode
 
+    json-mode
     js2-mode
     tern ; requires npm tern
     company-tern ; autocomplete, requires npm tern
@@ -1298,16 +1298,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; Nyan mode
 (require 'nyan-mode)
 (nyan-mode t)
-
-
-
-;; Smooth scrolling
-(setq smooth-scroll-margin 5
-      scroll-margin 0
-      scroll-conservatively 101
-      scroll-preserve-screen-position t
-      auto-window-vscroll nil)
-(require 'smooth-scrolling)
 
 
 
