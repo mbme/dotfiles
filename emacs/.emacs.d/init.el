@@ -135,7 +135,6 @@
     smex ; ido-like M-x replacement
     flx-ido ; flexible matching for ido-mode (select files etc.)
     ido-vertical-mode ; vertical ido menu
-    ido-ubiquitous ; use ido everywhere
 
     company ; autocomplete
 
@@ -778,8 +777,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
  ;; disable ido faces to see flx highlights
  ido-use-faces                nil
- ;; enable ido-ubiquitous - ido everywhere
- ;; ido-everywhere               t
 
  ido-cannot-complete-command  'ido-next-match
 
@@ -799,6 +796,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  ido-auto-merge-work-directories-length  -1)
 
 (ido-mode 1)
+(ido-everywhere 1)
 
 (add-hook 'ido-setup-hook
           (lambda()
@@ -811,13 +809,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; vertical menu for ido-mode
 (require 'ido-vertical-mode)
 (ido-vertical-mode 1)
-
-;; Use ido everywhere (disabled)
-;; fix ido-ubiquitous compile-time warnings
-(defvar ido-context-switch-command nil)
-(defvar ido-ubiquitous-debug-mode nil)
-(require 'ido-ubiquitous)
-;; (ido-ubiquitous-mode 1)
 
 
 
@@ -850,6 +841,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  helm-scroll-amount                    8
  helm-ff-search-library-in-sexp        t
  helm-ff-file-name-history-use-recentf t
+ helm-mode-handle-completion-in-region nil
 
  helm-echo-input-in-header-line        t
 
@@ -874,6 +866,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
                                         `(:background ,bg-color :foreground ,bg-color)))
                 (setq-local cursor-type nil)))))
 
+;; enables helm for completing everything: M-x, find file etc.
 (helm-mode 1)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -1709,8 +1702,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; WebMode
 (require 'web-mode)
 
-(setq web-mode-enable-css-colorization t)
-
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\.php\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
@@ -1720,26 +1711,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (add-to-list 'auto-mode-alist '("\\.as[cp]x\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list
- 'auto-mode-alist
- '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode))
-
-
-;; make web-mode play nice with smartparens
-(setq web-mode-enable-auto-pairing nil)
-(sp-with-modes '(web-mode)
-  (sp-local-pair "%" "%"
-                 :unless '(sp-in-string-p)
-                 :post-handlers '(((lambda (&rest _ignored)
-                                     (just-one-space)
-                                     (save-excursion (insert " ")))
-                                   "SPC" "=" "#")))
-  (sp-local-pair "<% " " %>" :insert "C-c %")
-  (sp-local-pair "<%= " " %>" :insert "C-c =")
-  (sp-local-pair "<%# " " %>" :insert "C-c #")
-  (sp-local-tag "%" "<% " " %>")
-  (sp-local-tag "=" "<%= " " %>")
-  (sp-local-tag "#" "<%# " " %>"))
+(add-to-list 'auto-mode-alist '("/\\(views\\|html\\|theme\\|templates\\)/.*\\.php\\'" . web-mode))
 
 (evil-leader/set-key-for-mode 'web-mode
   "mr" 'web-mode-element-rename)
