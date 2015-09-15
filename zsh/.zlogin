@@ -21,3 +21,8 @@ if (( $+commands[fortune] )); then
     print
   fi
 fi
+
+# Source local config
+if [[ -s "$HOME/.zlogin_local" ]]; then
+  source "$HOME/.zlogin_local"
+fi

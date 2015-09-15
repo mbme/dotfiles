@@ -5,7 +5,15 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+# Source local config
+if [[ -s "$HOME/.zshenv_local" ]]; then
+    source "$HOME/.zshenv_local"
+fi
+
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ "$SHLVL" -eq 1 && ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then
-  source "${ZDOTDIR:-$HOME}/.zprofile"
+    source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
