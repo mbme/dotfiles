@@ -1810,6 +1810,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (diminish 'rainbow-mode)
 (diminish 'git-gutter-mode)
 (diminish 'ethan-wspace-mode)
+(diminish 'ivy-mode)
 (diminish 'helm-mode)
 (diminish 'projectile-mode) ; smart mode line already shows project
 (add-hook 'hs-minor-mode-hook
