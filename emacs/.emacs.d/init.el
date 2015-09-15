@@ -98,6 +98,7 @@
     helm-ag
     helm-themes
     helm-flyspell
+    helm-make
 
     imenu-anywhere
 
@@ -833,6 +834,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'helm)
 (require 'helm-config)
 (require 'helm-themes)
+(require 'helm-make)
 
 (require 'grep)
 (require 'helm-ag)
