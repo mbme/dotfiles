@@ -399,6 +399,16 @@ narrowed."
     (kill-buffer old)))
 
 
+(defun mb/mb-makefile ()
+  "Select and execute action from the first found mbme.Makefile."
+  (interactive)
+  (-if-let* ((mbme-file "mbme.Makefile")
+             (dir (locate-dominating-file default-directory mbme-file))
+             (helm-make-command (format "make -f %s %%s" mbme-file)))
+      (helm--make (expand-file-name mbme-file dir))
+    (error "Cannot find %s in top dirs" mbme-file)))
+
+
 ;; ---------------------------------------- CONFIG
 
 ;;@UI
@@ -1875,9 +1885,13 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "le" 'mb/reload-editorconfig
   "lm" 'evil-show-marks
   "k" 'kill-this-buffer
-  "e" 'eshell
+
+  "TAB" 'mb/mb-makefile
+
   "bm" 'bookmark-bmenu-list
   "u" 'undo-tree-visualize
+
+  "e" 'eshell
   "E" (lambda () (interactive) (eshell t)))
 
 
