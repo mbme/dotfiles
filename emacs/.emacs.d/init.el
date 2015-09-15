@@ -144,6 +144,10 @@
 
     avy ; ace-jump replacement
 
+    ;; Ivy
+    swiper ; better search using ivy (ido alternative)
+    counsel ; additional functions for ivy
+
 
     esh-buf-stack ;; eshell improvement
 
@@ -796,7 +800,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  ido-auto-merge-work-directories-length  -1)
 
 (ido-mode 1)
-(ido-everywhere 1)
+;; (ido-everywhere 1)
 
 (add-hook 'ido-setup-hook
           (lambda()
@@ -1027,6 +1031,28 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (setq avy-background t)
 (setq avy-style 'at-full)
 (evil-leader/set-key "." 'avy-goto-word-or-subword-1)
+
+
+
+;; Swiper: better search
+(require 'swiper)
+(require 'counsel)
+(ivy-mode 1)
+(setq
+ ivy-use-virtual-buffers t
+ ivy-count-format "(%d/%d) ")
+
+(define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
+(define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
+(define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
+
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-r") 'swiper)
+(global-set-key (kbd "C-c C-r") 'ivy-resume)
+(global-set-key [f7] 'ivy-resume)
+
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+
 
 
 
@@ -1441,12 +1467,14 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
           (lambda ()
             (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
 
+;; FIXME remove this; just fixes current issue
+(defalias 'yas--template-file 'yas--template-get-file)
+
 ;; Jump to end of snippet definition
 (define-key yas-keymap (kbd "<return>") 'yas/next-field-or-maybe-expand)
 
 (define-key yas-minor-mode-map [(tab)] nil)
 (define-key yas-minor-mode-map (kbd "TAB") nil)
-
 (global-set-key (kbd "C-j") 'mb/yas-or-complete)
 
 
