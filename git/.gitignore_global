@@ -1,1 +1,4 @@
 .projectile
+.tern-project
+*.mbme.sh
+mbme.Makefile
