@@ -1766,17 +1766,13 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
 (defun mb/web-mode-jsx-hacks ()
-  "Use jsx web mode for javascript and enable eslint in flycheck."
-  ;; use jsx content type for all files,
-  ;; because we cannot detect which ones are really js files
-  (when (equal web-mode-content-type "javascript")
-    (setq-local web-mode-content-type "jsx"))
-
-  (if (equal web-mode-content-type "jsx")
-      (flycheck-select-checker 'javascript-eslint)
-    (flycheck-disable-checker 'javascript-eslint)))
+  "Enable eslint for jsx in flycheck."
+  (when (or (equal web-mode-content-type "jsx")
+            (equal web-mode-content-type "javascript"))
+    (flycheck-select-checker 'javascript-eslint)))
 
 (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
+(setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
 
 
 
