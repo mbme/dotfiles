@@ -10,6 +10,7 @@
 
 ;; ---------------------------------------- VARS
 (defvar is-mac-os (eq system-type 'darwin))
+(defvar is-linux (eq system-type 'gnu/linux))
 
 (defvar provided-dir (expand-file-name "provided" user-emacs-directory))
 
@@ -633,7 +634,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  fill-column 80)
 
 ;; copy-paste (work with both terminal (S-INS) and X11 apps.):
-(when (> (display-color-cells) 16) ;;if not in CLI
+(when (and is-linux (> (display-color-cells) 16)) ;if linux and not in CLI
   ;;copy-paste should work (default in emacs24)
   (setq x-select-enable-clipboard t
         ;; with other X-clients
