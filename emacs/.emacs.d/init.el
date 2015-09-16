@@ -1498,8 +1498,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  magit-last-seen-setup-instructions "1.4.0"
  vc-follow-symlinks nil
 
- ;; use ido to look for branches
- magit-completing-read-function 'magit-ido-completing-read
  ;; open magit status in same window as current buffer
  magit-status-buffer-switch-function 'switch-to-buffer
  ;; highlight word/letter changes in hunk diffs
