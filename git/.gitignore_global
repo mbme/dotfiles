@@ -2,3 +2,4 @@
 .tern-project
 *.mbme.sh
 mbme.Makefile
+flycheck_init.el
