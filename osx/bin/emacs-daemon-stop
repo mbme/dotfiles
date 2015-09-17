@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Stop Emacs daemon
+
+set -e
+EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient
+exec $EMACS --eval "(kill-emacs)"
