@@ -1887,6 +1887,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "k" 'kill-this-buffer
 
   "TAB" 'mb/mb-makefile
+  "pm" 'helm-make-projectile
 
   "bm" 'bookmark-bmenu-list
   "u" 'undo-tree-visualize
