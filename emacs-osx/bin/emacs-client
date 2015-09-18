@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# Connect to existing Emacs daemon.
+
+set -e
+
+osascript -e 'tell application "Emacs" to activate'
+
+EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient
+exec $EMACS -c -a vim -n "$@" 
+
