@@ -107,7 +107,7 @@
     color-theme-sanityinc-tomorrow
     solarized-theme
 
-    smart-mode-line
+    powerline
     nyan-mode
 
     project-explorer ; side bar
@@ -1318,12 +1318,62 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 
-;; Smart mode line
-(require 'smart-mode-line)
-(setq sml/mode-width 'full
-      sml/position-percentage-format nil
-      sml/no-confirm-load-theme t)
-(sml/setup)
+;; Powerline
+(require 'powerline)
+
+;; from https://github.com/raugturi/powerline-evil
+(defun mb/powerline-evil-tag ()
+  "Get customized tag value for current evil state."
+  (let* ((visual-block (and (evil-visual-state-p)
+                            (eq evil-visual-selection 'block)))
+         (visual-line (and (evil-visual-state-p)
+                           (eq evil-visual-selection 'line))))
+    (cond (visual-block " +V+ ")
+          (visual-line " -V- ")
+          (t evil-mode-line-tag))))
+
+(defun mb/powerline-default-evil-theme ()
+  "Setup the default mode-line."
+  (interactive)
+  (setq-default mode-line-format
+                '("%e"
+                  (:eval
+                   (let* ((active (powerline-selected-window-active))
+                          (mode-line (if active 'mode-line 'mode-line-inactive))
+                          (face1 (if active 'powerline-active1 'powerline-inactive1))
+                          (face2 (if active 'powerline-active2 'powerline-inactive2))
+
+                          (separator-left (intern (format "powerline-%s-%s"
+                                                          (powerline-current-separator)
+                                                          (car powerline-default-separator-dir))))
+                          (separator-right (intern (format "powerline-%s-%s"
+                                                           (powerline-current-separator)
+                                                           (cdr powerline-default-separator-dir))))
+
+                          (lhs (list (powerline-raw (mb/powerline-evil-tag) mode-line)
+                                     (powerline-buffer-id)
+                                     (powerline-raw "%*")
+                                     (powerline-vc face2 'r)
+                                     (funcall separator-left mode-line face1)
+                                     (powerline-major-mode face1 'l)
+                                     (powerline-raw " " face1)
+                                     (powerline-process face1)
+                                     (powerline-narrow face1 'r)
+                                     (funcall separator-left face1 face2)
+                                     (when (bound-and-true-p nyan-mode)
+                                       (powerline-raw (list (nyan-create)) face2 'l))))
+                          (rhs (list (powerline-raw global-mode-string face2 'r)
+                                     (funcall separator-right face2 face1)
+                                     (powerline-minor-modes face1)
+                                     (funcall separator-right face1 mode-line)
+                                     (powerline-raw "%l" mode-line 'l)
+                                     (powerline-raw ":" mode-line)
+                                     (powerline-raw "%c" mode-line)
+                                     (powerline-raw "%p" mode-line 'l))))
+                     (concat (powerline-render lhs)
+                             (powerline-fill face2 (powerline-width rhs))
+                             (powerline-render rhs)))))))
+(mb/powerline-default-evil-theme)
 
 
 
@@ -1517,8 +1567,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; modes to show diff automatically
 (setq magit-diff-auto-show '(log-oneline log-select blame-follow))
 
-;; do not use native emacs git support
-(delete 'Git vc-handled-backends)
 
 ;; these two force a new line to be inserted into a commit window,
 ;; which stops the invalid style showing up.
@@ -1820,7 +1868,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (diminish 'ethan-wspace-mode)
 (diminish 'ivy-mode)
 (diminish 'helm-mode)
-(diminish 'projectile-mode) ; smart mode line already shows project
 (add-hook 'hs-minor-mode-hook
           (lambda() (diminish 'hs-minor-mode)))
 (add-hook 'emacs-lisp-mode-hook
