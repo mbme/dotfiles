@@ -93,7 +93,6 @@
     evil-visualstar ; search for selected text
     evil-leader ; vim leader feature
     evil-exchange ; exchange with objects
-    evil-anzu ; show current search match/total matches
 
     helm
     helm-ag
@@ -106,6 +105,10 @@
     soft-morning-theme
     color-theme-sanityinc-tomorrow
     solarized-theme
+
+    ;; show current search match/total matches
+    anzu
+    evil-anzu
 
     powerline
     nyan-mode
@@ -671,7 +674,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'evil-matchit)
 (require 'evil-visualstar)
 (require 'evil-exchange)
-(require 'evil-anzu)
 
 (setq
  evil-shift-width mb-tab-size
@@ -1039,6 +1041,27 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 
+;; Anzu
+(require 'anzu)
+(require 'evil-anzu)
+(global-anzu-mode t)
+(setq anzu-cons-mode-line-p nil)
+;; from spacemacs
+(defun mb/anzu-update-mode-line (here total)
+  "Custom update function which does not propertize the status.
+HERE is current position, TOTAL is total matches count."
+  (when anzu--state
+    (let ((status (cl-case anzu--state
+                    (search (format "(%s/%d%s)"
+                                    (anzu--format-here-position here total)
+                                    total (if anzu--overflow-p "+" "")))
+                    (replace-query (format "(%d replace)" total))
+                    (replace (format "(%d/%d)" here total)))))
+      status)))
+(setq anzu-mode-line-update-function 'mb/anzu-update-mode-line)
+
+
+
 ;; Avy-mode: ace-jump replacement
 (require 'avy)
 (setq avy-background t)
@@ -1363,13 +1386,15 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
                                      (when (bound-and-true-p nyan-mode)
                                        (powerline-raw (list (nyan-create)) face2 'l))))
                           (rhs (list (powerline-raw global-mode-string face2 'r)
+                                     (when (and (boundp 'anzu--state) anzu--state)
+                                       (powerline-raw (anzu--update-mode-line) face2))
                                      (funcall separator-right face2 face1)
                                      (powerline-minor-modes face1)
                                      (funcall separator-right face1 mode-line)
-                                     (powerline-raw "%l" mode-line 'l)
+                                     (powerline-raw "%4l" mode-line 'l)
                                      (powerline-raw ":" mode-line)
-                                     (powerline-raw "%c" mode-line)
-                                     (powerline-raw "%p" mode-line 'l))))
+                                     (powerline-raw "%2c" mode-line)
+                                     (powerline-raw "%4p" mode-line 'l))))
                      (concat (powerline-render lhs)
                              (powerline-fill face2 (powerline-width rhs))
                              (powerline-render rhs)))))))
@@ -1868,6 +1893,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (diminish 'ethan-wspace-mode)
 (diminish 'ivy-mode)
 (diminish 'helm-mode)
+(diminish 'anzu-mode)
 (add-hook 'hs-minor-mode-hook
           (lambda() (diminish 'hs-minor-mode)))
 (add-hook 'emacs-lisp-mode-hook
