@@ -31,11 +31,14 @@
 ;; (defvar mb-font "roboto:spacing=100")
 ;; (defvar mb-font "roboto condensed:spacing=100")
 (defvar mb-font-h          105)
-(when is-mac-os (setq mb-font-h 120))
 (defvar mb-line-spacing    nil)
 (defvar mb-tab-size        4)
 (defvar mb-web-indent-size 4)
 (defvar mb-encoding        'utf-8)
+
+(when is-mac-os
+  (setq mb-font "monako")
+  (setq mb-font-h 130))
 
 
 ;; general colors
