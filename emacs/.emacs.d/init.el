@@ -1840,11 +1840,24 @@ HERE is current position, TOTAL is total matches count."
 ;; use eslint with web-mode for jsx files
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+;; @see https://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
+;; @see https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
+(defun mb/imenu-js-make-index ()
+  "Create imenu for javascript file."
+  (imenu--generic-function '(("Function" "function[ \t]+\\([a-zA-Z0-9_$.]+\\)[ \t]*(" 1)
+                             ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
+                             ("Class"    "class[ \t]+\\([a-zA-Z0-9_$.]+\\([ \t]+extends[ \t]+[a-zA-Z0-9_$.]+\\)?\\)[ \t]*{" 1)
+                             ("Method" "[ \t{]\\([a-zA-Z0-9_$.]+\\):[ \t]*function[ \t]*(" 1)
+                             ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:]*)[ \t]*{" 1)
+                             )))
+
 (defun mb/web-mode-jsx-hacks ()
   "Enable eslint for jsx in flycheck."
   (if (or (equal web-mode-content-type "jsx")
           (equal web-mode-content-type "javascript"))
-      (flycheck-select-checker 'javascript-eslint)
+      (progn
+        (flycheck-select-checker 'javascript-eslint)
+        (setq imenu-create-index-function 'mb/imenu-js-make-index))
     (flycheck-disable-checker 'javascript-eslint)))
 
 (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
