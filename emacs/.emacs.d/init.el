@@ -945,10 +945,12 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
-  "pf" 'helm-projectile-find-file-dwim
+  "pf" 'helm-projectile-find-file
+  "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
   "ph" 'helm-projectile
   "pr" 'helm-projectile-recentf
+  "pR" 'projectile-replace
   "pb" 'helm-projectile-switch-to-buffer
   "pk" 'projectile-kill-buffers)
 
