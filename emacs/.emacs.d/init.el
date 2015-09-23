@@ -38,7 +38,7 @@
 
 (when is-mac-os
   (setq mb-font "monako")
-  (setq mb-font-h 130))
+  (setq mb-font-h 120))
 
 
 ;; general colors
