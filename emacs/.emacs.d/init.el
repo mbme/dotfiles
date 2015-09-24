@@ -38,7 +38,7 @@
 
 (when is-mac-os
   (setq mb-font "monako")
-  (setq mb-font-h 130))
+  (setq mb-font-h 120))
 
 
 ;; general colors
@@ -866,7 +866,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  helm-ff-search-library-in-sexp        t
  helm-ff-file-name-history-use-recentf t
  helm-mode-handle-completion-in-region nil
-
+ helm-ag-use-agignore                  t
  helm-echo-input-in-header-line        t
 
  helm-M-x-fuzzy-match                  t
@@ -947,6 +947,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
+  "pd" 'helm-projectile-find-dir
   "pf" 'helm-projectile-find-file
   "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
