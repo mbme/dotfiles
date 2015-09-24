@@ -406,14 +406,16 @@ narrowed."
     (kill-buffer old)))
 
 
-(defun mb/mb-makefile ()
-  "Select and execute action from the first found mbme.Makefile."
-  (interactive)
-  (-if-let* ((mbme-file "mbme.Makefile")
-             (dir (locate-dominating-file default-directory mbme-file))
-             (helm-make-command (format "make -f %s %%s" mbme-file)))
-      (helm--make (expand-file-name mbme-file dir))
-    (error "Cannot find %s in top dirs" mbme-file)))
+;; @see https://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
+;; @see https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
+(defun mb/imenu-js-make-index ()
+  "Create imenu for javascript file."
+  (imenu--generic-function '(("Function" "function[ \t]+\\([a-zA-Z0-9_$.]+\\)[ \t]*(" 1)
+                             ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
+                             ("Class"    "class[ \t]+\\([a-zA-Z0-9_$.]+\\([ \t]+extends[ \t]+[a-zA-Z0-9_$.]+\\)?\\)[ \t]*{" 1)
+                             ("Method" "[ \t{]\\([a-zA-Z0-9_$.]+\\):[ \t]*function[ \t]*(" 1)
+                             ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:]*)[ \t]*{" 1)
+                             )))
 
 
 ;; ---------------------------------------- CONFIG
@@ -1761,6 +1763,8 @@ HERE is current position, TOTAL is total matches count."
 (require 'js)
 ;; disable jshint since we prefer eslint checking
 ;; (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
+(add-hook 'js-mode-hook (lambda ()
+                          (setq imenu-create-index-function 'mb/imenu-js-make-index)))
 
 
 
@@ -1837,21 +1841,10 @@ HERE is current position, TOTAL is total matches count."
 ;; React.js JSX-related configs
 
 (add-to-list 'auto-mode-alist '("\\.jsx$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
+;; (add-to-list 'auto-mode-alist '("\\.js$" . web-mode))
 
 ;; use eslint with web-mode for jsx files
 (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-;; @see https://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
-;; @see https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
-(defun mb/imenu-js-make-index ()
-  "Create imenu for javascript file."
-  (imenu--generic-function '(("Function" "function[ \t]+\\([a-zA-Z0-9_$.]+\\)[ \t]*(" 1)
-                             ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
-                             ("Class"    "class[ \t]+\\([a-zA-Z0-9_$.]+\\([ \t]+extends[ \t]+[a-zA-Z0-9_$.]+\\)?\\)[ \t]*{" 1)
-                             ("Method" "[ \t{]\\([a-zA-Z0-9_$.]+\\):[ \t]*function[ \t]*(" 1)
-                             ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:]*)[ \t]*{" 1)
-                             )))
 
 (defun mb/web-mode-jsx-hacks ()
   "Enable eslint for jsx in flycheck."
@@ -1973,7 +1966,6 @@ HERE is current position, TOTAL is total matches count."
   "lm" 'evil-show-marks
   "k" 'kill-this-buffer
 
-  "TAB" 'mb/mb-makefile
   "pm" 'helm-make-projectile
 
   "bm" 'bookmark-bmenu-list
