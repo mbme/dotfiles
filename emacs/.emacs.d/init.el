@@ -1760,7 +1760,7 @@ HERE is current position, TOTAL is total matches count."
 
 
 
-;; Javascript (currently web-mode is used for js)
+;; Javascript
 (require 'js)
 ;; disable jshint since we prefer eslint checking
 ;; (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
@@ -1769,8 +1769,8 @@ HERE is current position, TOTAL is total matches count."
 
 
 
-;; JS2 mode (disabled)
-;; (require 'js2-mode)
+;; JS2 mode
+(require 'js2-mode)
 (setq
  js2-highlight-level 3
  js2-skip-preprocessor-directives t
@@ -1790,6 +1790,7 @@ HERE is current position, TOTAL is total matches count."
  js2-strict-var-hides-function-arg-warning nil
  js2-strict-missing-semi-warning           nil)
 
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ;; (js2-imenu-extras-mode)
 
 
