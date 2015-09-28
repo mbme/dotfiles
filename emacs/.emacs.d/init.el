@@ -424,6 +424,13 @@ narrowed."
   (apply origin-fun args))
 
 
+(defun mb/helm-projectile-ag-dwim ()
+  "Ag search in current project using symbol at point."
+  (interactive)
+  (let ((helm-ag-insert-at-point 'symbol))
+    (helm-projectile-ag)))
+
+
 
 ;; ---------------------------------------- CONFIG
 
@@ -776,10 +783,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key evil-normal-state-map "q" nil)
 (define-key evil-normal-state-map "Q" 'evil-record-macro)
 
-;; disable evil-jump-backward on TAB
-(define-key evil-motion-state-map [(tab)] nil)
-(define-key evil-motion-state-map (kbd "TAB") nil)
-
 (define-key evil-normal-state-map (kbd "M-.") nil)
 
 ;; move everywhere with M-hjkl
@@ -964,6 +967,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
             (lambda (origin-fun)
               (s-chop-prefix "/:" (funcall origin-fun))))
 
+(advice-add 'mb/helm-projectile-ag-dwim :around #'mb/add-to-evil-jump-list)
+
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
   "pd" 'helm-projectile-find-dir
@@ -971,6 +976,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "pf" 'helm-projectile-find-file
   "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
+  "pS" 'mb/helm-projectile-ag-dwim
   "ph" 'helm-projectile
   "pr" 'helm-projectile-recentf
   "pR" 'projectile-replace
