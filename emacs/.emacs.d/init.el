@@ -936,9 +936,11 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'projectile)
 (require 'helm-projectile)
 
-(setq projectile-switch-project-action 'helm-projectile-recentf)
 (projectile-global-mode t)
 (helm-projectile-on)
+
+;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
+(setq projectile-switch-project-action 'helm-projectile-recentf)
 
 ;; remove prefix "/:" when detecting base
 ;; dir to avoid issues with command line apps:
