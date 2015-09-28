@@ -418,6 +418,13 @@ narrowed."
                              )))
 
 
+(defun mb/add-to-evil-jump-list (origin-fun &rest args)
+  "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
+  (evil-set-jump)
+  (apply origin-fun args))
+
+
+
 ;; ---------------------------------------- CONFIG
 
 ;;@UI
@@ -749,6 +756,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 ;; match braces/tags with %
 (global-evil-matchit-mode 1)
+(advice-add 'evilmi-jump-items :around #'mb/add-to-evil-jump-list)
 
 (evil-exchange-install)
 
@@ -917,6 +925,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "bh" 'bury-buffer
   "br" 'rename-current-buffer-file
   "bs" 'scratch
+  "bm" 'helm-bookmarks
 
   "ff" 'helm-find-files
   "s"  'helm-occur
@@ -938,6 +947,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (projectile-global-mode t)
 (helm-projectile-on)
 
+;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
+(setq projectile-switch-project-action 'helm-projectile-recentf)
+
 ;; remove prefix "/:" when detecting base
 ;; dir to avoid issues with command line apps:
 ;; "/:/home/mbme/configs" -> "/home/mbme/configs"
@@ -948,6 +960,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
   "pd" 'helm-projectile-find-dir
+  "pD" 'projectile-dired
   "pf" 'helm-projectile-find-file
   "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
@@ -1484,6 +1497,14 @@ HERE is current position, TOTAL is total matches count."
           (`suspicious '(propertize " ?" 'face 'warning)))))
 
 
+(advice-add 'projectile-project-root :around
+            (lambda (origin-fun)
+              (s-chop-prefix "/:" (funcall origin-fun))))
+
+(advice-add 'flycheck-first-error :around #'mb/add-to-evil-jump-list)
+(advice-add 'flycheck-next-error :around #'mb/add-to-evil-jump-list)
+(advice-add 'flycheck-previous-error :around #'mb/add-to-evil-jump-list)
+
 (define-prefix-command 'mb-flycheck-map)
 (global-set-key (kbd "M-e")   'mb-flycheck-map)
 (global-set-key (kbd "M-e 1") 'flycheck-first-error)
@@ -1971,7 +1992,6 @@ HERE is current position, TOTAL is total matches count."
 
   "pm" 'helm-make-projectile
 
-  "bm" 'bookmark-bmenu-list
   "u" 'undo-tree-visualize
 
   "e" 'eshell
