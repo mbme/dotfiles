@@ -1881,6 +1881,7 @@ HERE is current position, TOTAL is total matches count."
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 (add-hook 'html-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
+(add-hook 'js-mode-hook   'emmet-mode)
 (define-key emmet-mode-keymap (kbd "C-j") nil)
 
 
