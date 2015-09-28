@@ -776,6 +776,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key evil-normal-state-map "q" nil)
 (define-key evil-normal-state-map "Q" 'evil-record-macro)
 
+;; disable evil-jump-backward on TAB
+(define-key evil-motion-state-map [(tab)] nil)
+(define-key evil-motion-state-map (kbd "TAB") nil)
+
 (define-key evil-normal-state-map (kbd "M-.") nil)
 
 ;; move everywhere with M-hjkl
@@ -901,6 +905,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; enables helm for completing everything: M-x, find file etc.
 (helm-mode 1)
 
+(advice-add 'helm-imenu          :around #'mb/add-to-evil-jump-list)
+(advice-add 'helm-imenu-anywhere :around #'mb/add-to-evil-jump-list)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -913,8 +920,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key helm-map (kbd "M-J") 'helm-follow-action-forward)
 (define-key helm-map (kbd "M-K") 'helm-follow-action-backward)
 
-(global-set-key (kbd "M-I")     'helm-semantic-or-imenu)
-(global-set-key (kbd "M-i")     'helm-imenu-anywhere)
+(global-set-key (kbd "M-i")     'helm-imenu)
+(global-set-key (kbd "M-I")     'helm-imenu-anywhere)
 
 (evil-leader/set-key
   "<SPC>" 'helm-mini
