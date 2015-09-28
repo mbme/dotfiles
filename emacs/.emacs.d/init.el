@@ -418,6 +418,13 @@ narrowed."
                              )))
 
 
+(defun mb/add-to-evil-jump-list (origin-fun &rest args)
+  "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
+  (evil-set-jump)
+  (apply origin-fun args))
+
+
+
 ;; ---------------------------------------- CONFIG
 
 ;;@UI
@@ -749,6 +756,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 ;; match braces/tags with %
 (global-evil-matchit-mode 1)
+(advice-add 'evilmi-jump-items :around #'mb/add-to-evil-jump-list)
 
 (evil-exchange-install)
 
@@ -1488,6 +1496,14 @@ HERE is current position, TOTAL is total matches count."
           (`interrupted " -")
           (`suspicious '(propertize " ?" 'face 'warning)))))
 
+
+(advice-add 'projectile-project-root :around
+            (lambda (origin-fun)
+              (s-chop-prefix "/:" (funcall origin-fun))))
+
+(advice-add 'flycheck-first-error :around #'mb/add-to-evil-jump-list)
+(advice-add 'flycheck-next-error :around #'mb/add-to-evil-jump-list)
+(advice-add 'flycheck-previous-error :around #'mb/add-to-evil-jump-list)
 
 (define-prefix-command 'mb-flycheck-map)
 (global-set-key (kbd "M-e")   'mb-flycheck-map)
