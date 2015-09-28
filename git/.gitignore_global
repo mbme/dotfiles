@@ -3,3 +3,4 @@
 flycheck_init.el
 *.mbme.sh
 *.mbmeignore
+.dir-locals.el

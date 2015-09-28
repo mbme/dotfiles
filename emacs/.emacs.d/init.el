@@ -917,6 +917,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "bh" 'bury-buffer
   "br" 'rename-current-buffer-file
   "bs" 'scratch
+  "bm" 'helm-bookmarks
 
   "ff" 'helm-find-files
   "s"  'helm-occur
@@ -935,6 +936,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'projectile)
 (require 'helm-projectile)
 
+(setq projectile-switch-project-action 'helm-projectile-recentf)
 (projectile-global-mode t)
 (helm-projectile-on)
 
@@ -948,6 +950,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
   "pd" 'helm-projectile-find-dir
+  "pD" 'projectile-dired
   "pf" 'helm-projectile-find-file
   "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
@@ -1970,7 +1973,6 @@ HERE is current position, TOTAL is total matches count."
 
   "pm" 'helm-make-projectile
 
-  "bm" 'bookmark-bmenu-list
   "u" 'undo-tree-visualize
 
   "e" 'eshell
