@@ -424,6 +424,13 @@ narrowed."
   (apply origin-fun args))
 
 
+(defun mb/helm-projectile-ag-dwim ()
+  "Ag search in current project using symbol at point."
+  (interactive)
+  (let ((helm-ag-insert-at-point 'symbol))
+    (helm-projectile-ag)))
+
+
 
 ;; ---------------------------------------- CONFIG
 
@@ -901,6 +908,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; enables helm for completing everything: M-x, find file etc.
 (helm-mode 1)
 
+(advice-add 'helm-imenu          :around #'mb/add-to-evil-jump-list)
+(advice-add 'helm-imenu-anywhere :around #'mb/add-to-evil-jump-list)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 
@@ -913,8 +923,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key helm-map (kbd "M-J") 'helm-follow-action-forward)
 (define-key helm-map (kbd "M-K") 'helm-follow-action-backward)
 
-(global-set-key (kbd "M-I")     'helm-semantic-or-imenu)
-(global-set-key (kbd "M-i")     'helm-imenu-anywhere)
+(global-set-key (kbd "M-i")     'helm-imenu)
+(global-set-key (kbd "M-I")     'helm-imenu-anywhere)
 
 (evil-leader/set-key
   "<SPC>" 'helm-mini
@@ -957,6 +967,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
             (lambda (origin-fun)
               (s-chop-prefix "/:" (funcall origin-fun))))
 
+(advice-add 'mb/helm-projectile-ag-dwim :around #'mb/add-to-evil-jump-list)
+
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
   "pd" 'helm-projectile-find-dir
@@ -964,6 +976,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "pf" 'helm-projectile-find-file
   "pF" 'helm-projectile-find-file-dwim
   "ps" 'helm-projectile-ag
+  "pS" 'mb/helm-projectile-ag-dwim
   "ph" 'helm-projectile
   "pr" 'helm-projectile-recentf
   "pR" 'projectile-replace
@@ -1902,6 +1915,7 @@ HERE is current position, TOTAL is total matches count."
 (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 (add-hook 'html-mode-hook 'emmet-mode)
 (add-hook 'web-mode-hook  'emmet-mode)
+(add-hook 'js-mode-hook   'emmet-mode)
 (define-key emmet-mode-keymap (kbd "C-j") nil)
 
 
