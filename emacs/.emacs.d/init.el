@@ -491,9 +491,6 @@ narrowed."
 
 ;; Font
 (setq-default default-font mb-font)
-(set-face-attribute 'default nil
-                    :font mb-font)
-(set-frame-font mb-font nil t)
 ;; set font for all windows
 (add-to-list 'default-frame-alist `(font . ,mb-font))
 
