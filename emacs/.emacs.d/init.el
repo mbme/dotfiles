@@ -1988,6 +1988,7 @@ HERE is current position, TOTAL is total matches count."
   "le" 'mb/reload-editorconfig
   "lm" 'evil-show-marks
   "k" 'kill-this-buffer
+  "TAB" 'helm-all-mark-rings
 
   "pm" 'helm-make-projectile
 
