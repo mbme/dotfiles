@@ -25,21 +25,16 @@
 ;; (defvar mb-font "source code pro:spacing=100")
 ;; (defvar mb-font "ubuntu mono:spacing=100")
 ;; (defvar mb-font "droid sans mono:spacing=100")
-(defvar mb-font "dejavu sans mono:spacing=100")
 ;; (defvar mb-font "meslo lg s dz:spacing=100")
 ;; (defvar mb-font "liberation mono:spacing=100")
 ;; (defvar mb-font "roboto:spacing=100")
 ;; (defvar mb-font "roboto condensed:spacing=100")
-(defvar mb-font-h          105)
-(defvar mb-line-spacing    nil)
+
+(defvar mb-font (if is-mac-os "menlo-13" "dejavu sans mono-12"))
+
 (defvar mb-tab-size        4)
 (defvar mb-web-indent-size 4)
 (defvar mb-encoding        'utf-8)
-
-(when is-mac-os
-  (setq mb-font "monako")
-  (setq mb-font-h 120))
-
 
 ;; general colors
 (defvar mb-color1  "#f2f1f0")
@@ -64,7 +59,8 @@
 (defvar  mb-evil-replace-face   mb-color6)
 (defvar  mb-evil-operator-face  mb-color10)
 
-
+;; load local settings if file exists
+(load (expand-file-name "local.el" dotfiles-dir) t)
 
 ;; ---------------------------------------- INIT
 
@@ -495,10 +491,9 @@ narrowed."
 
 ;; Font
 (setq-default default-font mb-font)
-;; (setq-default line-spacing mb-line-spacing)
 (set-face-attribute 'default nil
-                    :height mb-font-h)
-
+                    :font mb-font)
+(set-frame-font mb-font nil t)
 ;; set font for all windows
 (add-to-list 'default-frame-alist `(font . ,mb-font))
 
