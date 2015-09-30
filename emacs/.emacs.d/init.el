@@ -376,11 +376,12 @@ narrowed."
 (defun mb/sort-columns ()
   "Align selected columns using `column'."
   (interactive)
-  (let (beg end)
+  (let (beg end column-command)
+    (setq column-command (if is-linux "column -o \" \" -t" "column -t"))
     (if (region-active-p)
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
-    (shell-command-on-region beg end "column -o \" \" -t" (current-buffer) t nil)))
+    (shell-command-on-region beg end column-command (current-buffer) t nil)))
 
 (defun mb/run-command (command)
   "Save and run COMMAND in current project if defined."
