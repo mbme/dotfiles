@@ -116,8 +116,6 @@
     projectile ; project management
     helm-projectile
 
-    direx ; directory tree explorer
-
     flycheck ; syntax checker
     flycheck-pos-tip ; show errors in popup
 
@@ -1049,15 +1047,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 
-;; Direx: directory tree
-(require 'direx)
-(evil-add-hjkl-bindings direx:direx-mode-map)
-(evil-set-initial-state 'direx:direx-mode 'emacs)
-(define-key direx:direx-mode-map (kbd "SPC") evil-leader--default-map)
-(evil-leader/set-key "d" 'direx-project:jump-to-project-root)
-
-
-
 ;; Editorconfig
 (require 'editorconfig)
 (defun mb/reload-editorconfig ( )
@@ -1330,7 +1319,7 @@ HERE is current position, TOTAL is total matches count."
   "N" 'evil-search-previous
   "q" 'kill-this-buffer)
 
-(evil-leader/set-key "D" 'dired-jump)
+(evil-leader/set-key "d" 'dired-jump)
 
 
 
@@ -1976,8 +1965,7 @@ HERE is current position, TOTAL is total matches count."
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
 
 (global-set-key [f4]    'mb/terminal)
-(global-set-key [M-f4]    'mb/terminal)
-(global-set-key [M-S-f4]  'mb/projectile-base-term)
+(global-set-key [M-f4]    'mb/projectile-base-term)
 (global-set-key [f5]    'make-frame)
 (global-set-key [f6]    'mb/revert-buffer)
 (global-set-key [f12]   'menu-bar-mode)
