@@ -1144,6 +1144,8 @@ HERE is current position, TOTAL is total matches count."
       recentf-auto-cleanup 'mode)
 ;; Ignore ephemeral git commit message files
 (add-to-list 'recentf-exclude "/COMMIT_EDITMSG$")
+(add-to-list 'recentf-exclude "/elpa/")
+(add-to-list 'recentf-exclude ".recentf")
 
 (add-hook 'server-done-hook 'recentf-save-list)
 (add-hook 'server-visit-hook 'recentf-save-list)
