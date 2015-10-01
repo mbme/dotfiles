@@ -33,7 +33,7 @@
 (defvar mb-font (if is-mac-os "menlo-13" "dejavu sans mono-12"))
 
 (defvar mb-tab-size        4)
-(defvar mb-web-indent-size 4)
+(defvar mb-web-indent-size 2)
 (defvar mb-encoding        'utf-8)
 
 ;; general colors
@@ -181,10 +181,11 @@
 
     rust-mode
 
+    toml-mode
+
     markdown-mode
     yaml-mode
-
-    toml-mode
+    coffee-mode
 
     ;; python
     anaconda-mode
@@ -1877,6 +1878,12 @@ HERE is current position, TOTAL is total matches count."
 
 (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
 (setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
+
+
+
+;; CoffeeScript
+(require 'coffee-mode)
+(custom-set-variables `(coffee-tab-width ,mb-web-indent-size))
 
 
 
