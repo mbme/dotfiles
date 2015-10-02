@@ -139,6 +139,7 @@
     ido-vertical-mode ; vertical ido menu
 
     company ; autocomplete
+    company-statistics ; sort autocomplete results
 
     ag ; use ag (the silver searcher)
 
@@ -978,7 +979,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 ;; Company-mode: autocomplete
-(require ' company)
+(require 'company)
+(require 'company-statistics)
 
 (setq
  company-idle-delay                0.3
@@ -987,34 +989,20 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  company-echo-delay                0
  company-auto-complete             nil
  company-selection-wrap-around     t
- company-dabbrev-ignore-case       t
- company-dabbrev-downcase          nil
+
+ ;; company-dabbrev-ignore-case       t
+ ;; company-dabbrev-downcase          nil
+
+ company-statistics-file   (expand-file-name "company-statistics-cache.el" mb-save-path)
+
  company-require-match             nil
- company-tooltip-align-annotations t
- company-transformers              '(company-sort-by-occurrence)
+ company-tooltip-align-annotations t)
 
- company-backends (remove 'company-ropemacs company-backends)
- company-backends (remove 'company-xcode company-backends))
-
-;; ;; tooltip
-;; ;; common
-;; (set-face-background  'company-tooltip         mb-color1)
-;; (set-face-foreground  'company-tooltip         mb-color3)
-;; (set-face-foreground  'company-tooltip-common  mb-color2)
-
-;; ;; selection
-;; (set-face-background  'company-tooltip-selection         mb-color5)
-;; (set-face-foreground  'company-tooltip-selection         mb-color1)
-;; (set-face-foreground  'company-tooltip-common-selection  mb-color6)
-
-;; ;; preview
-;; (set-face-foreground 'company-preview-common mb-color6)
-
-;; ;; scrollbar
-;; (set-face-background 'company-scrollbar-bg mb-color1)
-;; (set-face-background 'company-scrollbar-fg mb-color5)
+(delete 'company-xcode company-backends)
+(delete 'company-ropemacs company-backends)
 
 (global-company-mode 1)
+(company-statistics-mode)
 
 (define-key company-active-map (kbd "M-j") 'company-select-next)
 (define-key company-active-map (kbd "M-k") 'company-select-previous)
@@ -1025,6 +1013,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 ;; Project-explorer
 (require 'project-explorer)
+
 (setq
  pe/omit-gitignore            t
  pe/goto-current-file-on-open nil
@@ -1574,22 +1563,27 @@ HERE is current position, TOTAL is total matches count."
 (setq
  helm-c-yas-display-key-on-candidate t
  helm-c-yas-space-match-any-greedy   t
+
  yas-verbosity                       1
  yas-wrap-around-region              t
  yas-prompt-functions '(yas/ido-prompt yas/completing-prompt))
+
 (yas-global-mode)
+
+
+;; do not highlight missing new line at the end of the snippet file
 (add-hook 'snippet-mode-hook
           (lambda ()
             (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
 
-;; FIXME remove this; just fixes current issue
-(defalias 'yas--template-file 'yas--template-get-file)
+(setq yas-keymap
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "C-n") 'yas-skip-and-clear-or-delete-char)
+        (define-key map (kbd "M-n") 'yas-next-field-or-maybe-expand)
+        (define-key map (kbd "C-p") 'yas-prev-field)
+        (define-key map (kbd "C-g") 'yas-abort-snippet)
+        map))
 
-;; Jump to end of snippet definition
-(define-key yas-keymap (kbd "<return>") 'yas/next-field-or-maybe-expand)
-
-(define-key yas-minor-mode-map [(tab)] nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
 (global-set-key (kbd "C-j") 'mb/yas-or-complete)
 
 
