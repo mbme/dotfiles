@@ -1297,6 +1297,10 @@ HERE is current position, TOTAL is total matches count."
 ;; Dired
 (require 'dired)
 (require 'dired-x)
+
+(setq dired-auto-revert-buffer t    ; automatically revert buffer
+      dired-clean-up-buffers-too t) ; kill buffers for deleted files
+
 (evil-set-initial-state 'wdired-mode 'normal)
 (evil-define-key 'normal dired-mode-map
   "h" 'mb/dired-up-directory
@@ -1306,7 +1310,7 @@ HERE is current position, TOTAL is total matches count."
   "m" 'dired-mark
   "u" 'dired-unmark
   "U" 'dired-unmark-all-marks
-  "c" 'dired-create-directory
+  "c" 'helm-find-files
   "n" 'evil-search-next
   "N" 'evil-search-previous
   "q" 'kill-this-buffer)
