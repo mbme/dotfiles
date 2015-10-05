@@ -310,11 +310,6 @@ If `SELECT-FILE' then put cursor on current file in project explorer buffer."
           (select-window window)
         (message "mb: project explorer not inside projectile project")))))
 
-(defun mb/evil-emacs-state ()
-  "Enable Emacs state in evil mode."
-  (interactive)
-  (evil-emacs-state 1))
-
 (defun mb/toggle-comment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
@@ -324,21 +319,34 @@ If `SELECT-FILE' then put cursor on current file in project explorer buffer."
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)))
 
-(defun mb/yas-expand-buffer()
-  "Replace text in yasnippet template."
-  (yas/expand-snippet (buffer-string) (point-min) (point-max)))
 
 (defun mb/yas-expand ()
   "Expand yasnippet or return nil."
   (let ((yas/fallback-behavior 'return-nil))
     (yas/expand)))
 
-(defun mb/yas-or-complete ()
-  "Expand yasnippet or complete."
+(defun mb/yas-expand-or-complete ()
+  "Expand yasnippet or show matching snippets."
   (interactive)
   (company-abort)
   (or (mb/yas-expand)
       (helm-yas-complete)))
+
+(defun mb/yas-next-field ()
+  "Switch to next yasnippet field.
+Clear field placeholder if field was not modified."
+  (interactive)
+  (let ((field (and yas--active-field-overlay
+                    (overlay-buffer yas--active-field-overlay)
+                    (overlay-get yas--active-field-overlay 'yas--field))))
+    (if (and field
+             (not (yas--field-modified-p field))
+             (eq (point) (marker-position (yas--field-start field))))
+        (progn
+          (yas--skip-and-clear field)
+          (yas-next-field 1))
+      (yas-next-field-or-maybe-expand))))
+
 
 (defun mb/eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -426,6 +434,42 @@ narrowed."
   (interactive)
   (let ((helm-ag-insert-at-point 'symbol))
     (helm-projectile-ag)))
+
+
+;; @see https://emacs.stackexchange.com/questions/653/how-can-i-find-out-in-which-keymap-a-key-is-bound
+(defun mb/key-binding-at-point (key)
+  (mapcar (lambda (keymap) (when (keymapp keymap)
+                             (lookup-key keymap key)))
+          (list
+           ;; More likely
+           (get-text-property (point) 'keymap)
+           (mapcar (lambda (overlay)
+                     (overlay-get overlay 'keymap))
+                   (overlays-at (point)))
+           ;; Less likely
+           (get-text-property (point) 'local-map)
+           (mapcar (lambda (overlay)
+                     (overlay-get overlay 'local-map))
+                   (overlays-at (point))))))
+
+(defun mb/locate-key-binding (key)
+  "Determine in which keymap KEY is defined."
+  (interactive "kPress key: ")
+  (let ((ret
+         (list
+          (mb/key-binding-at-point key)
+          (minor-mode-key-binding key)
+          (local-key-binding key)
+          (global-key-binding key))))
+    (when (called-interactively-p 'any)
+      (message "At Point: %s\nMinor-mode: %s\nLocal: %s\nGlobal: %s"
+               (or (nth 0 ret) "")
+               (or (mapconcat (lambda (x) (format "%s: %s" (car x) (cdr x)))
+                              (nth 1 ret) "\n             ")
+                   "")
+               (or (nth 2 ret) "")
+               (or (nth 3 ret) "")))
+    ret))
 
 
 
@@ -1574,21 +1618,24 @@ HERE is current position, TOTAL is total matches count."
 
 (yas-global-mode)
 
-
 ;; do not highlight missing new line at the end of the snippet file
 (add-hook 'snippet-mode-hook
           (lambda ()
             (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
 
+
+;; disable `yas-expand` on TAB
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+
 (setq yas-keymap
       (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-n") 'yas-skip-and-clear-or-delete-char)
-        (define-key map (kbd "M-n") 'yas-next-field-or-maybe-expand)
+        (define-key map (kbd "C-n") 'mb/yas-next-field)
         (define-key map (kbd "C-p") 'yas-prev-field)
         (define-key map (kbd "C-g") 'yas-abort-snippet)
         map))
 
-(global-set-key (kbd "C-j") 'mb/yas-or-complete)
+(global-set-key (kbd "C-j") 'mb/yas-expand-or-complete)
 
 
 
