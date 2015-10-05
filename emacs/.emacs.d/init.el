@@ -347,6 +347,14 @@ Clear field placeholder if field was not modified."
           (yas-next-field 1))
       (yas-next-field-or-maybe-expand))))
 
+(defun mb/complete-or-yas-next-field ()
+  "Complete company-mode expansion or switch to next yasnippet field."
+  (interactive)
+  (if (> (or company-candidates-length 0) 0)
+      (company-complete-common)
+    (mb/yas-next-field)))
+
+
 
 (defun mb/eval-and-replace ()
   "Replace the preceding sexp with its value."
@@ -1051,6 +1059,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key company-active-map (kbd "M-j") 'company-select-next)
 (define-key company-active-map (kbd "M-k") 'company-select-previous)
 (define-key company-active-map [escape]    'company-abort)
+
+(define-key company-active-map (kbd "<f1>") nil)
+
 (global-set-key (kbd "M-p") 'company-manual-begin)
 
 
@@ -1631,6 +1642,8 @@ HERE is current position, TOTAL is total matches count."
 (setq yas-keymap
       (let ((map (make-sparse-keymap)))
         (define-key map (kbd "C-n") 'mb/yas-next-field)
+        (define-key map (kbd "TAB") 'mb/yas-next-field)
+        (define-key map (kbd "<tab>") 'mb/complete-or-yas-next-field)
         (define-key map (kbd "C-p") 'yas-prev-field)
         (define-key map (kbd "C-g") 'yas-abort-snippet)
         map))
