@@ -347,11 +347,18 @@ Clear field placeholder if field was not modified."
           (yas-next-field 1))
       (yas-next-field-or-maybe-expand))))
 
-(defun mb/complete-or-yas-next-field ()
-  "Complete company-mode expansion or switch to next yasnippet field."
+(defun mb/complete-common-or-yas-next-field ()
+  "Complete common prefix in company-mode or switch to next yasnippet field."
   (interactive)
   (if (> (or company-candidates-length 0) 0)
       (company-complete-common)
+    (mb/yas-next-field)))
+
+(defun mb/complete-selection-or-yas-next-field ()
+  "Complete selection in company-mode or switch to next yasnippet field."
+  (interactive)
+  (if (> (or company-candidates-length 0) 0)
+      (company-complete-selection)
     (mb/yas-next-field)))
 
 
@@ -1641,10 +1648,13 @@ HERE is current position, TOTAL is total matches count."
 
 (setq yas-keymap
       (let ((map (make-sparse-keymap)))
-        (define-key map (kbd "C-n") 'mb/yas-next-field)
-        (define-key map (kbd "TAB") 'mb/yas-next-field)
-        (define-key map (kbd "<tab>") 'mb/complete-or-yas-next-field)
-        (define-key map (kbd "C-p") 'yas-prev-field)
+        (define-key map (kbd "RET")   'mb/complete-selection-or-yas-next-field)
+        (define-key map [return]      'mb/complete-selection-or-yas-next-field)
+
+        (define-key map (kbd "TAB")   'mb/complete-common-or-yas-next-field)
+        (define-key map (kbd "<tab>") 'mb/complete-common-or-yas-next-field)
+
+        (define-key map (kbd "<backtab>") 'yas-prev-field)
         (define-key map (kbd "C-g") 'yas-abort-snippet)
         map))
 
