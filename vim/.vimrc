@@ -15,12 +15,12 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 
+Plugin 'tommcdo/vim-exchange'
 Plugin 'kien/ctrlp.vim'
+Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-
-Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'altercation/vim-colors-solarized'
@@ -59,7 +59,7 @@ set notimeout
 
 syntax on " fite-type highlighting and configuration
 set cursorline " underscore cursor line
-set number " show line numbers
+" set number " show line numbers
 set history=50 " keep 50 lines of command line history
 set hlsearch " highlight search terms
 
@@ -100,7 +100,8 @@ set noshowmode
 set timeoutlen=50
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_section_z=''
+"let g:airline_section_z (column number, line number, percentage)
+let g:airline_section_z='%4l%3v%3p%%'
 let g:airline#extensions#hunks#enabled = 0
 
 
