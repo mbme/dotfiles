@@ -1050,7 +1050,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  company-selection-wrap-around     t
 
  ;; company-dabbrev-ignore-case       t
- ;; company-dabbrev-downcase          nil
+ company-dabbrev-downcase          nil
 
  company-statistics-file   (expand-file-name "company-statistics-cache.el" mb-save-path)
 
