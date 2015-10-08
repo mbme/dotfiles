@@ -835,6 +835,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key evil-normal-state-map "q" nil)
 (define-key evil-normal-state-map "Q" 'evil-record-macro)
 
+;; free key for avy-jump
 (define-key evil-normal-state-map (kbd "M-.") nil)
 
 ;; move everywhere with M-hjkl
@@ -1854,6 +1855,8 @@ HERE is current position, TOTAL is total matches count."
 (add-hook 'js-mode-hook (lambda ()
                           (setq imenu-create-index-function 'mb/imenu-js-make-index)))
 
+;; free key for avy-jump
+(define-key js-mode-map (kbd "M-.") nil)
 
 
 ;; JS2 mode
@@ -1878,6 +1881,9 @@ HERE is current position, TOTAL is total matches count."
  js2-strict-missing-semi-warning           nil)
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; free key for avy-jump
+(define-key js2-mode-map (kbd "M-.") nil)
+
 ;; (js2-imenu-extras-mode)
 
 
