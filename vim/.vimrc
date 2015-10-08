@@ -10,6 +10,7 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'tpope/vim-sensible'
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
 
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
@@ -23,6 +24,7 @@ Plugin 'editorconfig/editorconfig-vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()
 filetype plugin indent on
@@ -92,12 +94,15 @@ endif
 silent! colorscheme solarized
 
 
+
 " Airline
 set noshowmode
 set timeoutlen=50
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_section_z=''
+let g:airline#extensions#hunks#enabled = 0
+
 
 
 " CtrlP
