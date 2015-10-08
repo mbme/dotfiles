@@ -92,6 +92,7 @@
     evil-visualstar ; search for selected text
     evil-leader ; vim leader feature
     evil-exchange ; exchange with objects
+    evil-nerd-commenter ; comment/uncomment
 
     helm
     helm-ag
@@ -310,14 +311,6 @@ If `SELECT-FILE' then put cursor on current file in project explorer buffer."
           (select-window window)
         (message "mb: project explorer not inside projectile project")))))
 
-(defun mb/toggle-comment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
 
 
 (defun mb/yas-expand ()
@@ -453,6 +446,7 @@ narrowed."
 
 ;; @see https://emacs.stackexchange.com/questions/653/how-can-i-find-out-in-which-keymap-a-key-is-bound
 (defun mb/key-binding-at-point (key)
+  "Find keymap by KEY."
   (mapcar (lambda (keymap) (when (keymapp keymap)
                              (lookup-key keymap key)))
           (list
@@ -852,6 +846,17 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (evil-leader/set-key
   ;; manage windows with evil
   "w" 'evil-window-map)
+
+
+(require 'evil-nerd-commenter)
+(evil-leader/set-key
+  "ci" 'evilnc-comment-or-uncomment-lines
+  "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+  "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+  "cc" 'evilnc-copy-and-comment-lines
+  "cp" 'evilnc-comment-or-uncomment-paragraphs
+  "cr" 'comment-or-uncomment-region
+  "cv" 'evilnc-toggle-invert-comment-line-by-line)
 
 
 
@@ -2061,7 +2066,6 @@ HERE is current position, TOTAL is total matches count."
   "2" 'call-last-kbd-macro
   "," 'mb/prev-buffer
   "n" 'mb/narrow-or-widen-dwim
-  "c" 'mb/toggle-comment-region-or-line
   "ll" 'mb/cleanup-buffer
   "le" 'mb/reload-editorconfig
   "lm" 'evil-show-marks
