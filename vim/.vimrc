@@ -88,7 +88,8 @@ if has('gui_running')
 else
     set background=dark
 endif
-colorscheme solarized
+" ignore errors if theme not found
+silent! colorscheme solarized
 
 
 " Airline
