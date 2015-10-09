@@ -30,6 +30,16 @@ call vundle#end()
 filetype plugin indent on
 
 
+" check OS
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
+
+
 " no sounds
 set noerrorbells visualbell t_vb=
 autocmd GUIEnter * set visualbell t_vb=
@@ -74,7 +84,12 @@ set expandtab
 
 set wildmode=longest:full " show completions for ex commands
 
-set clipboard=unnamedplus " use system clipboard (requires gvim)
+" use system clipboard (requires gvim)
+if g:os == "Linux"
+    set clipboard=unnamedplus
+elseif g:os == "Darwin"
+    set clipboard=unnamed
+endif
 
 " allow to use mouse
 set mouse=a
