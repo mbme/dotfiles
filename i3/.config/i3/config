@@ -211,6 +211,7 @@ assign [class="^jetbrains-webstorm"] 3
 
 assign [class="Chromium"] 4
 assign [class="Chrome"] 4
+assign [class="/usr/bin/chromium-continuous-bin"] 4
 
 assign [class="Steam"] 5
 
@@ -238,6 +239,7 @@ for_window [class="^Firefox"] floating enable
 for_window [class="^Firefox" instance="Navigator"] layout tabbed, floating disable, border pixel $border
 
 for_window [class="^Chromium"] border pixel $border
+for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
 
 for_window [class="^Emacs"] border pixel $border
 
