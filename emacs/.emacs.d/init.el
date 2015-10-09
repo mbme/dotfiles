@@ -1492,48 +1492,12 @@ HERE is current position, TOTAL is total matches count."
 (require 'flycheck)
 (require 'flycheck-pos-tip)
 
-(setq flycheck-indication-mode 'left-fringe)
+(setq flycheck-indication-mode 'right-fringe)
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (eval-after-load 'flycheck
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-
-(set-face-foreground  'flycheck-fringe-error    mb-color7)
-(set-face-foreground  'flycheck-fringe-info     mb-color8)
-(set-face-foreground  'flycheck-fringe-warning  mb-color2)
-
-(define-fringe-bitmap 'my-flycheck-fringe-indicator
-  (vector #b00000000
-          #b00000000
-          #b00000000
-          #b00000000
-          #b01111111
-          #b01111111
-          #b01111111
-          #b01111111
-          #b01111111
-          #b01111111
-          #b01111111
-          #b01111111
-          #b00000000
-          #b00000000
-          #b00000000
-          #b00000000
-          #b00000000))
-
-(flycheck-define-error-level 'error
-  :overlay-category 'flycheck-error-overlay
-  :fringe-bitmap 'my-flycheck-fringe-indicator
-  :fringe-face 'flycheck-fringe-error)
-(flycheck-define-error-level 'warning
-  :overlay-category 'flycheck-warning-overlay
-  :fringe-bitmap 'my-flycheck-fringe-indicator
-  :fringe-face 'flycheck-fringe-warning)
-(flycheck-define-error-level 'info
-  :overlay-category 'flycheck-info-overlay
-  :fringe-bitmap 'my-flycheck-fringe-indicator
-  :fringe-face 'flycheck-fringe-info)
 
 ;; from http://www.lunaryorn.com/2014/07/30/new-mode-line-support-in-flycheck.html
 (setq flycheck-mode-line
@@ -1734,7 +1698,7 @@ HERE is current position, TOTAL is total matches count."
 (setq git-gutter:hide-gutter t)
 ;; Don't need log/message.
 (setq git-gutter:verbosity 0)
-(setq git-gutter-fr:side 'right-fringe)
+(setq git-gutter-fr:side 'left-fringe)
 
 (add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
 (add-to-list 'git-gutter:update-hooks 'focus-in-hook)
