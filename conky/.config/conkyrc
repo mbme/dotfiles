@@ -1,0 +1,87 @@
+double_buffer yes
+no_buffers yes
+
+use_xft yes
+xftfont DejaVu Sans Mono:size=12
+
+update_interval 2.0
+ 
+draw_shades no
+draw_outline no
+
+draw_borders no
+stippled_borders 0
+
+extra_newline no
+alignment middle_middle
+
+cpu_avg_samples 2
+net_avg_samples 2
+
+own_window yes
+own_window_class conky-scratchpad
+own_window_transparent no
+own_window_colour EEEEEE
+
+default_color 445060
+default_outline_color 222222
+default_shade_color 222222
+
+pad_percents 2
+
+color1 445060
+color2 5a9664
+color3 ff9400
+
+template1 20
+template2 250
+template3 ${voffset -8}
+template4 ${voffset 8}
+template5 450
+template6 \n\n
+
+TEXT
+$alignc $nodename - $sysname $kernel on $machine [ $color3$uptime_short$color1 ]
+$alignc Battery: $color3$battery$color1
+$template6
+$color3${freq_g}GHz ${platform coretemp.0 temp 1}°$color1 $template3$color2${cpugraph cpu0 $template1,625}$color1$template4\
+$alignr$color3$cpu%$color1\
+
+CORE 1:$template3$color2${cpubar cpu1 $template1,$template2}$color1$template4\
+$alignr CORE 2:$template3$color2${cpubar cpu2 $template1,$template2}$color1
+CORE 3:$template3$color2${cpubar cpu3 $template1,$template2}$color1$template4\
+$alignr CORE 4:$template3$color2${cpubar cpu4 $template1,$template2}$color1
+$template6
+RAM         $color3$mem$color1/$color2$memmax$color1\
+$alignr$color3$memperc%$color1 $alignr$template3$color2${membar $template1,$template5}$color1\
+
+Swap        $color3$swap$color1/$color2$swapmax$color1\
+$alignr$color3$swapperc%$color1 $alignr$template3$color2${swapbar $template1,$template5}$color1
+
+/           $color3${fs_used /}$color1/$color2${fs_size /}$color1\
+$alignr$color3${fs_used_perc /}%$color1 $template3$color2${fs_bar $template1,$template5 /}$color1
+\
+/home       $color3${fs_used /home}$color1/$color2${fs_size /home}$color1\
+$alignr$color3${fs_used_perc /home}%$color1 $template3$color2${fs_bar $template1,$template5 /home}$color1
+\
+/mnt/data   $color3${fs_used /mnt/data}$color1/$color2${fs_size /mnt/data}$color1\
+$alignr$color3${fs_used_perc /mnt/data}%$color1 $template3$color2${fs_bar $template1,$template5 /mnt/data}$color1
+\
+/tmp        $color3${fs_used /tmp}$color1/$color2${fs_size /tmp}$color1\
+$alignr$color3${fs_used_perc /tmp}% $color2$template3${fs_bar $template1,$template5 /tmp}$color1
+$template6
+${if_up eno1}\
+wired eno1 $alignr IP: $color3${addrs eno1}$color1
+
+Up: $color3${upspeed eno1}$color1 $alignr Sent: $alignr$color3${totalup eno1}$color1
+Down: $color3${downspeed eno1}$color1$alignr Received: $alignr$color3${totaldown eno1}$color1
+$color2${downspeedgraph eno1 $template1,}$color1
+$endif\
+\
+${if_up wlp2s0}\
+wireless wlp2s0  $alignr IP: $color3${addrs wlp2s0}$color1
+bitrate: $color3${wireless_bitrate wlp2s0}$color1$alignr$color2${wireless_essid wlp2s0}$color1 [$color3${wireless_link_qual_perc wlp2s0}%$color1] $color2${wireless_mode wlp2s0}$color1
+Up: $color3${upspeed wlp2s0}$color1 $alignr Sent: $alignr$color3${totalup wlp2s0}$color1
+Down: $color3${downspeed wlp2s0}$color1$alignr Received: $alignr$color3${totaldown wlp2s0}$color1
+$color2${downspeedgraph wlp2s0 $template1,}$color1
+$endif

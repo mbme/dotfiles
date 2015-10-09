@@ -1,0 +1,102 @@
+#! /usr/bin/env python3
+# -*-coding=utf-8-*-
+"""
+Moves music files (*.mp3)
+"""
+import shutil
+
+__author__ = 'mbme'
+
+from os.path import realpath, isdir, join, basename
+from os.path import isfile, splitext, split, relpath
+from os import listdir, rmdir, remove
+
+current_dir = realpath(".")
+
+stuff_extensions = [
+    ".jpg", ".jpeg", ".txt", ".png",
+    ".part", ".html", ".htm", ".css", ".rtf",
+    ".m3u", ".gif", ".zip", ".nfo", ".sfv"
+]
+
+
+def is_stuff(file):
+    file_name = file.lower()
+    result = False
+
+    for extension in stuff_extensions:
+        if file_name.endswith(extension):
+            result = True
+
+    return result
+
+rel = relpath
+
+
+def move_files(file):
+    if isdir(file):
+        for item in list_files(file):
+            move_files(item)
+
+    else:
+        # delete redundant files
+        if is_stuff(file):
+            print('\n-f {0}'.format(rel(file)))
+            remove(file)
+            return
+
+        new_name = new_file_name(file)
+        if new_name != file:
+            print("\n- {0} \n+ {1}".format(rel(file), rel(new_name)))
+            shutil.move(file, new_name)
+
+
+def list_files(directory):
+    dir_path = realpath(directory)
+    return [join(dir_path, file) for file in listdir(dir_path)]
+
+
+def new_file_name(file_name):
+    file_dir, _ = split(file_name)
+    if file_dir == current_dir:
+        return file_name
+
+    base_name = basename(file_name)
+
+    new_name = join(current_dir, base_name)
+
+    # check if file with specified name already exists in top directory
+    # if yes then create new file name with '1' before extension
+    while isfile(new_name):
+        file_name_parts = splitext(base_name)
+        base_name = "{0}1{1}".format(
+            ''.join(file_name_parts[0:-1]),
+            file_name_parts[-1]
+        )
+        new_name = join(current_dir, base_name)
+
+    return new_name
+
+
+def remove_empty_dirs(directory):
+    for item in list_files(directory):
+        if isdir(item):
+            remove_empty_dirs(item)
+
+    if directory == current_dir:
+        return
+
+    files = list_files(directory)
+    if len(files):
+        print('\n{0} is not empty'.format(rel(directory)))
+        for item in files:
+            print(item)
+
+    else:
+        print('-d {0}'.format(rel(directory)))
+        rmdir(directory)
+
+
+move_files(current_dir)
+remove_empty_dirs(current_dir)
+print("Done!")

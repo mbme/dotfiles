@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+int_mon="eDP1"
+# ext_mon="DP1"
+ext_mon="HDMI1"
+
+function connect(){
+    # xrandr --newmode "1680x1050_60.00"  147.14  1680 1784 1968 2256  1050 1051 1054 1087  -HSync +Vsync --verbose
+    # xrandr --addmode $ext_mon 1680x1050_60.00 --verbose
+    # xrandr --output $ext_mon --mode 1680x1050_60.00 --left-of $int_mon --verbose
+    xrandr --output $ext_mon --mode 1920x1080 --left-of $int_mon --verbose
+    # xrandr --output $ext_mon --auto --left-of $int_mon --verbose
+    # xrandr --dpi 96x96 --verbose
+    sleep 3 && nitrogen --restore
+}
+
+function disconnect(){
+    xrandr --output $ext_mon --off --verbose
+    sleep 3 && nitrogen --restore
+}
+
+xrandr | grep "^$ext_mon connected" &> /dev/null && connect || disconnect

@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+require 'pathname'
+
+def prepare_path(str)
+  path = Pathname.new str
+
+  if path.absolute?
+    path.cleanpath
+  else
+    (Pathname.getwd + path).cleanpath
+  end
+end
+
+ARGV.each do|a|
+  puts
+
+  path = prepare_path(a)
+
+  extension = path.extname
+
+  if not path.exist? or path.directory?
+    puts "#{path} doesnt't exist or is directory, skipping"
+    return
+  end
+
+  new_path = path.dirname.join("#{path.basename(extension)}.mp3")
+
+  puts "#{path}: converting to #{new_path}"
+
+  # https://trac.ffmpeg.org/wiki/Encode/MP3
+  output = `ffmpeg -i "#{path}" -codec:a libmp3lame -qscale:a 9 -f mp3 "#{new_path}"`
+  puts output
+  puts '---------------------------'
+  puts
+end

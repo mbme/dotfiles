@@ -1,0 +1,40 @@
+
+# enable vdpau for intel HD Graphics
+# export VDPAU_DRIVER=va_gl
+# export LIBVA_DRIVER_NAME=vdpau
+
+export DE="lxde"
+export DESKTOP_SESSION="lxde"
+export XDG_MENU_PREFIX="lxde-"
+
+export TERMINAL="termite"
+export BROWSER="firefox"
+
+export GTK2_RC_FILES="/etc/gtk-2.0/gtkrc:$HOME/.gtkrc-2.0"
+
+# Use XToolkit in java applications
+export AWT_TOOLKIT=XToolkit
+export _JAVA_AWT_WM_NONREPARENTING=1
+# export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.xrender=true'
+
+# to disable gtk3 at-spi helpers
+export NO_AT_BRIDGE=1
+
+# disable wine adding win soft menu items
+export WINEDLLOVERRIDES=winemenubuilder.exe=d
+
+# add maven
+export MAVEN_HOME=/opt/maven
+export MAVEN_OPTS="-Xmx900m" # -XX:MaxPermSize=450m"
+
+
+if [ -n "$DISPLAY" ]; then
+    TERM=xterm-256color
+else
+    TERM=xterm
+fi
+
+# Source temp config
+if [[ -s "$HOME/.zshenv_temp" ]]; then
+    source "$HOME/.zshenv_temp"
+fi

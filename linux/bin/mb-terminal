@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# simple terminal wrapper
+
+terminal="termite"
+
+if [ "$1" = "-e" ]
+then
+    command="${@:2}"
+    echo "running terminal: executing '$command'"
+    $terminal --exec="$command"
+else
+    echo "running terminal"
+    $terminal
+fi

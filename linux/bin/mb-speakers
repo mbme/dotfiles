@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+device="amixer -D pulse"
+
+case "$1" in
+    up)
+        $device sset master playback 5%+
+        ;;
+    down)
+        $device sset Master playback 5%-
+        ;;
+    toggle)
+        $device sset Master toggle
+        ;;
+    status)
+        status=$($device get Master)
+        if [[ $status =~ \[off\] ]]; then
+            status=0
+        else
+            [[ "$status" =~ ([0-9]+)% ]] && status=${BASH_REMATCH[1]}
+        fi
+        printf "%3s%%" "$status"
+        ;;
+    *)
+        echo "Accepted arguments are: up, down, toggle and status."
+        exit 1
+        ;;
+esac
+
+exit 0

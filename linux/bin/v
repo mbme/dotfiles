@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ -z "$DISPLAY" ]; then
+    vim "$@"
+else
+    # -a is alternate editor
+    emacsclient -c -a vim --socket-name /tmp/emacs1000/server -n "$@"
+fi

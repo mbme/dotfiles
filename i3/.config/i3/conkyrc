@@ -42,7 +42,7 @@ $endif\
 
 
 # Volume level
-{"full_text":"♪${exec ~/utils/volume.sh status}","color":"\#EEEEEE","separator":true,"separator_block_width":16},
+{"full_text":"♪${exec mb-speakers status}","color":"\#EEEEEE","separator":true,"separator_block_width":16},
 # Date
 {"full_text":"${time %b %d, %a}","color":"\#EEEEEE","separator":true,"separator_block_width":16},
 # Time
