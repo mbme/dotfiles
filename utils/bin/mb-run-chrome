@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+profilesArray=( "$@" )
+
+if [ -z "$1" ]; then
+    echo "error: missing chromium profile id"
+    exit 1
+fi
+
+wd=`pwd`
+
+function run_chrome {
+    profile="$wd/chromium$1"
+
+    if [ -d "$profile" ]; then
+        chromium --user-data-dir="$profile"
+    else
+        echo "error: missing chromium profile $profile"
+    fi
+}
+
+for profileId in "${profilesArray[@]}"; do
+    run_chrome "$profileId" &
+done
