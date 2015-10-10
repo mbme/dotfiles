@@ -56,7 +56,7 @@ xsetroot -cursor_name left_ptr
 srandrd mb-monitor-toggle
 
 # enable auto screenlock
-xautolock -time 15 -locker "i3lock -c 16a085" &
+xautolock -time 15 -locker "mb-lock-screen" &
 
 nitrogen --restore
 
