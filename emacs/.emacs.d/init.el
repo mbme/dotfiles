@@ -96,7 +96,6 @@
 
     helm
     helm-ag
-    helm-themes
     helm-flyspell
     helm-make
 
@@ -924,7 +923,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; Helm
 (require 'helm)
 (require 'helm-config)
-(require 'helm-themes)
 (require 'helm-make)
 
 (require 'grep)
