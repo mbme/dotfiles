@@ -480,6 +480,25 @@ narrowed."
     ret))
 
 
+(defun mb/emmet-jsx ()
+  "Enable emmet with jsx support.
+It use className instead of class."
+  (setq emmet-expand-jsx-className? t)
+  (emmet-mode t))
+
+
+(defun mb/web-mode-jsx-hacks ()
+  "Enable eslint for jsx in flycheck."
+  (if (or (equal web-mode-content-type "jsx")
+          (equal web-mode-content-type "javascript"))
+      (progn
+        (flycheck-select-checker 'javascript-eslint)
+        (setq imenu-create-index-function 'mb/imenu-js-make-index)
+        (mb/emmet-jsx))
+    (progn
+      (flycheck-disable-checker 'javascript-eslint)
+      (emmet-mode t))))
+
 
 ;; ---------------------------------------- CONFIG
 
@@ -1100,6 +1119,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key project-explorer-mode-map (kbd "M-1") 'pe/quit)
 (global-set-key [(meta f1)] (lambda () (interactive) (mb/project-explorer-maybe-open t)))
 (define-key project-explorer-mode-map [(meta f1)] 'pe/quit)
+(define-key project-explorer-mode-map (kbd "SPC") 'other-window)
 
 
 
@@ -1815,12 +1835,23 @@ HERE is current position, TOTAL is total matches count."
 
 
 
+;; Emmet mode
+(require 'emmet-mode)
+(setq emmet-preview-default nil)
+(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+(add-hook 'html-mode-hook 'emmet-mode)
+(define-key emmet-mode-keymap (kbd "C-j") nil)
+
+
+
 ;; Javascript
 (require 'js)
 ;; disable jshint since we prefer eslint checking
 ;; (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
 (add-hook 'js-mode-hook (lambda ()
-                          (setq imenu-create-index-function 'mb/imenu-js-make-index)))
+                          (setq imenu-create-index-function 'mb/imenu-js-make-index)
+                          (mb/emmet-jsx)))
 
 ;; free key for avy-jump
 (define-key js-mode-map (kbd "M-.") nil)
@@ -1908,15 +1939,6 @@ HERE is current position, TOTAL is total matches count."
 ;; use eslint with web-mode for jsx files
 (flycheck-add-mode 'javascript-eslint 'web-mode)
 
-(defun mb/web-mode-jsx-hacks ()
-  "Enable eslint for jsx in flycheck."
-  (if (or (equal web-mode-content-type "jsx")
-          (equal web-mode-content-type "javascript"))
-      (progn
-        (flycheck-select-checker 'javascript-eslint)
-        (setq imenu-create-index-function 'mb/imenu-js-make-index))
-    (flycheck-disable-checker 'javascript-eslint)))
-
 (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
 (setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
 
@@ -1937,18 +1959,6 @@ HERE is current position, TOTAL is total matches count."
 ;; Yaml
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
-
-
-;; Emmet mode
-(require 'emmet-mode)
-(setq emmet-preview-default nil)
-(add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
-(add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
-(add-hook 'html-mode-hook 'emmet-mode)
-(add-hook 'web-mode-hook  'emmet-mode)
-(add-hook 'js-mode-hook   'emmet-mode)
-(define-key emmet-mode-keymap (kbd "C-j") nil)
 
 
 
