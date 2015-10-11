@@ -159,9 +159,7 @@
     magit
     gitconfig-mode
     gitignore-mode
-    ;; git gutter
-    fringe-helper
-    git-gutter-fringe
+    diff-hl
 
 
     ;; LANGUAGES SUPPORT
@@ -1706,27 +1704,25 @@ HERE is current position, TOTAL is total matches count."
 
 
 
-;; Git-gutter-fringe
-(require 'git-gutter-fringe)
-(global-git-gutter-mode)
-(set-face-foreground 'git-gutter-fr:deleted  mb-color7)
-(set-face-foreground 'git-gutter-fr:added    mb-color8)
-(set-face-foreground 'git-gutter-fr:modified mb-color9)
+;; Git-diff mode
+(require 'diff-mode)
+(define-key diff-mode-map (kbd "j") 'diff-hunk-next)
+(define-key diff-mode-map (kbd "k") 'diff-hunk-prev)
 
-(setq git-gutter:hide-gutter t)
-;; Don't need log/message.
-(setq git-gutter:verbosity 0)
-(setq git-gutter-fr:side 'left-fringe)
 
-(add-hook 'git-gutter:update-hooks 'magit-revert-buffer-hook)
-(add-to-list 'git-gutter:update-hooks 'focus-in-hook)
-(add-to-list 'git-gutter:update-commands 'other-window)
+
+;; Diff-hl: highlight changes in gutter
+(require 'diff-hl)
+(setq diff-hl-draw-borders nil)
+(global-diff-hl-mode)
+
+(add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
 (evil-leader/set-key
-  "gj" 'git-gutter:next-hunk
-  "gk" 'git-gutter:previous-hunk
-  "gp" 'git-gutter:popup-hunk
-  "gr" 'git-gutter:revert-hunk)
+  "gj" 'diff-hl-next-hunk
+  "gk" 'diff-hl-previous-hunk
+  "gr" 'diff-hl-revert-hunk
+  "gd" 'diff-hl-diff-goto-hunk)
 
 
 
@@ -1979,7 +1975,6 @@ HERE is current position, TOTAL is total matches count."
 (diminish 'company-mode)
 (diminish 'subword-mode)
 (diminish 'rainbow-mode)
-(diminish 'git-gutter-mode)
 (diminish 'ethan-wspace-mode)
 (diminish 'ivy-mode)
 (diminish 'helm-mode)
