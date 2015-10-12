@@ -1,8 +1,4 @@
-#!/bin/bash
-
-# Connect to existing Emacs daemon.
-
-set -e
+#!/usr/bin/env bash
 
 EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient
 exec $EMACS -c -a vim -n "$@" 

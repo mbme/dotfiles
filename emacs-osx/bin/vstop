@@ -1,7 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Stop Emacs daemon
-
-set -e
+echo "Stopping emacs daemon..."
 EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/bin/emacsclient
 exec $EMACS --eval "(kill-emacs)"

@@ -1,7 +1,6 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Start a new graphical instance of Emacs.
 
-set -e
 EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs
 exec $EMACS "$@"

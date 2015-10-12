@@ -1,7 +1,5 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-# Start a new Emacs daemon instance.
-
-set -e
+echo "Starting emacs daemon..."
 EMACS=/Applications/MacPorts/Emacs.app/Contents/MacOS/Emacs
 exec $EMACS --daemon
