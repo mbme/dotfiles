@@ -19,11 +19,6 @@ alias -r jnl='journalctl -e -f -b'
 alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
 
-# EMACS aliases
-alias vstop='ctlu stop emacs'
-alias vrest='ctlu restart emacs'
-alias vst='ctlu status emacs'
-
 # PATH must be set in .zshrc because /etc/profile override PATH set in .zshenv
 
 export GEM_HOME="$(ruby -rubygems -e "puts Gem.user_dir")"

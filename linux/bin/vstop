@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Stopping emacs daemon..."
+systemctl --user stop emacs

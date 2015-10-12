@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Starting emacs daemon..."
+systemctl --user start emacs

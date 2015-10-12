@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+echo "Restarting emacs daemon..."
+systemctl --user restart emacs
