@@ -186,6 +186,8 @@
     yaml-mode
     coffee-mode
 
+    php-mode
+
     ;; python
     anaconda-mode
     company-anaconda
@@ -959,6 +961,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
  helm-M-x-fuzzy-match                  t
  helm-buffers-fuzzy-matching           t
+ helm-ag-fuzzy-match                   t
 
  ;; disable fuzzy matching for recentf because it breaks MRU order
  helm-recentf-fuzzy-match              nil
@@ -1357,7 +1360,7 @@ HERE is current position, TOTAL is total matches count."
 
 ;; Hippie expand is dabbrev expand on steroids
 ;; do not split words on _ and -
-(setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_-]")
+(setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_\-]")
 (setq hippie-expand-try-functions-list '(try-expand-dabbrev
                                          try-expand-dabbrev-all-buffers
                                          try-expand-dabbrev-from-kill
@@ -1962,6 +1965,11 @@ HERE is current position, TOTAL is total matches count."
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "meb" 'eval-buffer)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mer" 'eval-region)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mes" 'eval-last-sexp)
+
+
+;; Php-mode
+(require 'php-mode)
+(define-key php-mode-map [(meta tab)] nil)
 
 
 
