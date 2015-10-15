@@ -98,6 +98,7 @@
     helm-ag
     helm-flyspell
     helm-make
+    helm-flx
 
     imenu-anywhere
 
@@ -940,6 +941,10 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 ;; Helm
+(require 'helm-flx)
+;; For best results, load this before you load helm.
+(helm-flx-mode 1)
+
 (require 'helm)
 (require 'helm-config)
 (require 'helm-make)
@@ -959,13 +964,14 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  helm-ag-use-agignore                  t
  helm-echo-input-in-header-line        t
 
- helm-M-x-fuzzy-match                  t
- helm-buffers-fuzzy-matching           t
- helm-ag-fuzzy-match                   t
-
  ;; disable fuzzy matching for recentf because it breaks MRU order
  helm-recentf-fuzzy-match              nil
 
+ ;; enable fuzzy for everything else
+ helm-M-x-fuzzy-match                  t
+ helm-buffers-fuzzy-matching           t
+ helm-ag-fuzzy-match                   t
+ helm-mode-fuzzy-match                 t
  helm-semantic-fuzzy-match             t
  helm-imenu-fuzzy-match                t
  helm-locate-fuzzy-match               t
