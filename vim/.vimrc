@@ -19,6 +19,7 @@ Plugin 'tommcdo/vim-exchange'
 Plugin 'kien/ctrlp.vim'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'Raimondi/delimitMate'
+Plugin 'ervandew/supertab'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
@@ -143,3 +144,5 @@ nnoremap <Leader>d :NERDTreeToggle<CR>
 nnoremap <Leader>w :w<CR>
 nnoremap <Leader>rtw :%s/\s\+$//e<CR> " remove trailing whitespace
 
+nnoremap <Leader>gt :!tig<CR>
+nnoremap <Leader>gs :Gstatus<CR>
