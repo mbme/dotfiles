@@ -18,6 +18,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tommcdo/vim-exchange'
 Plugin 'kien/ctrlp.vim'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'Raimondi/delimitMate'
 
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
