@@ -1699,10 +1699,10 @@ HERE is current position, TOTAL is total matches count."
 (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
 (evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-  "K" 'magit-discard-item
+  "K" 'magit-discard
   "L" 'magit-key-mode-popup-logging)
 (evil-add-hjkl-bindings magit-status-mode-map 'emacs
-  "K" 'magit-discard-item
+  "K" 'magit-discard
   "l" 'magit-key-mode-popup-logging
   "h" 'magit-toggle-diff-refine-hunk)
 
