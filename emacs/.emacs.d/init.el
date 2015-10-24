@@ -1517,7 +1517,8 @@ HERE is current position, TOTAL is total matches count."
 (require 'flycheck)
 (require 'flycheck-pos-tip)
 
-(setq flycheck-indication-mode 'right-fringe)
+(setq flycheck-indication-mode 'right-fringe
+      flycheck-temp-prefix "FLYCHECK_XXY")
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (eval-after-load 'flycheck

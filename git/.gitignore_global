@@ -3,3 +3,4 @@
 *.mbme.sh
 *.mbmeignore
 .dir-locals.el
+FLYCHECK_XXY*
