@@ -1813,6 +1813,7 @@ HERE is current position, TOTAL is total matches count."
 ;; Python mode
 (require 'anaconda-mode)
 (require 'company-anaconda)
+(setq anaconda-mode-installation-directory (expand-file-name  "anaconda-mode"  mb-save-path))
 (add-hook 'python-mode-hook 'anaconda-mode)
 (add-hook 'python-mode-hook 'eldoc-mode)
 (add-to-list 'company-backends 'company-anaconda)
