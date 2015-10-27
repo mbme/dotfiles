@@ -312,6 +312,15 @@ If `SELECT-FILE' then put cursor on current file in project explorer buffer."
         (message "mb: project explorer not inside projectile project")))))
 
 
+(defun mb/company-complete-common-or-selection ()
+  "Complete common part if there is one, or insert selected candidate."
+  (interactive)
+  (when (company-manual-begin)
+    (let ((tick (buffer-chars-modified-tick)))
+      (call-interactively 'company-complete-common)
+      (when (eq tick (buffer-chars-modified-tick))
+        (call-interactively 'company-complete-selection)))))
+
 
 (defun mb/yas-expand ()
   "Expand yasnippet or return nil."
@@ -344,7 +353,7 @@ Clear field placeholder if field was not modified."
   "Complete common prefix in company-mode or switch to next yasnippet field."
   (interactive)
   (if (> (or company-candidates-length 0) 0)
-      (company-complete-common)
+      (mb/company-complete-common-or-selection)
     (mb/yas-next-field)))
 
 (defun mb/complete-selection-or-yas-next-field ()
@@ -1093,6 +1102,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (global-company-mode 1)
 (company-statistics-mode)
 
+(define-key company-active-map (kbd "TAB") 'mb/company-complete-common-or-selection)
+(define-key company-active-map (kbd "<tab>") 'mb/company-complete-common-or-selection)
 (define-key company-active-map (kbd "M-j") 'company-select-next)
 (define-key company-active-map (kbd "M-k") 'company-select-previous)
 (define-key company-active-map [escape]    'company-abort)
