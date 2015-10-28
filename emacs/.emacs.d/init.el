@@ -1212,7 +1212,7 @@ HERE is current position, TOTAL is total matches count."
 
 ;; Hl-line mode: highlight current line
 (require 'hl-line)
-(global-hl-line-mode 1)
+(global-hl-line-mode 0)
 ;; (set-face-background 'hl-line mb-color13)
 
 
@@ -1446,6 +1446,13 @@ HERE is current position, TOTAL is total matches count."
 ;; made by commands such as undo, yank-pop, etc.
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
+
+
+
+;; Beacon-mode: highlight cursor position on scroll
+(beacon-mode 1)
+(setq beacon-push-mark 35)
+(setq beacon-color mb-color9)
 
 
 
@@ -2019,6 +2026,7 @@ HERE is current position, TOTAL is total matches count."
 (diminish 'ivy-mode)
 (diminish 'helm-mode)
 (diminish 'anzu-mode)
+(diminish 'beacon-mode)
 (add-hook 'hs-minor-mode-hook
           (lambda() (diminish 'hs-minor-mode)))
 (add-hook 'emacs-lisp-mode-hook
