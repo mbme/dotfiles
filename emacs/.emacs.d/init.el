@@ -106,6 +106,8 @@
     color-theme-sanityinc-tomorrow
     solarized-theme
 
+    beacon ; highlight cursor position
+
     ;; show current search match/total matches
     anzu
     evil-anzu
