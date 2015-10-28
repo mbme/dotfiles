@@ -1729,8 +1729,11 @@ HERE is current position, TOTAL is total matches count."
 
 (evil-leader/set-key
   "gs" 'magit-status
-  "gl" 'magit-file-log
-  "gb" 'magit-blame-mode)
+  "gl" 'magit-log-all
+  "gL" 'magit-log-buffer-file
+  "gb" 'magit-blame)
+
+(define-key magit-file-section-map (kbd "K") 'magit-discard)
 
 
 
