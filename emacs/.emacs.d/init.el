@@ -1908,7 +1908,10 @@ HERE is current position, TOTAL is total matches count."
  js2-strict-var-hides-function-arg-warning nil
  js2-strict-missing-semi-warning           nil)
 
+
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 ;; free key for avy-jump
 (define-key js2-mode-map (kbd "M-.") nil)
 
