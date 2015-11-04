@@ -185,8 +185,9 @@ focus_follows_mouse            no
 popup_during_fullscreen        smart
 workspace_auto_back_and_forth  no
 default_orientation            horizontal
-workspace_layout               default
+workspace_layout               tabbed
 mouse_warping                  none
+focus_on_window_activation     urgent
 
 #class                   border         backgr         text     indicator
 client.focused           $c_active      $c_active      $c_text  $c_active
@@ -204,7 +205,8 @@ workspace 7 output $primary_screen
 workspace 8 output $primary_screen
 workspace 9 output $primary_screen
 
-assign [class="Firefox"] 2
+assign [class="^Firefox$"] 2
+assign [class="^Firefox-WORK$"] 10
 
 assign [class="^jetbrains-idea"] 3
 assign [class="^jetbrains-webstorm"] 3
@@ -234,9 +236,11 @@ for_window [class="^Oblogout"] fullscreen
 
 # browser pop-ups
 for_window [window_role="^pop-up"] floating enable
+for_window [window_type="dialog"]  floating enable
+for_window [window_type="menu"]    floating enable
 
 for_window [class="^Firefox"] floating enable
-for_window [class="^Firefox" instance="Navigator"] layout tabbed, floating disable, border pixel $border
+for_window [class="^Firefox" instance="Navigator"] floating disable, border pixel $border
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
@@ -244,14 +248,15 @@ for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
 for_window [class="^Emacs"] border pixel $border
 
 for_window [class="^Skype"] floating enable
-for_window [class="^Skype" window_role="ConversationsWindow"] layout tabbed, floating disable
+for_window [class="^Skype" window_role="ConversationsWindow"] floating disable
 
 for_window [class="^Thunderbird" instance="Calendar"] floating enable
 for_window [class="^Thunderbird" instance="Msgcompose"] floating enable
 for_window [class="^Thunderbird"] border pixel $border
 
-for_window [class="^jetbrains-idea"] layout   tabbed, border pixel $border
-for_window [class="^jetbrains-webstorm"] layout   tabbed, border pixel $border
+for_window [class="^jetbrains-idea"]     border pixel $border
+for_window [class="^jetbrains-webstorm"] border pixel $border
+
 for_window [class="^Kupfer.py"]      floating enable, border pixel $border
 
 for_window [class="^Quodlibet"] border pixel $border
