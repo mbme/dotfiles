@@ -570,6 +570,11 @@ It use className instead of class."
 ;; take the short answer, y/n is yes/no
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+;; do not ask if I want to execute `eval' from dir-locals
+(setq enable-local-eval t)
+;; do not ask if I want to set variables from dir-locals
+(setq enable-local-variables :all)
+
 ;; make urls in comments/strings clickable
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
