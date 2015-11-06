@@ -1154,7 +1154,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   "Reload editorconfig file and set variables for current major mode."
   (interactive)
   (message "mb: reloading EditorConfig...")
-  (edconf-find-file-hook))
+  (editorconfig-apply))
 
 
 
@@ -2089,6 +2089,7 @@ HERE is current position, TOTAL is total matches count."
 
 ;; NOTE: m is reserved for mode-local bindings
 (evil-leader/set-key
+  "`" 'helm-resume
   "o" 'other-window
 
   "2" 'call-last-kbd-macro
