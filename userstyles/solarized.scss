@@ -1,0 +1,279 @@
+$color1: #FDF6E3 !important;
+$color2: #EEE8D5 !important;
+$color3: #B68A02 !important;
+$color4: #93A1A1 !important;
+
+$font-color: #333 !important;
+
+@mixin hide {
+  display: none !important;
+}
+
+@-moz-document domain("d3.ru") {
+  body,
+  .l-subdomain_post_custom_design,
+  .l-footer {
+    background-color: $color1;
+  }
+}
+
+@-moz-document domain("habrahabr.ru"), domain("geektimes.ru") {
+  #layout .inner,
+  .content_left table.menu tr td a,
+  .comments_list .comment_item .message,
+  .bottom_promo_blocks .block {
+    background-color: $color1;
+  }
+
+  .comments_list .comment_item .info .folding-dot {
+    @include hide;
+  }
+
+  #TMpanel,
+  .content_left table.menu tr td.active a,
+  #navbar .nav_panel,
+  .buttons a.button,
+  .sidebar_right .block {
+    background: $color2;
+  }
+
+  .content_left table.menu tr td {
+    border-color: $color1;
+  }
+}
+
+@-moz-document domain("vk.com") {
+  body,
+  #side_bar, #side_bar li a,
+  #fmenu,
+  .summary_wrap,
+  .tabs.t_bar,
+  #feed_bar,
+  .wr_header,
+  .wall_module .reply_fakebox_wrap,
+  .wall_module .reply_fakebox,
+  .reply_field_wrap,
+  .wall_module .reply_box,
+  .replies_open,
+  h4.page_top,
+  #im_write,
+  #profile_actions a,
+  input.text, input.search, textarea, input.big_text, input.dark,
+  .wide_wall_module {
+    background: $color1;
+  }
+
+  .im_log_t td {
+    border-top: 0;
+  }
+
+  .reply_field_tail,
+  #chat_onl_wrap {
+    @include hide;
+  }
+
+  #im_peer_controls,
+  #im_bar,
+  .chat_active, .chat_expand, .chat_onl_wrap:hover, .chat_tab_wrap:hover,
+  #feed_new_posts {
+    background: $color2;
+  }
+
+  #page_wrap > div > .scroll_fix {
+    width: auto !important;
+  }
+}
+
+@-moz-document domain("reddit.com") {
+  body,
+  #header,
+  .tabmenu li.selected a,
+  .side,
+  .sidebox .spacer,
+  .morelink .nub,
+  body.with-listing-chooser .listing-chooser .grippy,
+  #header .tabmenu,
+  #header-bottom-right,
+  .commentarea,
+  .comments-page textarea,
+  .comments-page .comment,
+  .comments-page .comment .comment,
+  .comments-page .comment .comment .comment,
+  .comments-page .comment .comment .comment .comment,
+  .comments-page .comment .comment .comment .comment .comment,
+  .comments-page .comment .comment .comment .comment .comment .comment,
+  .comments-page .comment .comment .comment .comment .comment .comment .comment,
+  .comments-page .comment .comment .comment .comment .comment .comment .comment .comment,
+  .titlebox *,
+  .link, .side, .submit-page .infobar,
+  .roundfield, .submit-page .content button,
+  .content.submit .info-notice, .stylesheet-customize-container .pretty-form,
+  #images, .search-page .raisedbox, .search-page .searchfacets,
+  .linefield, .search-page .searchpane, .nextprev,
+  button, #search input[type="submit"],
+  .wiki-page .wiki-page-content .wiki_button {
+    background-color: $color1;
+  }
+
+  body.with-listing-chooser .listing-chooser {
+    background-color: $color2;
+  }
+  .listing-chooser li {
+    background-color: $color1;
+  }
+
+  .tabmenu li.selected a {
+    border-color: $color2;
+  }
+
+  .thing .title {
+    color: $color3;
+  }
+
+  .morelink, .morelink a,
+  .sidecontentbox a.helplink {
+    background: $color2;
+    color: $font-color;
+    text-shadow: unset;
+    border-color: $color2;
+  }
+
+}
+
+@-moz-document domain("github.com") {
+  body,
+  .boxed-group-inner,
+  .filter-bar,
+  .pagination a, .pagination span, .pagination em,
+  nav.sunken-menu, .sunken-menu::before, .sunken-menu::after,
+  .sunken-menu-item.selected,
+  .social-count,
+  .commit-tease .commit-meta,
+  .file-header,
+  .file-history-tease .participation,
+  .list-group-item.navigation-focus,
+  .tabnav-tab.selected,
+  .facebox-popup,
+  .blankslate,
+  .repohead.experiment-repo-nav,
+  #readme .markdown-body, #readme .plain,
+  .timeline-comment,
+  .thread-subscription-status,
+  .discussion-timeline-actions,
+  .new-discussion-timeline .closed-banner,
+  .new-discussion-timeline .previewable-comment-form .comment-form-head.tabnav,
+  .form-control, input[type="text"], input[type="password"], input[type="email"], input[type="number"], input[type="tel"], input[type="url"], textarea {
+    background: $color1;
+  }
+
+  .timeline-comment-wrapper,
+  .new-discussion-timeline .closed-banner,
+  .discussion-item-icon {
+    border-color: $color1;
+  }
+
+  .header,
+  .boxed-group > h3, .boxed-group .heading,
+  table.files,
+  .markdown-body .highlight pre, .markdown-body pre,
+  .counter,
+  .reponav-item.selected,
+  .timeline-comment-header,
+  .discussion-item-icon,
+  .drag-and-drop,
+  .btn {
+    background: $color2;
+  }
+
+  .timeline-comment-wrapper > .timeline-comment::before,
+  .timeline-new-comment .timeline-comment::before {
+    @include hide;
+  }
+
+  .btn:active, .btn.selected, .btn.zeroclipboard-is-active {
+    background: $color4;
+  }
+
+  .btn-primary {
+    color: $font-color;
+  }
+}
+
+@-moz-document domain("githubusercontent.com") {
+  html {
+    background: $color1;
+  }
+}
+
+@-moz-document domain("gitter.im") {
+  body,
+  .chat-header,
+  .chat-input,
+  .room-list-item--current-room,
+  .trpContentPanel,
+  .chat-item {
+    background: $color1;
+  }
+}
+
+@-moz-document domain("linux.org.ru") {
+  html,
+  .nav,
+  .messages .msg,
+  .message-table tbody,
+  #mainpage .nav {
+    background: $color1;
+  }
+
+  #hd,
+  .message-table,
+  .message-table tbody tr:hover,
+  .messages .comment .title,
+  .messages > .msg,
+  .code code,
+  DIV.boxlet {
+    background: $color2;
+  }
+
+  .messages .msg {
+    border: 1px solid $color2;
+  }
+}
+
+@-moz-document domain("twitter.com") {
+  .global-nav-inner,
+  .module .flex-module,
+  .Trends,
+  .DashboardProfileCard,
+  input, textarea, div[contenteditable="true"], .t1-select,
+  .stream-item, .unfocusable-stream-item {
+    background: $color1;
+  }
+
+  .btn,
+  .tweet:hover {
+    background: $color2;
+  }
+
+  #global-new-tweet-button {
+    color: $font-color;
+  }
+}
+
+@-moz-document regexp("https*://www\.google\..*") {
+  body,
+  #hdtbMenus,
+  #hdtbSum,
+  #appbar,
+  ._Fmb,
+  ._Fmb:hover,
+  ._Fmb.selected,
+  ._Fmb.selected:hover {
+    background: $color1;
+  }
+
+  #fbar,
+  .sfbgg {
+    background: $color2;
+  }
+}
