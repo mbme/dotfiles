@@ -191,6 +191,9 @@
 
     php-mode
 
+    ;; for Scheme
+    geiser
+
     ;; python
     anaconda-mode
     company-anaconda
@@ -1753,6 +1756,7 @@ HERE is current position, TOTAL is total matches count."
 (require 'diff-hl)
 (setq diff-hl-draw-borders nil)
 (global-diff-hl-mode)
+(diff-hl-flydiff-mode)
 
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
@@ -2019,10 +2023,36 @@ HERE is current position, TOTAL is total matches count."
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mes" 'eval-last-sexp)
 
 
+
 ;; Php-mode
 (require 'php-mode)
 (define-key php-mode-map [(meta tab)] nil)
 
+
+
+;; Scheme
+(require 'geiser)
+
+(setq geiser-active-implementations '(chicken))
+(setq scheme-program-name "csi -:c")
+
+(eval-after-load 'geiser-mode '(progn
+                            (define-key geiser-mode-map (kbd "M-.") nil)
+                            (define-key geiser-repl-mode-map (kbd "M-`") nil)
+                            ))
+
+(evil-leader/set-key-for-mode 'scheme-mode
+  "mj" 'run-geiser
+  "mb" 'geiser-compile-current-buffer
+  "md" 'geiser-doc-symbol-at-point
+  "meb" 'geiser-eval-buffer
+  "meB" 'geiser-eval-buffer-and-go
+  "mef" 'geiser-eval-definition
+  "meF" 'geiser-eval-definition-and-go
+  "mes" 'geiser-eval-last-sexp
+  "mer" 'geiser-eval-region
+  "meR" 'geiser-eval-region-and-go
+  )
 
 
 ;; Diminish: cleanup mode line
