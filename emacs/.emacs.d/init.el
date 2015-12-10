@@ -607,11 +607,11 @@ It use className instead of class."
 ;; (load-theme 'sanityinc-tomorrow-day t)
 ;; (load-theme 'leuven t)
 
-(setq
- ;; Use less bolding
- solarized-use-less-bold t
- ;; Use less colors for indicators such as git:gutter, flycheck and similar
- solarized-emphasize-indicators nil)
+;; (setq
+;;  ;; Use less bolding
+;;  solarized-use-less-bold t
+;;  ;; Use less colors for indicators such as git:gutter, flycheck and similar
+;;  solarized-emphasize-indicators nil)
 (load-theme 'solarized-light t)
 
 
@@ -1918,7 +1918,7 @@ HERE is current position, TOTAL is total matches count."
  js2-strict-missing-semi-warning           nil)
 
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 ;; free key for avy-jump
