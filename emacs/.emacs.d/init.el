@@ -114,7 +114,6 @@
     powerline
     nyan-mode
 
-    project-explorer ; side bar
     projectile ; project management
     helm-projectile
 
@@ -299,21 +298,6 @@ It wouldn't be associated with the buffer."
 (defun mb/projectile-file? ()
   (let ((projectile-require-project-root t))
     (ignore-errors (projectile-project-root) t)))
-
-(defun mb/project-explorer-maybe-open (&optional select-file)
-  "Open project explorer if current file is inside projectile project.
-If `SELECT-FILE' then put cursor on current file in project explorer buffer."
-  (interactive)
-  (if (mb/projectile-file?)
-      (let ((pe/goto-current-file-on-open select-file))
-        (project-explorer-open))
-
-    ;; switch to project-explorer window if already open
-    (let (( window (pe/get-project-explorer-window)))
-      (if window
-          (select-window window)
-        (message "mb: project explorer not inside projectile project")))))
-
 
 (defun mb/company-complete-common-or-selection ()
   "Complete common part if there is one, or insert selected candidate."
@@ -1114,35 +1098,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 
-;; Project-explorer
-(require 'project-explorer)
-
-(setq
- pe/omit-gitignore            t
- pe/goto-current-file-on-open nil
- pe/project-root-function     'projectile-project-root
- pe/cache-directory (expand-file-name "project-explorer-cache/" mb-save-path))
-(add-hook 'project-explorer-mode-hook
-          (lambda ()
-            (linum-mode 0)
-            (hl-line-mode)
-            (text-scale-set -0.65)))
-;; just open buffer in other window
-;; with default function there are some issues with switching to previous buffer
-(setq pe/display-content-buffer-function 'switch-to-buffer)
-
-(evil-set-initial-state 'project-explorer-mode 'emacs)
-
-(global-set-key (kbd "M-1") 'mb/project-explorer-maybe-open)
-(define-key project-explorer-mode-map (kbd "M-1") 'pe/quit)
-(global-set-key [(meta f1)] (lambda () (interactive) (mb/project-explorer-maybe-open t)))
-(define-key project-explorer-mode-map [(meta f1)] 'pe/quit)
-(define-key project-explorer-mode-map (kbd "SPC") 'other-window)
-
-
-
 ;; Editorconfig
 (require 'editorconfig)
+(editorconfig-mode 1)
 (defun mb/reload-editorconfig ( )
   "Reload editorconfig file and set variables for current major mode."
   (interactive)
