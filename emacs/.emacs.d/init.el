@@ -98,7 +98,6 @@
     helm-ag
     helm-flyspell
     helm-make
-    helm-flx
 
     imenu-anywhere
 
@@ -142,7 +141,6 @@
     ido-vertical-mode ; vertical ido menu
 
     company ; autocomplete
-    company-statistics ; sort autocomplete results
 
     ag ; use ag (the silver searcher)
 
@@ -960,10 +958,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 
 ;; Helm
-(require 'helm-flx)
-;; For best results, load this before you load helm.
-(helm-flx-mode 1)
-
 (require 'helm)
 (require 'helm-config)
 (require 'helm-make)
@@ -1088,7 +1082,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 ;; Company-mode: autocomplete
 (require 'company)
-(require 'company-statistics)
 
 (setq
  company-idle-delay                0.3
@@ -1101,8 +1094,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
  ;; company-dabbrev-ignore-case       t
  company-dabbrev-downcase          nil
 
- company-statistics-file   (expand-file-name "company-statistics-cache.el" mb-save-path)
-
  company-require-match             nil
  company-tooltip-align-annotations t)
 
@@ -1110,7 +1101,6 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (delete 'company-ropemacs company-backends)
 
 (global-company-mode 1)
-(company-statistics-mode)
 
 (define-key company-active-map (kbd "TAB") 'mb/company-complete-common-or-selection)
 (define-key company-active-map (kbd "<tab>") 'mb/company-complete-common-or-selection)
