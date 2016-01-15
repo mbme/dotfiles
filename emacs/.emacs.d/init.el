@@ -99,13 +99,12 @@
     helm-flyspell
     helm-make
 
-    imenu-anywhere
-
     soft-morning-theme
     color-theme-sanityinc-tomorrow
     solarized-theme
 
     beacon ; highlight cursor position
+    hl-todo ; highlight todos
 
     ;; show current search match/total matches
     anzu
@@ -427,17 +426,33 @@ narrowed."
                              )))
 
 
-(defun mb/add-to-evil-jump-list (origin-fun &rest args)
+(defun mb/advice-add-to-evil-jump-list (origin-fun &rest args)
   "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
   (evil-set-jump)
   (apply origin-fun args))
 
+(defun mb/advice-ensure-evil-insert-state (origin-fun &rest args)
+  "Ensure that evil is in insert state before executing ORIGIN-FUN with ARGS."
+  (evil-insert-state)
+  (apply origin-fun args))
 
 (defun mb/helm-projectile-ag-dwim ()
   "Ag search in current project using symbol at point."
   (interactive)
   (let ((helm-ag-insert-at-point 'symbol))
     (helm-projectile-ag)))
+
+(defun mb/helm-imenu ()
+  "Preconfigured `helm' for `imenu' (not using symbol at point)."
+  (interactive)
+  (unless helm-source-imenu
+    (setq helm-source-imenu
+          (helm-make-source "Imenu" 'helm-imenu-source
+            :fuzzy-match helm-imenu-fuzzy-match)))
+  (let ((imenu-auto-rescan t))
+    (helm :sources 'helm-source-imenu
+          :default ""
+          :buffer "*helm imenu*")))
 
 
 ;; @see https://emacs.stackexchange.com/questions/653/how-can-i-find-out-in-which-keymap-a-key-is-bound
@@ -567,15 +582,6 @@ It use className instead of class."
 (setq-default default-font mb-font)
 ;; set font for all windows
 (add-to-list 'default-frame-alist `(font . ,mb-font))
-
-;; highlight todos
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (font-lock-add-keywords
-             nil
-             '(("\\<\\(FIXME\\|TODO\\)\\ .*"
-                0
-                `(:background ,mb-color10) prepend)))))
 
 ;; selection (region) colors
 (set-face-attribute 'region nil
@@ -829,7 +835,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 
 ;; match braces/tags with %
 (global-evil-matchit-mode 1)
-(advice-add 'evilmi-jump-items :around #'mb/add-to-evil-jump-list)
+(advice-add 'evilmi-jump-items :around #'mb/advice-add-to-evil-jump-list)
 
 (evil-exchange-install)
 
@@ -945,6 +951,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (require 'helm)
 (require 'helm-config)
 (require 'helm-make)
+(require 'helm-imenu)
 
 (require 'grep)
 (require 'helm-ag)
@@ -987,8 +994,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 ;; enables helm for completing everything: M-x, find file etc.
 (helm-mode 1)
 
-(advice-add 'helm-imenu          :around #'mb/add-to-evil-jump-list)
-(advice-add 'helm-imenu-anywhere :around #'mb/add-to-evil-jump-list)
+(advice-add 'helm-imenu :around #'mb/advice-add-to-evil-jump-list)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
@@ -1002,8 +1008,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key helm-map (kbd "M-J") 'helm-follow-action-forward)
 (define-key helm-map (kbd "M-K") 'helm-follow-action-backward)
 
-(global-set-key (kbd "M-i")     'helm-imenu)
-(global-set-key (kbd "M-I")     'helm-imenu-anywhere)
+(global-set-key (kbd "M-i") 'mb/helm-imenu)
+(global-set-key (kbd "M-I") 'helm-imenu)
 
 (evil-leader/set-key
   "<SPC>" 'helm-mini
@@ -1046,7 +1052,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
             (lambda (origin-fun)
               (s-chop-prefix "/:" (funcall origin-fun))))
 
-(advice-add 'mb/helm-projectile-ag-dwim :around #'mb/add-to-evil-jump-list)
+(advice-add 'mb/helm-projectile-ag-dwim :around #'mb/advice-add-to-evil-jump-list)
 
 (evil-leader/set-key
   "pp" 'helm-projectile-switch-project
@@ -1090,7 +1096,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (define-key company-active-map (kbd "<tab>") 'mb/company-complete-common-or-selection)
 (define-key company-active-map (kbd "M-j") 'company-select-next)
 (define-key company-active-map (kbd "M-k") 'company-select-previous)
-(define-key company-active-map [escape]    'company-abort)
+(define-key company-active-map (kbd "C-w") nil)
+(define-key company-active-map [escape]         'company-abort)
+(define-key company-active-map (kbd "<escape>") 'company-abort)
 
 (define-key company-active-map (kbd "<f1>") nil)
 
@@ -1526,9 +1534,9 @@ HERE is current position, TOTAL is total matches count."
             (lambda (origin-fun)
               (s-chop-prefix "/:" (funcall origin-fun))))
 
-(advice-add 'flycheck-first-error :around #'mb/add-to-evil-jump-list)
-(advice-add 'flycheck-next-error :around #'mb/add-to-evil-jump-list)
-(advice-add 'flycheck-previous-error :around #'mb/add-to-evil-jump-list)
+(advice-add 'flycheck-first-error :around #'mb/advice-add-to-evil-jump-list)
+(advice-add 'flycheck-next-error :around #'mb/advice-add-to-evil-jump-list)
+(advice-add 'flycheck-previous-error :around #'mb/advice-add-to-evil-jump-list)
 
 (define-prefix-command 'mb-flycheck-map)
 (global-set-key (kbd "M-e")   'mb-flycheck-map)
@@ -1537,11 +1545,6 @@ HERE is current position, TOTAL is total matches count."
 (global-set-key (kbd "M-e k") 'flycheck-previous-error)
 (global-set-key (kbd "M-e l") 'flycheck-list-errors)
 (global-set-key (kbd "M-e b") 'flycheck-buffer)
-
-
-
-;; Imenu-anywhere: entries for imenu across all open buffers of the same type
-(require 'imenu-anywhere)
 
 
 
@@ -1656,16 +1659,6 @@ HERE is current position, TOTAL is total matches count."
  ;; ask me if I want a tracking upstream
  magit-set-upstream-on-push 'askifnotset)
 
-;; modes to show diff automatically
-(setq magit-diff-auto-show '(log-oneline log-select blame-follow))
-
-
-;; these two force a new line to be inserted into a commit window,
-;; which stops the invalid style showing up.
-;; From: http://git.io/rPBE0Q
-(add-hook 'git-commit-mode-hook
-          (lambda () (when (looking-at "\n") (open-line 1))))
-
 ;; blame
 (evil-define-key 'normal magit-blame-map
   "q"         'magit-blame-mode
@@ -1704,7 +1697,7 @@ HERE is current position, TOTAL is total matches count."
 (require 'diff-hl)
 (setq diff-hl-draw-borders nil)
 (global-diff-hl-mode)
-(diff-hl-flydiff-mode)
+;;(diff-hl-flydiff-mode) FIXME this breaks everything as of 15.01.16
 
 (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
 
@@ -1752,6 +1745,12 @@ HERE is current position, TOTAL is total matches count."
                                  (hc-highlight-hard-hyphens)
                                  (hc-highlight-hard-spaces)
                                  (hc-highlight-tabs)))
+
+
+;; highlight todos
+(require 'hl-todo)
+(setq hl-todo-activate-in-modes '(prog-mode))
+(global-hl-todo-mode)
 
 
 
@@ -1837,7 +1836,7 @@ HERE is current position, TOTAL is total matches count."
 ;; disable jshint since we prefer eslint checking
 ;; (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
 (add-hook 'js-mode-hook (lambda ()
-                          (setq imenu-create-index-function 'mb/imenu-js-make-index)
+                          ;; (setq imenu-create-index-function 'mb/imenu-js-make-index)
                           (mb/emmet-jsx)))
 
 ;; free key for avy-jump
@@ -1866,11 +1865,14 @@ HERE is current position, TOTAL is total matches count."
  js2-strict-missing-semi-warning           nil)
 
 
-;; (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 ;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 ;; free key for avy-jump
 (define-key js2-mode-map (kbd "M-.") nil)
+
+;; ensure that we're in insert state when inserting js line break
+(advice-add 'js2-line-break :around #'mb/advice-ensure-evil-insert-state)
 
 ;; (js2-imenu-extras-mode)
 
@@ -2018,6 +2020,7 @@ HERE is current position, TOTAL is total matches count."
 (diminish 'helm-mode)
 (diminish 'anzu-mode)
 (diminish 'beacon-mode)
+(diminish 'emmet-mode)
 (add-hook 'hs-minor-mode-hook
           (lambda() (diminish 'hs-minor-mode)))
 (add-hook 'emacs-lisp-mode-hook
