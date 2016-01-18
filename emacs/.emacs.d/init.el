@@ -190,6 +190,12 @@
     ;; for Scheme
     geiser
 
+    ;; Ocaml
+    tuareg
+    utop ; repl
+    merlin ; auto complete
+    ocp-indent ; auto indent code
+
     ;; python
     anaconda-mode
     company-anaconda
@@ -198,7 +204,7 @@
     clojure-mode
     clojure-mode-extra-font-locking
     clojure-snippets
-    cider
+    cider ; repl
 
     ))
 
@@ -1987,9 +1993,9 @@ HERE is current position, TOTAL is total matches count."
 (setq scheme-program-name "csi -:c")
 
 (eval-after-load 'geiser-mode '(progn
-                            (define-key geiser-mode-map (kbd "M-.") nil)
-                            (define-key geiser-repl-mode-map (kbd "M-`") nil)
-                            ))
+                                 (define-key geiser-mode-map (kbd "M-.") nil)
+                                 (define-key geiser-repl-mode-map (kbd "M-`") nil)
+                                 ))
 
 (evil-leader/set-key-for-mode 'scheme-mode
   "mj" 'run-geiser
@@ -2003,6 +2009,43 @@ HERE is current position, TOTAL is total matches count."
   "mer" 'geiser-eval-region
   "meR" 'geiser-eval-region-and-go
   )
+
+
+
+;; Ocaml
+(require 'tuareg)
+(require 'merlin)
+(require 'merlin-company)
+(require 'utop)
+(require 'ocp-indent)
+
+(eval-after-load 'tuareg
+  '(progn
+
+     ;; Setup environment variables using opam
+     (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
+       (setenv (car var) (cadr var)))
+
+     ;; Update the emacs path
+     (setq exec-path (append (parse-colon-path (getenv "PATH"))
+                             (list exec-directory)))
+     ))
+
+;; setup mode for Ocaml
+(add-hook 'tuareg-mode-hook (lambda() (setq-local require-final-newline nil)))
+(add-to-list 'auto-mode-alist '("\\.ml[ily]?$" . tuareg-mode))
+(add-to-list 'auto-mode-alist '("\\.topml$" . tuareg-mode))
+
+;; setup REPL utop
+(add-hook 'tuareg-mode-hook 'utop-minor-mode)
+
+;; setup autocomplete
+;; Use opam switch to lookup ocamlmerlin binary
+(setq merlin-command 'opam)
+(add-hook 'tuareg-mode-hook 'merlin-mode)
+(setq merlin-error-after-save nil)
+(add-to-list 'company-backends 'merlin-company-backend)
+
 
 
 ;; Diminish: cleanup mode line
@@ -2021,6 +2064,7 @@ HERE is current position, TOTAL is total matches count."
 (diminish 'anzu-mode)
 (diminish 'beacon-mode)
 (diminish 'emmet-mode)
+(diminish 'auto-revert-mode)
 (add-hook 'hs-minor-mode-hook
           (lambda() (diminish 'hs-minor-mode)))
 (add-hook 'emacs-lisp-mode-hook
