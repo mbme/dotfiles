@@ -842,7 +842,8 @@ narrowed."
    projectile-cache-file (expand-file-name "projectile.cache"         mb-save-path)
    projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" mb-save-path)
    projectile-mode-line '(:eval (format " [%s]" (projectile-project-name)))
-   projectile-completion-system    'helm)
+   projectile-completion-system    'helm
+   projectile-sort-order 'modification-time)
 
   :config
   (use-package helm-projectile
@@ -1617,6 +1618,19 @@ narrowed."
   :config
   (define-key diff-mode-map (kbd "j") 'diff-hunk-next)
   (define-key diff-mode-map (kbd "k") 'diff-hunk-prev))
+
+
+
+;; Git-timemachine: browse through file history
+(use-package git-timemachine
+  :defer t
+  :init (evil-leader/set-key "gt" 'git-timemachine)
+  :config
+  (set-face-attribute 'git-timemachine-minibuffer-detail-face nil :foreground mb-color10)
+
+  (evil-make-overriding-map git-timemachine-mode-map 'normal)
+  ;; force update evil keymaps after git-timemachine-mode loaded
+  (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
 
 
 
