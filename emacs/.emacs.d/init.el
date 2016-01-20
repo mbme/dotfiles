@@ -1210,6 +1210,13 @@ narrowed."
 
 
 
+;; Electric-pair mode: auto insert closing brackets
+;; skip over and delete white space if it stands between the cursor and the closing delimiter
+(setq electric-pair-skip-whitespace 'chomp)
+(electric-pair-mode 1)
+
+
+
 ;; Hideshow-mode: show/hide blocks
 (add-hook 'prog-mode-hook 'hs-minor-mode)
 ;; Hide the comments too when you do a 'hs-hide-all'
@@ -1476,22 +1483,6 @@ narrowed."
 
 
 
-;; Rainbow-mode: highlight colors in text (e.g "red" or #3332F3)
-(use-package rainbow-mode
-  :defer t
-  :diminish rainbow-mode)
-
-
-
-;; Smartparens: deals with parens pairs and highlights them
-(use-package smartparens
-  :diminish smartparens-mode
-  :config
-  (require 'smartparens-config)
-  (smartparens-global-mode))
-
-
-
 ;; Show parens mode: highlight matching parens
 (use-package paren
   :config
@@ -1503,6 +1494,13 @@ narrowed."
         show-paren-style 'expression)
   ;; (set-face-background 'show-paren-match-face mb-color12)
   (show-paren-mode 1))
+
+
+
+;; Rainbow-mode: highlight colors in text (e.g "red" or #3332F3)
+(use-package rainbow-mode
+  :defer t
+  :diminish rainbow-mode)
 
 
 
@@ -1768,7 +1766,6 @@ narrowed."
     "mes" 'cider-eval-last-sexp
     "mz"  'cider-switch-to-repl-buffer)
 
-  (add-hook 'clojure-mode-hook 'smartparens-strict-mode)
   (add-hook 'clojure-mode-hook 'eldoc-mode)
 
   :config
@@ -2002,7 +1999,8 @@ narrowed."
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mer" 'eval-region)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mes" 'eval-last-sexp)
 (add-hook 'emacs-lisp-mode-hook
-          (lambda() (setq mode-name "ELisp")))
+          (lambda()
+            (setq mode-name "ELisp")))
 (add-hook 'lisp-interaction-mode-hook
           (lambda() (setq mode-name "λ")))
 
