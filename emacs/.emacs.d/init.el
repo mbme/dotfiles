@@ -1214,7 +1214,16 @@ narrowed."
 ;; skip over and delete white space if it stands between the cursor and the closing delimiter
 (setq electric-pair-skip-whitespace 'chomp)
 (electric-pair-mode 1)
-
+(eval-when-compile
+  (defvar electric-pair-pairs)
+  (defvar electric-pair-text-pairs)
+  (defvar electric-pair-inhibit-predicate))
+(defun mb/emulate-disabled-electric-pair ()
+  "Disable auto-inserting parens."
+  (setq-local electric-pair-pairs nil)
+  (setq-local electric-pair-text-pairs nil)
+  (setq-local electric-pair-inhibit-predicate #'identity))
+(add-hook 'minibuffer-setup-hook 'mb/emulate-disabled-electric-pair)
 
 
 ;; Hideshow-mode: show/hide blocks
