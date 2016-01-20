@@ -839,11 +839,13 @@ narrowed."
   :init
   ;; variables must be set BEFORE requiring projectile
   (setq-default
-   projectile-cache-file (expand-file-name "projectile.cache"         mb-save-path)
+   projectile-cache-file          (expand-file-name "projectile.cache"         mb-save-path)
    projectile-known-projects-file (expand-file-name "projectile-bookmarks.eld" mb-save-path)
-   projectile-mode-line '(:eval (format " [%s]" (projectile-project-name)))
-   projectile-completion-system    'helm
-   projectile-sort-order 'modification-time)
+
+   projectile-mode-line          '(:eval (format " [%s]" (projectile-project-name)))
+
+   projectile-completion-system  'helm
+   projectile-sort-order         'modification-time)
 
   :config
   (use-package helm-projectile
@@ -853,6 +855,7 @@ narrowed."
     ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
     (setq projectile-switch-project-action 'helm-projectile-recentf))
 
+  (projectile-global-mode)
 
   ;; remove prefix "/:" when detecting base
   ;; dir to avoid issues with command line apps:
@@ -925,7 +928,8 @@ narrowed."
 ;; YASnippet: snippets
 (use-package yasnippet
   :diminish yas-minor-mode
-  :init
+  :config
+  (use-package helm-c-yasnippet)
   (setq helm-yas-display-key-on-candidate t
         helm-yas-space-match-any-greedy   t
         yas-verbosity                       1
@@ -939,7 +943,6 @@ narrowed."
             (lambda ()
               (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
 
-  :config
   ;; disable `yas-expand` on TAB
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -1214,7 +1217,12 @@ narrowed."
 ;; skip over and delete white space if it stands between the cursor and the closing delimiter
 (setq electric-pair-skip-whitespace 'chomp)
 (electric-pair-mode 1)
-
+(defun mb/emulate-disabled-electric-pair ()
+  "Disable auto-inserting parens."
+  (setq-local electric-pair-pairs nil)
+  (setq-local electric-pair-text-pairs nil)
+  (setq-local electric-pair-inhibit-predicate #'identity))
+(add-hook 'minibuffer-setup-hook 'mb/emulate-disabled-electric-pair)
 
 
 ;; Hideshow-mode: show/hide blocks
@@ -1236,8 +1244,14 @@ narrowed."
   :defer t
 
   :init
+  (defun mb/projectile-eshell ()
+    "Open eshell in project root."
+    (interactive)
+    (projectile-with-default-dir (projectile-project-root)
+      (eshell)))
   (evil-leader/set-key
     "e" 'eshell
+    "pe" 'mb/projectile-eshell
     "E" (lambda () (interactive) (eshell t)))
 
   :config
@@ -1427,18 +1441,19 @@ narrowed."
 ;; Flycheck: error checking on the fly
 (use-package flycheck
   :init
-  (setq flycheck-indication-mode 'right-fringe
-        flycheck-temp-prefix "FLYCHECK_XXY")
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
   :config
+  (setq flycheck-indication-mode 'right-fringe
+        flycheck-temp-prefix "FLYCHECK_XXY")
+
   ;; from http://www.lunaryorn.com/2014/07/30/new-mode-line-support-in-flycheck.html
   (setq flycheck-mode-line
         '(:eval
           (pcase flycheck-last-status-change
             (`not-checked nil)
             (`no-checker (propertize " -" 'face 'warning))
-            (`running (propertize " ✷" 'face 'success))
+            (`running (propertize " ..." 'face 'success))
             (`errored (propertize " !" 'face 'error))
             (`finished
              (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
@@ -1550,8 +1565,8 @@ narrowed."
   (define-key emmet-mode-keymap (kbd "C-j") nil))
 
 (defun mb/emmet-jsx ()
-  "Enable emmet with jsx support.
-    It use className instead of class."
+ "Enable emmet with jsx support.
+It use className instead of class."
   (let ((emmet-expand-jsx-className? t))
     (emmet-mode t)))
 
