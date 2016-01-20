@@ -925,7 +925,8 @@ narrowed."
 ;; YASnippet: snippets
 (use-package yasnippet
   :diminish yas-minor-mode
-  :init
+  :config
+  (use-package helm-c-yasnippet)
   (setq helm-yas-display-key-on-candidate t
         helm-yas-space-match-any-greedy   t
         yas-verbosity                       1
@@ -939,7 +940,6 @@ narrowed."
             (lambda ()
               (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
 
-  :config
   ;; disable `yas-expand` on TAB
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
