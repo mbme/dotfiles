@@ -1245,8 +1245,14 @@ narrowed."
   :defer t
 
   :init
+  (defun mb/projectile-eshell ()
+    "Open eshell in project root."
+    (interactive)
+    (projectile-with-default-dir (projectile-project-root)
+      (eshell)))
   (evil-leader/set-key
     "e" 'eshell
+    "pe" 'mb/projectile-eshell
     "E" (lambda () (interactive) (eshell t)))
 
   :config
