@@ -1561,6 +1561,35 @@ narrowed."
 (use-package magit
   :defer t
   :init
+  (evil-leader/set-key
+    "gs" 'magit-status
+    "gl" 'magit-log-all
+    "gL" 'magit-log-buffer-file
+    "gb" 'magit-blame)
+
+  :config
+  (setq magit-last-seen-setup-instructions "1.4.0"
+        vc-follow-symlinks nil
+
+        ;; open magit status in same window as current buffer
+        magit-status-buffer-switch-function 'switch-to-buffer
+        ;; highlight word/letter changes in hunk diffs
+        magit-diff-refine-hunk 'all
+        ;; ask me if I want to include a revision when rewriting
+        magit-rewrite-inclusive 'ask
+        ;; ask me to save buffers
+        magit-save-some-buffers t
+        ;; pop the process buffer if we're taking a while to complete
+        magit-process-popup-time 10
+        ;; don't show " MRev" in modeline
+        magit-auto-revert-mode-lighter ""
+        magit-push-always-verify nil
+        ;; ask me if I want a tracking upstream
+        magit-set-upstream-on-push 'askifnotset)
+
+  (diminish 'auto-revert-mode)
+  (define-key magit-file-section-map (kbd "K") 'magit-discard)
+
   ;; blame
   (evil-define-key 'normal magit-blame-map
     "q"         'magit-blame-mode
@@ -1578,34 +1607,6 @@ narrowed."
     "l" 'magit-key-mode-popup-logging
     "h" 'magit-toggle-diff-refine-hunk)
 
-  (evil-leader/set-key
-    "gs" 'magit-status
-    "gl" 'magit-log-all
-    "gL" 'magit-log-buffer-file
-    "gb" 'magit-blame)
-
-  :config
-  (setq magit-last-seen-setup-instructions "1.4.0"
-        vc-follow-symlinks nil
-
-        ;; open magit status in same window as current buffer
-        magit-status-buffer-switch-function 'switch-to-buffer
-        ;; highlight word/letter changes in hunk diffs
-        magit-diff-refine-hunk t
-        ;; ask me if I want to include a revision when rewriting
-        magit-rewrite-inclusive 'ask
-        ;; ask me to save buffers
-        magit-save-some-buffers t
-        ;; pop the process buffer if we're taking a while to complete
-        magit-process-popup-time 10
-        ;; don't show " MRev" in modeline
-        magit-auto-revert-mode-lighter ""
-        magit-push-always-verify nil
-        ;; ask me if I want a tracking upstream
-        magit-set-upstream-on-push 'askifnotset)
-
-  (diminish 'auto-revert-mode)
-  (define-key magit-file-section-map (kbd "K") 'magit-discard)
   (message "mb: initialized MAGIT"))
 
 
