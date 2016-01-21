@@ -1072,7 +1072,9 @@ narrowed."
 
 ;; Avy-mode: ace-jump replacement
 (use-package avy
-  :bind* ("M-." . avy-goto-word-or-subword-1)
+  :bind*
+  ("M-." . avy-goto-word-or-subword-1)
+  ("M-;" . avy-goto-line)
   :init
   (setq avy-background t
         avy-style 'at-full)
