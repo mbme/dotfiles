@@ -450,6 +450,17 @@ narrowed."
                              ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:=]*)[ \t]*{" 1)
                              )))
 
+;; FIXME check for unsaved changes before running this
+(defun mb/eslint-fix-file ()
+  "Fix some issues in current file using `eslint --fix'."
+  (interactive)
+  (message "mb: eslint --fix this file")
+  (when (buffer-modified-p)
+    (save-buffer))
+  (shell-command (concat "eslint --fix " (buffer-file-name)))
+  ;; revert buffer to see changes in FS
+  (revert-buffer t t))
+
 
 (defun mb/advice-add-to-evil-jump-list (origin-fun &rest args)
   "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
@@ -496,6 +507,14 @@ narrowed."
                (or (nth 2 ret) "")
                (or (nth 3 ret) "")))
     ret))
+
+
+(defun mb/ensure-bin-tool-exists (name)
+  "Check if bin tool `NAME' exists or throw error."
+  (if (executable-find name)
+      (message "MB: found required bin tool %s" name)
+    (error "MB: executable %s not found!" name)))
+
 
 
 ;; ---------------------------------------- PLUGINS
@@ -750,6 +769,8 @@ narrowed."
   (require 'helm-config)
   (require 'helm-imenu)
 
+  (mb/ensure-bin-tool-exists "ag")
+
   (use-package helm-ag
     :config
     (setq helm-ag-use-agignore t
@@ -979,6 +1000,7 @@ narrowed."
 (use-package flyspell
   :diminish flyspell-mode
   :init
+  (mb/ensure-bin-tool-exists "aspell")
   (setq ispell-personal-dictionary (expand-file-name "aspell.en.pws" mb-dotfiles-dir)
         ispell-program-name "aspell" ; use aspell instead of ispell
         ;; ispell-extra-args '("--sug-mode=ultra" "--run-together" "--run-together-limit=5" "--run-together-min=2")
@@ -1024,6 +1046,8 @@ narrowed."
 (use-package editorconfig
   :init
   (editorconfig-mode 1)
+
+  (mb/ensure-bin-tool-exists "editorconfig")
 
   (defun mb/reload-editorconfig ( )
     "Reload editorconfig file and set variables for current major mode."
@@ -1567,7 +1591,7 @@ narrowed."
   (define-key emmet-mode-keymap (kbd "C-j") nil))
 
 (defun mb/emmet-jsx ()
- "Enable emmet with jsx support.
+  "Enable emmet with jsx support.
 It use className instead of class."
   (let ((emmet-expand-jsx-className? t))
     (emmet-mode t)))
@@ -1578,6 +1602,7 @@ It use className instead of class."
 (use-package magit
   :defer t
   :init
+  (mb/ensure-bin-tool-exists "git")
   (evil-leader/set-key
     "gs" 'magit-status
     "gl" 'magit-log-all
@@ -1719,6 +1744,10 @@ It use className instead of class."
               (define-key go-mode-map (kbd "=") nil)))
 
   :config
+  (mb/ensure-bin-tool-exists "gocode")
+  (mb/ensure-bin-tool-exists "go-rename")
+  (mb/ensure-bin-tool-exists "godoc")
+
   ;; use go-rename tool
   (use-package go-rename) ; requires go-rename bin
   (use-package go-eldoc) ; requires godoc bin
@@ -1899,17 +1928,6 @@ It use className instead of class."
         web-mode-css-indent-offset    mb-web-indent-size ; css in html file
         web-mode-code-indent-offset   mb-web-indent-size ; js code in html file
         )
-  (sp-local-pair 'web-mode "<% " " %>")
-  (sp-local-pair 'web-mode "{ " " }")
-  (sp-local-pair 'web-mode "<%= "  " %>")
-  (sp-local-pair 'web-mode "<%# "  " %>")
-  (sp-local-pair 'web-mode "<%$ "  " %>")
-  (sp-local-pair 'web-mode "<%@ "  " %>")
-  (sp-local-pair 'web-mode "<%: "  " %>")
-  (sp-local-pair 'web-mode "{{ "  " }}")
-  (sp-local-pair 'web-mode "{% "  " %}")
-  (sp-local-pair 'web-mode "{%- "  " %}")
-  (sp-local-pair 'web-mode "{# "  " #}")
 
   (evil-leader/set-key-for-mode 'web-mode
     "mr" 'web-mode-element-rename)
@@ -2067,6 +2085,7 @@ It use className instead of class."
 
   :config
   ;; autocomplete
+  (mb/ensure-bin-tool-exists "ocamlmerlin")
   (use-package merlin
     :init
     (require 'merlin-company)
@@ -2077,10 +2096,14 @@ It use className instead of class."
     (setq merlin-error-after-save nil))
 
   ;; repl
+  (mb/ensure-bin-tool-exists "utop")
   (use-package utop)
 
   ;; source code indent
+  (mb/ensure-bin-tool-exists "ocp-indent")
   (use-package ocp-indent)
+
+  (mb/ensure-bin-tool-exists "opam")
 
   ;; Setup environment variables using opam
   (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
