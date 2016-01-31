@@ -1699,6 +1699,8 @@ It use className instead of class."
     "gr" 'diff-hl-revert-hunk
     "gd" 'diff-hl-diff-goto-hunk)
 
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+
   (diff-hl-flydiff-mode)
   (global-diff-hl-mode))
 
