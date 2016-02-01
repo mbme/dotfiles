@@ -373,7 +373,7 @@ Clear field placeholder if field was not modified."
   (interactive)
   (if (> (or company-candidates-length 0) 0)
       (mb/company-complete-common-or-selection)
-    (mb/yas-next-field)))
+    (yas-next-field)))
 
 (defun mb/complete-selection-or-yas-next-field ()
   "Complete selection in company-mode or switch to next yasnippet field."
