@@ -1746,13 +1746,14 @@ It use className instead of class."
               (define-key go-mode-map (kbd "=") nil)))
 
   :config
-  (mb/ensure-bin-tool-exists "gocode")
-  (mb/ensure-bin-tool-exists "go-rename")
-  (mb/ensure-bin-tool-exists "godoc")
+  ;; go get -u golang.org/x/tools/cmd/gorename
+  ;; go build golang.org/x/tools/cmd/gorename
+  (mb/ensure-bin-tool-exists "gorename")
+  (use-package go-rename)
 
-  ;; use go-rename tool
-  (use-package go-rename) ; requires go-rename bin
-  (use-package go-eldoc) ; requires godoc bin
+  ;; go get -u github.com/nsf/gocode
+  (mb/ensure-bin-tool-exists "gocode")
+  (use-package go-eldoc) ; requires gocode bin
   (use-package company-go ; requires gocode bin
     :init
     (setq company-go-insert-arguments nil))
