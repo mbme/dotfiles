@@ -4,6 +4,7 @@
 ;; * Emacs Prelude https://github.com/bbatsov/prelude
 ;; * Emacs Graphene https://github.com/rdallasgray/graphene
 ;; * Spacemacs https://github.com/syl20bnr/spacemacs
+;; * Ohai https://github.com/bodil/ohai-emacs
 ;;; Code:
 
 
@@ -916,16 +917,21 @@ narrowed."
   (setq
    company-idle-delay                0.3
    company-tooltip-limit             20
-   company-minimum-prefix-length     1
+   company-minimum-prefix-length     2
    company-echo-delay                0
    company-auto-complete             nil
    company-selection-wrap-around     t
 
-   ;; company-dabbrev-ignore-case       t
+   company-dabbrev-ignore-case       nil
    company-dabbrev-downcase          nil
 
    company-require-match             nil
-   company-tooltip-align-annotations t)
+   company-tooltip-align-annotations t
+   company-show-numbers              t)
+
+  ;; Sort completion candidates that already occur in the current
+  ;; buffer at the top of the candidate list.
+  (setq company-transformers '(company-sort-by-occurrence))
 
   (delete 'company-xcode company-backends)
   (delete 'company-ropemacs company-backends)
