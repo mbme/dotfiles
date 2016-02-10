@@ -1863,7 +1863,9 @@ It use className instead of class."
 
 ;; JS2 mode
 (use-package js2-mode
-  :mode ("\\.js\\'" . js2-mode)
+  :mode
+  ("\\.js\\'" . js2-mode)
+  ("\\.jsx\\'" . js2-jsx-mode)
   :interpreter ("node" . js2-jsx-mode)
   :config
   ;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
@@ -1888,6 +1890,8 @@ It use className instead of class."
 
   ;; ensure that we're in insert state when inserting js line break
   (advice-add 'js2-line-break :around #'mb/advice-ensure-evil-insert-state)
+
+  (add-hook 'js2-jsx-mode-hook 'mb/emmet-jsx)
   (message "mb: JS2 MODE"))
 
 
@@ -1927,7 +1931,6 @@ It use className instead of class."
   ("\\.handlebars\\'" . web-mode)
   ("\\.hbs\\'"        . web-mode)
   ("\\.eco\\'"        . web-mode)
-  ("\\.jsx\\'"        . web-mode)
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
 
