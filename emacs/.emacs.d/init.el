@@ -1366,7 +1366,6 @@ narrowed."
 (use-package dired
   :ensure nil
   :defer t
-  :init
   :config
   (require 'dired-x)
 
@@ -2165,6 +2164,28 @@ It use className instead of class."
                                 (utop-minor-mode)))
 
   (message "mb: OCAML MODE"))
+
+
+
+;; Shell mode
+(use-package sh-script
+  :ensure nil
+  :defer t
+  :init
+  ;; Use sh-mode when opening `.zsh' files, and when opening Prezto runcoms.
+  (dolist (pattern '("\\.zsh\\'"
+                     "zlogin\\'"
+                     "zlogout\\'"
+                     "zpreztorc\\'"
+                     "zprofile\\'"
+                     "zshenv\\'"
+                     "zshrc\\'"))
+    (add-to-list 'auto-mode-alist (cons pattern 'sh-mode)))
+  :config
+  (use-package company-shell
+    :config (add-to-list 'company-backends 'company-shell))
+  (message "mb: SH MODE"))
+
 
 
 ;; ---------------------------------------- GLOBAL KEYBINDINGS
