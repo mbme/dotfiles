@@ -844,8 +844,8 @@ narrowed."
     "`" 'helm-resume
     "TAB" 'helm-all-mark-rings
 
-    "<SPC>" 'helm-mini
-    "r"     'helm-recentf
+    "h" 'helm-mini
+    "r" 'helm-recentf
 
     "bb" 'helm-buffers-list
     "bm" 'helm-bookmarks
@@ -1106,10 +1106,10 @@ narrowed."
   ("M-." . avy-goto-word-or-subword-1)
   ("M-;" . avy-goto-line)
   :init
-  (setq avy-background t
-        avy-style 'at-full)
+  (setq avy-background  t
+        avy-all-windows 'all-frames
+        avy-style       'at-full)
 
-  (evil-leader/set-key "." 'avy-goto-word-or-subword-1)
   (global-unset-key (kbd "M-,"))
 
   ;; free key for avy-jump
@@ -1400,8 +1400,19 @@ narrowed."
   :diminish beacon-mode
   :config
   (beacon-mode 1)
-  (setq beacon-push-mark 35)
-  (setq beacon-color mb-color9))
+  (setq beacon-push-mark 35
+        beacon-color     mb-color9)
+
+  (defun mb/advice-highlight-beacon (origin-fun &rest args)
+    "Highlight cursor position after executing ORIGIN-FUN with ARGS."
+    (apply origin-fun args)
+    (beacon-blink))
+
+  (advice-add 'evil-jump-backward :around #'mb/advice-highlight-beacon) ; Ctrl-o
+  (advice-add 'evil-jump-forward :around #'mb/advice-highlight-beacon) ; Ctrl-i
+
+  (advice-add 'evil-avy-goto-line :around #'mb/advice-highlight-beacon)
+  (advice-add 'evil-avy-goto-word-or-subword-1 :around #'mb/advice-highlight-beacon))
 
 
 
@@ -1524,9 +1535,11 @@ narrowed."
 
 ;; Expand-region: expand selection like C-w in intellij idea
 (use-package expand-region
-  :bind
-  ("M-w" . er/expand-region)
-  ("M-W" . er/contract-region))
+  :defer t
+  :init
+  (evil-leader/set-key "v" 'er/expand-region)
+  (setq expand-region-contract-fast-key "V"
+        expand-region-reset-fast-key    "r"))
 
 
 
@@ -1632,6 +1645,10 @@ It use className instead of class."
         ;; don't show " MRev" in modeline
         magit-auto-revert-mode-lighter ""
         magit-push-always-verify nil
+
+        ;; max length of first line of commit message
+        git-commit-summary-max-length 70
+
         ;; ask me if I want a tracking upstream
         magit-set-upstream-on-push 'askifnotset)
 
