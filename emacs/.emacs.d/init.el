@@ -685,8 +685,14 @@ narrowed."
 
   (define-key evil-insert-state-map [escape] 'evil-normal-state)
 
+  (evil-add-hjkl-bindings package-menu-mode-map 'emacs
+    "H" 'package-menu-quick-help)
+
   ;; disable man look up
   (define-key evil-motion-state-map "K" nil)
+  ;; insert newline only in emacs state
+  (define-key evil-motion-state-map (kbd "RET") (lambda () (interactive) (when (evil-emacs-state-p) (newline))))
+  (define-key evil-motion-state-map (kbd " ") nil)
 
   ;; in many modes q is close/exit etc., so leave it unbound
   (define-key evil-normal-state-map "q" nil)
@@ -844,7 +850,7 @@ narrowed."
     "`" 'helm-resume
     "TAB" 'helm-all-mark-rings
 
-    "h" 'helm-mini
+    "<SPC>" 'helm-mini
     "r" 'helm-recentf
 
     "bb" 'helm-buffers-list
@@ -1548,8 +1554,8 @@ narrowed."
 (use-package expand-region
   :defer t
   :init
-  (evil-leader/set-key "v" 'er/expand-region)
-  (setq expand-region-contract-fast-key "V"
+  (evil-leader/set-key "w" 'er/expand-region)
+  (setq expand-region-contract-fast-key "W"
         expand-region-reset-fast-key    "r"))
 
 
@@ -1671,7 +1677,7 @@ It use className instead of class."
     "q"         'magit-blame-mode
     "j"         'magit-blame-next-chunk
     "k"         'magit-blame-previous-chunk
-    (kbd "RET") 'magit-blame-locate-commit)
+    (kbd "RET") 'magit-show-commit)
 
   (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
   (evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
