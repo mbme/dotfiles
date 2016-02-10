@@ -1281,19 +1281,6 @@ narrowed."
 (add-hook 'minibuffer-setup-hook 'mb/emulate-disabled-electric-pair)
 
 
-;; Hideshow-mode: show/hide blocks
-(add-hook 'prog-mode-hook 'hs-minor-mode)
-;; Hide the comments too when you do a 'hs-hide-all'
-(setq hs-hide-comments nil)
-(add-hook 'hs-minor-mode-hook
-          (lambda() (diminish 'hs-minor-mode)))
-
-
-
-;; Winner mode: undo/redo windows configuration
-(winner-mode 1)
-
-
 
 ;; Eshell
 (use-package eshell
