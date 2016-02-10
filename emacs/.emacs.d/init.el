@@ -1143,6 +1143,30 @@ narrowed."
 
 
 
+;; Ace-window: switch windows
+(use-package ace-window
+  :bind*
+  ("M-w" . ace-window)
+  :config
+  (defun mb/other-window ()
+    (other-window 1))
+  (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l))
+  (setq aw-dispatch-always t)
+  (setq aw-dispatch-alist
+        '((?w mb/other-window)
+          (?q evil-window-delete) ; delete focused window
+          (?Q aw-delete-window " Ace - Delete Window") ; select which window to delete
+          (?p aw-flip-window) ; focus previous window
+          (?m aw-swap-window " Ace - Swap Window")
+
+          (?v aw-split-window-vert " Ace - Split Vert Window")
+          (?h aw-split-window-horz " Ace - Split Horz Window")
+
+          (?o delete-other-windows)
+          (?O delete-other-windows " Ace - Maximize Window"))))
+
+
+
 
 ;; Linum-mode: show line numbers
 ;; disabled: currently company mode breaks it
@@ -2172,7 +2196,6 @@ It use className instead of class."
 (global-set-key (kbd "C-c l")   'mb/cleanup-buffer)
 (global-set-key (kbd "C-c t")   'mb/sort-columns)
 (global-set-key (kbd "C-x e")   'mb/eval-and-replace)
-(global-set-key (kbd "C-x C-o") 'other-window)
 (global-set-key [M-tab]         'mb/prev-buffer)
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
 
@@ -2185,8 +2208,6 @@ It use className instead of class."
 
 ;; NOTE: m is reserved for mode-local bindings
 (evil-leader/set-key
-  "o" 'other-window
-
   "2"  'call-last-kbd-macro
   ","  'mb/prev-buffer
   "n"  'mb/narrow-or-widen-dwim
