@@ -24,7 +24,7 @@ alias cd..='cd ..'
 
 alias ydl='noglob youtube-dl -o "%(title)s.%(ext)s"'
 alias ydl-mp3='noglob youtube-dl -x --audio-format mp3 -o "%(title)s.%(ext)s"'
-alias zip-package'7z a -mx=0'
+alias zip-package='7z a -mx=0'
 
 # Source local config
 if [[ -s "$HOME/.zshrc_local" ]]; then
