@@ -1182,7 +1182,7 @@ narrowed."
 
 
 ;; Hl-line mode: highlight current line
-;; (global-hl-line-mode 0)
+(global-hl-line-mode t)
 ;; (set-face-background 'hl-line mb-color13)
 
 
