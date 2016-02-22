@@ -1435,9 +1435,6 @@ narrowed."
 ;; Powerline
 (use-package powerline
   :config
-  ;; Nyan mode
-  (use-package nyan-mode :config (nyan-mode t))
-
   ;; from https://github.com/raugturi/powerline-evil
   (defun mb/powerline-evil-tag ()
     "Get customized tag value for current evil state."
@@ -1476,9 +1473,7 @@ narrowed."
                                        (powerline-raw " " face1)
                                        (powerline-process face1)
                                        (powerline-narrow face1 'r)
-                                       (funcall separator-left face1 face2)
-                                       (when (bound-and-true-p nyan-mode)
-                                         (powerline-raw (list (nyan-create)) face2 'l))))
+                                       (funcall separator-left face1 face2)))
                             (rhs (list (powerline-raw global-mode-string face2 'r)
                                        (when (and (boundp 'anzu--state) anzu--state)
                                          (powerline-raw (anzu--update-mode-line) face2))
