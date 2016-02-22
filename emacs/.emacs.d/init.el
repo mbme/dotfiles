@@ -1109,7 +1109,7 @@ narrowed."
 ;; Avy-mode: ace-jump replacement
 (use-package avy
   :bind*
-  ("M-." . avy-goto-word-or-subword-1)
+  ("M-." . avy-goto-word-or-subword-1) ;; FIXME remove this
   ("M-;" . avy-goto-line)
   :init
   (setq avy-background  t
@@ -1118,6 +1118,7 @@ narrowed."
 
   (global-unset-key (kbd "M-,"))
 
+  (define-key evil-normal-state-map (kbd ";") 'avy-goto-word-or-subword-1)
   ;; free key for avy-jump
   (define-key evil-normal-state-map (kbd "M-.") nil))
 
