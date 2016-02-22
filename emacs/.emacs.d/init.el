@@ -1868,6 +1868,31 @@ It use className instead of class."
 
 
 
+;; C-based languages like Java
+(use-package cc-mode
+  :ensure nil
+  :defer t
+  :config
+
+  (defvar flycheck-antrc "build.xml" "Ant build file name.")
+
+  (flycheck-define-checker java
+    "Java syntax checker using ant."
+    :command ("ant" "-e"
+              (config-file "-buildfile"flycheck-antrc)
+              "compile")
+    :error-patterns
+    ((error line-start (file-name) ":" line ": error:"
+            (message (zero-or-more not-newline)) line-end))
+    :modes java-mode)
+
+  (add-to-list 'flycheck-checkers 'java)
+  (add-hook 'java-mode-hook (lambda () (setq flycheck-check-syntax-automatically '(mode-enabled save))))
+
+  (message "mb: CC MODE"))
+
+
+
 ;; Javascript
 (use-package js-mode
   :defer t
