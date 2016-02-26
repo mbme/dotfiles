@@ -1624,8 +1624,9 @@ narrowed."
 (defun mb/emmet-jsx ()
   "Enable emmet with jsx support.
 It use className instead of class."
-  (let ((emmet-expand-jsx-className? t))
-    (emmet-mode t)))
+  (interactive)
+  (setq emmet-expand-jsx-className? t)
+  (emmet-mode t))
 
 
 
@@ -1945,7 +1946,7 @@ It use className instead of class."
   ;; ensure that we're in insert state when inserting js line break
   (advice-add 'js2-line-break :around #'mb/advice-ensure-evil-insert-state)
 
-  (add-hook 'js2-jsx-mode-hook 'mb/emmet-jsx)
+  (add-hook 'js2-jsx-mode-hook (lambda () (mb/emmet-jsx)))
   (message "mb: JS2 MODE"))
 
 
