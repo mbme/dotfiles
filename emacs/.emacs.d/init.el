@@ -1071,16 +1071,6 @@ narrowed."
 
 
 
-;; Ethan-wspace manage whitespace
-(use-package ethan-wspace
-  :diminish ethan-wspace-mode
-  :config
-  (setq mode-require-final-newline nil
-        require-final-newline nil)
-  (global-ethan-wspace-mode 1))
-
-
-
 ;; Anzu: show current search match/total matches
 (use-package anzu
   :diminish anzu-mode
@@ -1316,6 +1306,8 @@ narrowed."
   (add-hook 'eshell-mode-hook '(lambda ()
                                  (add-to-list 'eshell-visual-commands "htop")
                                  (add-to-list 'eshell-visual-commands "ranger")
+                                 (add-to-list 'eshell-visual-commands "tig")
+                                 (add-to-list 'eshell-visual-commands "vim")
 
                                  (define-key eshell-mode-map [tab] 'company-manual-begin)
                                  (define-key eshell-mode-map [M-tab] 'mb/prev-buffer)
@@ -1325,10 +1317,14 @@ narrowed."
 
                                  (define-key eshell-mode-map (kbd "M-q") 'eshell-push-command)
 
+                                 (mb/no-highlight-whitespace)
+
                                  ;; use helm to show candidates
                                  (define-key eshell-mode-map [remap eshell-pcomplete] 'helm-esh-pcomplete)
                                  ;; use helm to show history
                                  (substitute-key-definition 'eshell-list-history 'helm-eshell-history eshell-mode-map)))
+
+  (add-hook 'term-mode-hook 'mb/no-highlight-whitespace)
 
   ;; override default eshell `clear' command.
   (defun eshell/clear ()
@@ -1592,14 +1588,34 @@ narrowed."
 
 
 
+;; Ethan-wspace manage whitespace
+(use-package ethan-wspace
+  :diminish ethan-wspace-mode
+  :config
+  (setq mode-require-final-newline nil
+        require-final-newline nil)
+  (global-ethan-wspace-mode 1))
+
+
+
 ;; Highlight-chars: highlight tabs and trailing whitespace
+(defvar mb-highlight-chars t "If highlight-chars should be enabled or not.")
+(make-variable-buffer-local 'mb-highlight-chars)
+
+(defun mb/no-highlight-whitespace ()
+  "Disable whitespace highlighting."
+  (interactive)
+  (ethan-wspace-mode 0)
+  (setq mb-highlight-chars nil))
+
 (use-package highlight-chars
   :config
   (add-hook 'font-lock-mode-hook (lambda ()
-                                   (hc-highlight-trailing-whitespace)
-                                   (hc-highlight-hard-hyphens)
-                                   (hc-highlight-hard-spaces)
-                                   (hc-highlight-tabs))))
+                                   (when mb-highlight-chars
+                                     (hc-highlight-trailing-whitespace)
+                                     (hc-highlight-hard-hyphens)
+                                     (hc-highlight-hard-spaces)
+                                     (hc-highlight-tabs)))))
 
 
 
@@ -1666,6 +1682,8 @@ It use className instead of class."
 
   (diminish 'auto-revert-mode)
   (define-key magit-file-section-map (kbd "K") 'magit-discard)
+
+  (add-hook 'magit-mode-hook 'mb/no-highlight-whitespace)
 
   ;; blame
   (evil-define-key 'normal magit-blame-map
@@ -1746,11 +1764,14 @@ It use className instead of class."
 
 
 ;; Makefile mode
-(add-hook 'makefile-mode-hook
-          (lambda ()
-            ;; Turn on tabs
-            (setq indent-tabs-mode t)
-            (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors))))
+
+(defun mb/disable-ethan-wspace ()
+  (setq tab-width        8
+        indent-tabs-mode 1)
+  (ethan-wspace-mode 0))
+
+(add-hook 'makefile-mode-hook 'mb/disable-ethan-wspace)
+(add-hook 'makefile-bsdmake-mode-hook 'mb/disable-ethan-wspace)
 
 
 
