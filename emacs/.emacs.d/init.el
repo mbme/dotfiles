@@ -1408,27 +1408,6 @@ narrowed."
 
 
 
-;; Beacon-mode: highlight cursor position on scroll
-(use-package beacon
-  :diminish beacon-mode
-  :config
-  (beacon-mode 1)
-  (setq beacon-push-mark 35
-        beacon-color     mb-color9)
-
-  (defun mb/advice-highlight-beacon (origin-fun &rest args)
-    "Highlight cursor position after executing ORIGIN-FUN with ARGS."
-    (apply origin-fun args)
-    (beacon-blink))
-
-  (advice-add 'evil-jump-backward :around #'mb/advice-highlight-beacon) ; Ctrl-o
-  (advice-add 'evil-jump-forward :around #'mb/advice-highlight-beacon) ; Ctrl-i
-
-  (advice-add 'evil-avy-goto-line :around #'mb/advice-highlight-beacon)
-  (advice-add 'evil-avy-goto-word-or-subword-1 :around #'mb/advice-highlight-beacon))
-
-
-
 ;; Powerline
 (use-package powerline
   :config
