@@ -1608,18 +1608,11 @@ narrowed."
 
 ;; highlight max line length
 (use-package fill-column-indicator
-  :ensure nil
+  :ensure t
+  :defer t
   :init
   (setq fci-rule-width 1)
-
-  (define-globalized-minor-mode global-fci-mode fci-mode
-    (lambda () ;; ignore special buffers and dired
-      (if (and
-           (not (string-match "^\*.*\*$" (buffer-name)))
-           (not (eq major-mode 'dired-mode)))
-          (fci-mode 1))))
-
-  (global-fci-mode 1))
+  (add-hook 'prog-mode-hook 'fci-mode))
 
 
 
