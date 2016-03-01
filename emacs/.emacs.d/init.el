@@ -89,9 +89,6 @@
 
 (require 'bind-key)
 
-;; make use-package always check and download missing packages
-(setq use-package-always-ensure t)
-
 ;; create temp files dir if it does not exists
 (unless (file-exists-p mb-save-path)
   (make-directory mb-save-path))
@@ -244,12 +241,6 @@
  py-indent-offset   mb-tab-size
  nxml-child-indent  mb-tab-size)
 
-;; Set the default formatting styles for various C based modes.
-;; Particularly, change the default style from GNU to Java.
-(setq c-default-style
-      '((awk-mode . "awk")
-        (other . "java")))
-
 (setq-default
  ;; Sentences do not need double spaces to end
  sentence-end-double-space nil
@@ -352,37 +343,6 @@ It wouldn't be associated with the buffer."
       (call-interactively 'company-complete-common)
       (when (eq tick (buffer-chars-modified-tick))
         (call-interactively 'company-complete-selection)))))
-
-
-(defun mb/yas-next-field ()
-  "Switch to next yasnippet field.
-Clear field placeholder if field was not modified."
-  (interactive)
-  (let ((field (and yas--active-field-overlay
-                    (overlay-buffer yas--active-field-overlay)
-                    (overlay-get yas--active-field-overlay 'yas--field))))
-    (if (and field
-             (not (yas--field-modified-p field))
-             (eq (point) (marker-position (yas--field-start field))))
-        (progn
-          (yas--skip-and-clear field)
-          (yas-next-field 1))
-      (yas-next-field-or-maybe-expand))))
-
-(defun mb/complete-common-or-yas-next-field ()
-  "Complete common prefix in company-mode or switch to next yasnippet field."
-  (interactive)
-  (if (> (or company-candidates-length 0) 0)
-      (mb/company-complete-common-or-selection)
-    (yas-next-field)))
-
-(defun mb/complete-selection-or-yas-next-field ()
-  "Complete selection in company-mode or switch to next yasnippet field."
-  (interactive)
-  (if (> (or company-candidates-length 0) 0)
-      (company-complete-selection)
-    (mb/yas-next-field)))
-
 
 
 (defun mb/eval-and-replace ()
@@ -514,7 +474,7 @@ narrowed."
   "Check if bin tool `NAME' exists or throw error."
   (if (executable-find name)
       (message "MB: found required bin tool %s" name)
-    (error "MB: executable %s not found!" name)))
+    (warn "MB: executable %s not found!" name)))
 
 
 
@@ -524,6 +484,8 @@ narrowed."
 
 ;; Fix PATH on Mac
 (use-package exec-path-from-shell
+  :ensure t
+
   :if mb-is-mac-os
 
   :config
@@ -541,19 +503,21 @@ narrowed."
 
 ;; Dash.el modern list library (helpers)
 (use-package dash
+  :ensure t
   :config (dash-enable-font-lock))
 
 
 
 ;; s.el strings manipulation library
-(use-package s)
+(use-package s
+  :ensure t)
 
 
 
 ;; Solarized theme
 (use-package solarized-theme
+  :ensure t
   :config
-
   ;; selection (region) colors
   (set-face-attribute 'region nil
                       :background mb-color12
@@ -566,6 +530,7 @@ narrowed."
 ;; Undo-tree: save/show undo tree
 ;; also required by evil
 (use-package undo-tree
+  :ensure t
   :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
@@ -575,7 +540,21 @@ narrowed."
 
 
 ;; Evil: vim mode
+
+;; enable subword mode CamelCase movement in evil
+(define-category ?U "Uppercase")
+(define-category ?u "Lowercase")
+(modify-category-entry (cons ?A ?Z) ?U)
+(modify-category-entry (cons ?a ?z) ?u)
+(make-variable-buffer-local 'evil-cjk-word-separating-categories)
+(add-hook 'subword-mode-hook
+          '(lambda ()
+             (if subword-mode
+                 (push '(?u . ?U) evil-cjk-word-separating-categories)
+               (setq evil-cjk-word-separating-categories (default-value 'evil-cjk-word-separating-categories)))))
+
 (use-package evil
+  :ensure t
   ;; this must be set before loading evil
   :init
   ;; use C-u as scroll-up
@@ -586,6 +565,7 @@ narrowed."
   :config
   ;; vim leader feature
   (use-package evil-leader
+    :ensure t
     :config
     (setq evil-leader/in-all-states     t
           evil-leader/non-normal-prefix "M-")
@@ -595,24 +575,29 @@ narrowed."
 
   ;; emulates surround.vim
   (use-package evil-surround
+    :ensure t
     :config (global-evil-surround-mode 1))
 
   ;; search for selected text with * and #
   (use-package evil-visualstar
+    :ensure t
     :config (global-evil-visualstar-mode 1))
 
   ;; match braces/tags with %
   (use-package evil-matchit
+    :ensure t
     :config
     (global-evil-matchit-mode 1)
     (advice-add 'evilmi-jump-items :around #'mb/advice-add-to-evil-jump-list))
 
   ;; exchange with objects
   (use-package evil-exchange
+    :ensure t
     :config (evil-exchange-install))
 
   ;; comment/uncomment
   (use-package evil-nerd-commenter
+    :ensure t
     :config
     (evil-leader/set-key
       "ci" 'evilnc-comment-or-uncomment-lines
@@ -636,18 +621,6 @@ narrowed."
    evil-move-cursor-back nil
    ;; search for whole words not only for part
    evil-symbol-word-search 'symbol)
-
-  ;; enable subword mode CamelCase movement in evil
-  (define-category ?U "Uppercase")
-  (define-category ?u "Lowercase")
-  (modify-category-entry (cons ?A ?Z) ?U)
-  (modify-category-entry (cons ?a ?z) ?u)
-  (make-variable-buffer-local 'evil-cjk-word-separating-categories)
-  (add-hook 'subword-mode-hook
-            '(lambda ()
-               (if subword-mode
-                   (push '(?u . ?U) evil-cjk-word-separating-categories)
-                 (setq evil-cjk-word-separating-categories (default-value 'evil-cjk-word-separating-categories)))))
 
   ;; Exit to normal state after save
   (add-hook 'after-save-hook 'evil-normal-state)
@@ -716,9 +689,11 @@ narrowed."
   :config
   ;; smarter fuzzy matching for ido
   (use-package flx-ido
+    :ensure t
     :config (flx-ido-mode 1))
   ;; vertical menu for ido
   (use-package ido-vertical-mode
+    :ensure t
     :config (ido-vertical-mode 1))
 
   (setq
@@ -761,6 +736,7 @@ narrowed."
 
 ;; Better ido-based M-x
 (use-package smex
+  :ensure t
   :bind ("M-`" . smex-major-mode-commands)
   :config
   (setq smex-save-file (expand-file-name "smex-items" mb-save-path))
@@ -770,7 +746,22 @@ narrowed."
 
 ;; Helm
 (use-package helm
+  :ensure t
   :diminish helm-mode
+  :defines
+  helm-scroll-amount
+  helm-ff-search-library-in-sexp
+  helm-ff-file-name-history-use-recentf
+  helm-mode-handle-completion-in-region
+  helm-M-x-fuzzy-match
+  helm-buffers-fuzzy-matching
+  helm-recentf-fuzzy-match
+  helm-mode-fuzzy-match
+  helm-imenu-fuzzy-match
+  helm-semantic-fuzzy-match
+  helm-locate-fuzzy-match
+  helm-apropos-fuzzy-match
+  helm-source-imenu
 
   :config
   (require 'helm-config)
@@ -779,6 +770,7 @@ narrowed."
   (mb/ensure-bin-tool-exists "ag")
 
   (use-package helm-ag
+    :ensure t
     :config
     (setq helm-ag-use-agignore t
           helm-ag-fuzzy-match t))
@@ -864,6 +856,7 @@ narrowed."
 
 ;; Projectile: project management tool
 (use-package projectile
+  :ensure t
   :init
   ;; variables must be set BEFORE requiring projectile
   (setq-default
@@ -877,6 +870,7 @@ narrowed."
 
   :config
   (use-package helm-projectile
+    :ensure t
     :config
     (helm-projectile-on)
 
@@ -918,7 +912,11 @@ narrowed."
 
 ;; Company-mode: autocomplete
 (use-package company
+  :ensure t
   :diminish company-mode
+  :defines
+  company-dabbrev-ignore-case
+  company-dabbrev-downcase
   :config
   (setq
    company-idle-delay                0.3
@@ -960,9 +958,10 @@ narrowed."
 
 ;; YASnippet: snippets
 (use-package yasnippet
+  :ensure t
   :diminish yas-minor-mode
   :config
-  (use-package helm-c-yasnippet)
+  (use-package helm-c-yasnippet :ensure t)
   (setq helm-yas-display-key-on-candidate t
         helm-yas-space-match-any-greedy   t
         yas-verbosity                       1
@@ -971,14 +970,38 @@ narrowed."
 
   (yas-global-mode)
 
-  ;; do not highlight missing new line at the end of the snippet file
-  (add-hook 'snippet-mode-hook
-            (lambda ()
-              (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
-
   ;; disable `yas-expand` on TAB
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
+
+  (defun mb/yas-next-field ()
+    "Switch to next yasnippet field.
+Clear field placeholder if field was not modified."
+    (interactive)
+    (let ((field (and yas--active-field-overlay
+                      (overlay-buffer yas--active-field-overlay)
+                      (overlay-get yas--active-field-overlay 'yas--field))))
+      (if (and field
+               (not (yas--field-modified-p field))
+               (eq (point) (marker-position (yas--field-start field))))
+          (progn
+            (yas--skip-and-clear field)
+            (yas-next-field 1))
+        (yas-next-field-or-maybe-expand))))
+
+  (defun mb/complete-common-or-yas-next-field ()
+    "Complete common prefix in company-mode or switch to next yasnippet field."
+    (interactive)
+    (if (> (or company-candidates-length 0) 0)
+        (mb/company-complete-common-or-selection)
+      (yas-next-field)))
+
+  (defun mb/complete-selection-or-yas-next-field ()
+    "Complete selection in company-mode or switch to next yasnippet field."
+    (interactive)
+    (if (> (or company-candidates-length 0) 0)
+        (company-complete-selection)
+      (mb/yas-next-field)))
 
   (setq yas-keymap
         (let ((map (make-sparse-keymap)))
@@ -1010,6 +1033,7 @@ narrowed."
 
 ;; Flyspell-mode: spell-checking on the fly as you type
 (use-package flyspell
+  :ensure t
   :diminish flyspell-mode
   :init
   (mb/ensure-bin-tool-exists "aspell")
@@ -1024,7 +1048,8 @@ narrowed."
                               ))
   :config
   ;; helm interface for flyspell
-  (use-package helm-flyspell)
+  (use-package helm-flyspell
+    :ensure t)
 
   (global-set-key [f8]    'helm-flyspell-correct)
   (global-set-key [M-f8]  'flyspell-buffer))
@@ -1056,6 +1081,7 @@ narrowed."
 
 ;; EditorConfig
 (use-package editorconfig
+  :ensure t
   :init
   (editorconfig-mode 1)
 
@@ -1073,6 +1099,7 @@ narrowed."
 
 ;; Anzu: show current search match/total matches
 (use-package anzu
+  :ensure t
   :diminish anzu-mode
   :init
   (setq anzu-cons-mode-line-p nil)
@@ -1092,12 +1119,15 @@ narrowed."
   (setq anzu-mode-line-update-function 'mb/anzu-update-mode-line)
   (global-anzu-mode t)
 
-  :config (use-package evil-anzu))
+  :config
+  (use-package evil-anzu
+    :ensure t))
 
 
 
 ;; Avy-mode: ace-jump replacement
 (use-package avy
+  :ensure t
   :bind*
   ("M-." . avy-goto-word-or-subword-1) ;; FIXME remove this
   ("M-;" . avy-goto-line)
@@ -1116,10 +1146,12 @@ narrowed."
 
 ;; Swiper: better search using ivy (ido alternative)
 (use-package swiper
+  :ensure t
   :diminish ivy-mode
   :config
   ;; additional functions for ivy
-  (use-package counsel)
+  (use-package counsel
+    :ensure t)
 
   (ivy-mode 1)
 
@@ -1142,6 +1174,7 @@ narrowed."
 
 ;; Ace-window: switch windows
 (use-package ace-window
+  :ensure t
   :bind*
   ("M-w" . ace-window)
   :config
@@ -1268,14 +1301,17 @@ narrowed."
 
 ;; Electric-pair mode: auto insert closing brackets
 ;; skip over and delete white space if it stands between the cursor and the closing delimiter
-(setq electric-pair-skip-whitespace 'chomp)
-(electric-pair-mode 1)
-(defun mb/emulate-disabled-electric-pair ()
-  "Disable auto-inserting parens."
-  (setq-local electric-pair-pairs nil)
-  (setq-local electric-pair-text-pairs nil)
-  (setq-local electric-pair-inhibit-predicate #'identity))
-(add-hook 'minibuffer-setup-hook 'mb/emulate-disabled-electric-pair)
+(use-package elec-pair
+  :init
+  (setq electric-pair-skip-whitespace 'chomp)
+  :config
+  (electric-pair-mode 1)
+  (defun mb/emulate-disabled-electric-pair ()
+    "Disable auto-inserting parens."
+    (setq-local electric-pair-pairs nil)
+    (setq-local electric-pair-text-pairs nil)
+    (setq-local electric-pair-inhibit-predicate #'identity))
+  (add-hook 'minibuffer-setup-hook 'mb/emulate-disabled-electric-pair))
 
 
 
@@ -1298,6 +1334,7 @@ narrowed."
   ;; half-way through typing a long command and need something else,
   ;; just M-q to hide it, type the new command, and continue where I left off.
   (use-package esh-buf-stack
+    :ensure t
     :config (setup-eshell-buf-stack))
 
   (setq eshell-scroll-to-bottom-on-input t)
@@ -1336,17 +1373,20 @@ narrowed."
 
 ;; Hippie expand is dabbrev expand on steroids
 ;; do not split words on _ and -
-(setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_\-]")
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                         try-expand-dabbrev-all-buffers
-                                         try-expand-dabbrev-from-kill
-                                         try-complete-file-name-partially
-                                         try-complete-file-name
-                                         try-expand-all-abbrevs
-                                         try-expand-list
-                                         try-expand-line))
-
-(global-set-key (kbd "M-/") 'hippie-expand)
+(use-package hippie-exp
+  :bind* ("M-/" . hippie-expand)
+  :config
+  (use-package dabbrev
+    :init
+    (setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_\-]"))
+  (setq hippie-expand-try-functions-list '(try-expand-dabbrev
+                                           try-expand-dabbrev-all-buffers
+                                           try-expand-dabbrev-from-kill
+                                           try-complete-file-name-partially
+                                           try-complete-file-name
+                                           try-expand-all-abbrevs
+                                           try-expand-list
+                                           try-expand-line)))
 
 
 
@@ -1361,7 +1401,6 @@ narrowed."
 
 ;; Dired
 (use-package dired
-  :ensure nil
   :defer t
   :config
   (require 'dired-x)
@@ -1403,6 +1442,7 @@ narrowed."
 ;; Volatile-highlights: momentarily highlight changes
 ;; made by commands such as undo, yank-pop, etc.
 (use-package volatile-highlights
+  :ensure t
   :diminish volatile-highlights-mode
   :config (volatile-highlights-mode t))
 
@@ -1410,6 +1450,7 @@ narrowed."
 
 ;; Powerline
 (use-package powerline
+  :ensure t
   :config
   ;; from https://github.com/raugturi/powerline-evil
   (defun mb/powerline-evil-tag ()
@@ -1470,6 +1511,7 @@ narrowed."
 
 ;; Flycheck: error checking on the fly
 (use-package flycheck
+  :ensure t
   :init
   (add-hook 'after-init-hook #'global-flycheck-mode)
 
@@ -1522,6 +1564,7 @@ narrowed."
 
 ;; Expand-region: expand selection like C-w in intellij idea
 (use-package expand-region
+  :ensure t
   :defer t
   :init
   (evil-leader/set-key "w" 'er/expand-region)
@@ -1546,6 +1589,7 @@ narrowed."
 
 ;; Rainbow-mode: highlight colors in text (e.g "red" or #3332F3)
 (use-package rainbow-mode
+  :ensure t
   :defer t
   :diminish rainbow-mode)
 
@@ -1553,6 +1597,7 @@ narrowed."
 
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
+  :ensure t
   :defer
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
@@ -1561,6 +1606,7 @@ narrowed."
 
 ;; Highlight-indentation: highlight indentation columns
 (use-package highlight-indentation
+  :ensure t
   :config
   (set-face-background 'highlight-indentation-face mb-color12)
   (set-face-background 'highlight-indentation-current-column-face mb-color13))
@@ -1569,10 +1615,17 @@ narrowed."
 
 ;; Ethan-wspace manage whitespace
 (use-package ethan-wspace
+  :ensure t
   :diminish ethan-wspace-mode
   :config
   (setq mode-require-final-newline nil
         require-final-newline nil)
+
+  ;; do not highlight missing new line at the end of the snippet file
+  (add-hook 'snippet-mode-hook
+            (lambda ()
+              (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
+
   (global-ethan-wspace-mode 1))
 
 
@@ -1588,6 +1641,7 @@ narrowed."
   (setq mb-highlight-chars nil))
 
 (use-package highlight-chars
+  :ensure t
   :config
   (add-hook 'font-lock-mode-hook (lambda ()
                                    (when mb-highlight-chars
@@ -1600,6 +1654,7 @@ narrowed."
 
 ;; highlight todos
 (use-package hl-todo
+  :ensure t
   :config
   (setq hl-todo-activate-in-modes '(prog-mode))
   (global-hl-todo-mode))
@@ -1618,6 +1673,7 @@ narrowed."
 
 ;; Emmet mode
 (use-package emmet-mode
+  :ensure t
   :defer t
   ;; :diminish emmet-mode
   :init
@@ -1637,7 +1693,17 @@ It use className instead of class."
 
 ;; Magit: UI for git
 (use-package magit
+  :ensure t
   :defer t
+  :defines
+  magit-last-seen-setup-instructions
+  magit-status-buffer-switch-function
+  magit-rewrite-inclusive
+  magit-save-some-buffers
+  magit-auto-revert-mode-lighter
+  magit-push-always-verify
+  magit-set-upstream-on-push
+
   :init
   (mb/ensure-bin-tool-exists "git")
   (evil-leader/set-key
@@ -1698,6 +1764,7 @@ It use className instead of class."
 
 ;; Git-diff mode
 (use-package diff-mode
+  :ensure t
   :defer t
   :config
   (define-key diff-mode-map (kbd "j") 'diff-hunk-next)
@@ -1707,6 +1774,7 @@ It use className instead of class."
 
 ;; Git-timemachine: browse through file history
 (use-package git-timemachine
+  :ensure t
   :defer t
   :init (evil-leader/set-key "gt" 'git-timemachine)
   :config
@@ -1720,18 +1788,21 @@ It use className instead of class."
 
 ;; Git-config mode
 (use-package gitconfig-mode
+  :ensure t
   :defer t)
 
 
 
 ;; Git-ignore mode
 (use-package gitignore-mode
+  :ensure t
   :defer t)
 
 
 
 ;; Diff-hl: highlight changes in gutter
 (use-package diff-hl
+  :ensure t
   :config
   (setq diff-hl-draw-borders nil)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode)
@@ -1756,6 +1827,7 @@ It use className instead of class."
 ;; Makefile mode
 
 (defun mb/disable-ethan-wspace ()
+  "Disable whitespace management and use tabs."
   (setq tab-width        8
         indent-tabs-mode 1)
   (ethan-wspace-mode 0))
@@ -1767,6 +1839,7 @@ It use className instead of class."
 
 ;; Go-mode: Golang mode
 (use-package go-mode ; requires godef bin
+  :ensure t
   :mode ("\\.go\\'" . go-mode)
   :init
   (add-to-list 'hs-special-modes-alist '(go-mode "{" "}" "/[*/]" nil nil))
@@ -1794,28 +1867,41 @@ It use className instead of class."
   :config
   ;; go get -u golang.org/x/tools/cmd/gorename
   ;; go build golang.org/x/tools/cmd/gorename
-  (mb/ensure-bin-tool-exists "gorename")
-  (use-package go-rename)
+  (use-package go-rename
+    :ensure t
+    :if (executable-find "gorename")
+    :init (mb/ensure-bin-tool-exists "gorename")
+    :config
+    (evil-leader/set-key-for-mode 'go-mode
+      "mr" 'go-rename))
 
   ;; go get -u github.com/nsf/gocode
-  (mb/ensure-bin-tool-exists "gocode")
-  (use-package go-eldoc) ; requires gocode bin
-  (use-package company-go ; requires gocode bin
-    :init
-    (setq company-go-insert-arguments nil))
+  (use-package go-eldoc
+    :ensure t
+    :init (mb/ensure-bin-tool-exists "gocode")
+    :if (executable-find "gocode"))
+
+  (use-package company-go
+    :ensure t
+    :if (executable-find "gocode")
+    :init (mb/ensure-bin-tool-exists "gocode")
+    :config
+    (setq company-go-insert-arguments nil)
+    (evil-leader/set-key-for-mode 'go-mode
+      "mj" 'godef-jump
+      "md" 'godef-describe))
 
   (evil-leader/set-key-for-mode 'go-mode
-    "mr" 'go-rename
-    "mj" 'godef-jump
-    "md" 'godef-describe
     "ma" 'go-import-add
     "mi" 'go-goto-imports)
+
   (message "mb: GO MODE"))
 
 
 
 ;; Python mode
 (use-package python
+  :ensure t
   :mode ("\\.py\\'" . python-mode)
   :interpreter ("python" . python-mode)
   :init
@@ -1826,8 +1912,10 @@ It use className instead of class."
   (add-hook 'python-mode-hook 'eldoc-mode)
 
   :config
-  (use-package anaconda-mode)
-  (use-package company-anaconda)
+  (use-package anaconda-mode
+    :ensure t)
+  (use-package company-anaconda
+    :ensure t)
   (add-to-list 'company-backends 'company-anaconda)
   (message "mb: PYTHON MODE"))
 
@@ -1835,6 +1923,7 @@ It use className instead of class."
 
 ;; Ruby mode
 (use-package ruby-mode
+  :ensure t
   :mode
   ("\\.\\(?:gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode)
   ("\\(Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode)
@@ -1848,6 +1937,7 @@ It use className instead of class."
 
 ;; Clojure mode
 (use-package clojure-mode
+  :ensure t
   :mode (("\\.cljs$" . clojure-mode)
          ("\\.cljx$" . clojure-mode)
          ("\\.edn$" . clojure-mode)
@@ -1865,9 +1955,12 @@ It use className instead of class."
   (add-hook 'clojure-mode-hook 'eldoc-mode)
 
   :config
-  (use-package clojure-mode-extra-font-locking)
-  (use-package clojure-snippets)
-  (use-package cider)
+  (use-package clojure-mode-extra-font-locking
+    :ensure t)
+  (use-package clojure-snippets
+    :ensure t)
+  (use-package cider
+    :ensure t)
 
   (setq nrepl-hide-special-buffers t)
   (setq cider-repl-use-pretty-printing t)
@@ -1882,9 +1975,14 @@ It use className instead of class."
 
 ;; C-based languages like Java
 (use-package cc-mode
-  :ensure nil
   :defer t
   :config
+
+  ;; Set the default formatting styles for various C based modes.
+  ;; Particularly, change the default style from GNU to Java.
+  (setq c-default-style
+        '((awk-mode . "awk")
+          (other . "java")))
 
   (defvar flycheck-antrc "build.xml" "Ant build file name.")
 
@@ -1908,8 +2006,7 @@ It use className instead of class."
 ;; Javascript
 (use-package js-mode
   :defer t
-  :ensure nil
-
+  :defines javascript-indent-level js-indent-level
   :config
   (setq javascript-indent-level mb-web-indent-size
         js-indent-level         mb-web-indent-size)
@@ -1928,12 +2025,15 @@ It use className instead of class."
 
 ;; JS2 mode
 (use-package js2-mode
+  :ensure t
   :mode
   ("\\.js\\'" . js2-mode)
   ("\\.jsx\\'" . js2-jsx-mode)
   :interpreter ("node" . js2-jsx-mode)
+  :defines
+  js2-consistent-level-indent-inner-bracket-p
+  js2-pretty-multiline-decl-indentation-p
   :config
-  ;; (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
   (setq js2-basic-offset mb-web-indent-size
         js2-highlight-level 3
         js2-skip-preprocessor-directives t
@@ -1963,6 +2063,7 @@ It use className instead of class."
 
 ;; Json-mode
 (use-package json-mode
+  :ensure t
   :mode
   ("\\.json\\'" . json-mode)
   ("\\.eslintrc\\'" . json-mode)
@@ -1982,6 +2083,7 @@ It use className instead of class."
 
 ;; WebMode
 (use-package web-mode
+  :ensure t
   :mode
   ("\\.phtml\\'"      . web-mode)
   ("\\.tpl\\.php\\'"  . web-mode)
@@ -2037,7 +2139,6 @@ It use className instead of class."
 ;; Css
 (use-package css-mode
   :mode ("\\.css\\'" . css-mode)
-  :ensure nil
   :config
   (setq css-indent-offset mb-web-indent-size)
 
@@ -2052,6 +2153,7 @@ It use className instead of class."
 
 ;; SCSS-mode
 (use-package scss-mode
+  :ensure t
   :mode ("\\.scss\\'" . scss-mode)
   :defer t
   :config
@@ -2063,6 +2165,7 @@ It use className instead of class."
 
 ;; LESS-mode
 (use-package less-css-mode
+  :ensure t
   :defer t
   :config (message "mb: LESS MODE"))
 
@@ -2070,6 +2173,7 @@ It use className instead of class."
 
 ;; Yaml
 (use-package yaml-mode
+  :ensure t
   :mode ("\\.yml$" . yaml-mode)
   :config (message "mb: YAML MODE"))
 
@@ -2077,6 +2181,7 @@ It use className instead of class."
 
 ;; Rust
 (use-package rust-mode
+  :ensure t
   :defer t
   :config (message "mb: RUST MODE"))
 
@@ -2084,6 +2189,7 @@ It use className instead of class."
 
 ;; Toml
 (use-package toml-mode
+  :ensure t
   :defer t
   :config (message "mb: TOML MODE"))
 
@@ -2091,6 +2197,7 @@ It use className instead of class."
 
 ;; Markdown
 (use-package markdown-mode
+  :ensure t
   :defer t
   :config
   (add-hook 'markdown-mode-hook 'flyspell-mode)
@@ -2100,6 +2207,7 @@ It use className instead of class."
 
 ;; CoffeeScript
 (use-package coffee-mode
+  :ensure t
   :defer t
   :config
   (custom-set-variables `(coffee-tab-width ,mb-web-indent-size))
@@ -2121,6 +2229,7 @@ It use className instead of class."
 
 ;; Php-mode
 (use-package php-mode
+  :ensure t
   :defer t
   :config
   (define-key php-mode-map [(meta tab)] nil)
@@ -2130,7 +2239,13 @@ It use className instead of class."
 
 ;; Scheme
 (use-package geiser
+  :ensure t
   :defer t
+  :defines
+  geiser-active-implementations
+  scheme-program-name
+  geiser-mode-map
+  geiser-repl-mode-map
   :config
   (setq geiser-active-implementations '(chicken))
   (setq scheme-program-name "csi -:c")
@@ -2156,15 +2271,18 @@ It use className instead of class."
 
 ;; Ocaml
 (use-package tuareg
+  :ensure t
   :mode
   ("\\.ml[ily]?$" . tuareg-mode)
   ("\\.topml$" . tuareg-mode)
 
   :config
   ;; autocomplete
-  (mb/ensure-bin-tool-exists "ocamlmerlin")
   (use-package merlin
+    :ensure t
+    :if (executable-find "ocamlmerlin")
     :init
+    (mb/ensure-bin-tool-exists "ocamlmerlin")
     (require 'merlin-company)
     (add-to-list 'company-backends 'merlin-company-backend)
 
@@ -2173,12 +2291,16 @@ It use className instead of class."
     (setq merlin-error-after-save nil))
 
   ;; repl
-  (mb/ensure-bin-tool-exists "utop")
-  (use-package utop)
+  (use-package utop
+    :ensure t
+    :if (executable-find "utop")
+    :init (mb/ensure-bin-tool-exists "utop"))
 
   ;; source code indent
-  (mb/ensure-bin-tool-exists "ocp-indent")
-  (use-package ocp-indent)
+  (use-package ocp-indent
+    :ensure t
+    :if (executable-find "ocp-indent")
+    :init (mb/ensure-bin-tool-exists "ocp-indent"))
 
   (mb/ensure-bin-tool-exists "opam")
 
@@ -2201,7 +2323,6 @@ It use className instead of class."
 
 ;; Shell mode
 (use-package sh-script
-  :ensure nil
   :defer t
   :init
   ;; Use sh-mode when opening `.zsh' files, and when opening Prezto runcoms.
@@ -2215,6 +2336,7 @@ It use className instead of class."
     (add-to-list 'auto-mode-alist (cons pattern 'sh-mode)))
   :config
   (use-package company-shell
+    :ensure t
     :config (add-to-list 'company-backends 'company-shell))
   (message "mb: SH MODE"))
 
