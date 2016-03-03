@@ -84,6 +84,8 @@
 (eval-when-compile
   (require 'use-package))
 
+(setq use-package-verbose t)
+
 ;; Diminish: cleanup mode line
 (require 'diminish)
 
@@ -875,7 +877,26 @@ narrowed."
     (helm-projectile-on)
 
     ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
-    (setq projectile-switch-project-action 'helm-projectile-recentf))
+    (setq projectile-switch-project-action 'helm-projectile-recentf)
+
+    (defun mb/helm-projectile-ag-dwim ()
+      "Ag search in current project using symbol at point."
+      (interactive)
+      (let ((helm-ag-insert-at-point 'symbol))
+        (helm-projectile-ag)))
+
+    (advice-add 'mb/helm-projectile-ag-dwim :around #'mb/advice-add-to-evil-jump-list)
+
+    (evil-leader/set-key
+      "pp" 'helm-projectile-switch-project
+      "pd" 'helm-projectile-find-dir
+      "pf" 'helm-projectile-find-file
+      "pF" 'helm-projectile-find-file-dwim
+      "ps" 'helm-projectile-ag
+      "pS" 'mb/helm-projectile-ag-dwim
+      "ph" 'helm-projectile
+      "pr" 'helm-projectile-recentf
+      "pb" 'helm-projectile-switch-to-buffer))
 
   (projectile-global-mode)
 
@@ -886,31 +907,15 @@ narrowed."
               (lambda (origin-fun)
                 (s-chop-prefix "/:" (funcall origin-fun))))
 
-  (defun mb/helm-projectile-ag-dwim ()
-    "Ag search in current project using symbol at point."
-    (interactive)
-    (let ((helm-ag-insert-at-point 'symbol))
-      (helm-projectile-ag)))
-
-  (advice-add 'mb/helm-projectile-ag-dwim :around #'mb/advice-add-to-evil-jump-list)
-
   (evil-leader/set-key
-    "pp" 'helm-projectile-switch-project
-    "pd" 'helm-projectile-find-dir
     "pD" 'projectile-dired
-    "pf" 'helm-projectile-find-file
-    "pF" 'helm-projectile-find-file-dwim
-    "ps" 'helm-projectile-ag
-    "pS" 'mb/helm-projectile-ag-dwim
-    "ph" 'helm-projectile
-    "pr" 'helm-projectile-recentf
     "pR" 'projectile-replace
-    "pb" 'helm-projectile-switch-to-buffer
     "pk" 'projectile-kill-buffers))
 
 
 
 ;; Company-mode: autocomplete
+(defvar-local company-fci-mode-on-p nil)
 (use-package company
   :ensure t
   :diminish company-mode
@@ -942,6 +947,20 @@ narrowed."
 
   (global-company-mode 1)
 
+  ;; FIXME this is workarond for compatibility with the fci-mode
+  (defun company-turn-off-fci (&rest ignore)
+    (when (boundp 'fci-mode)
+      (setq company-fci-mode-on-p fci-mode)
+      (when fci-mode (fci-mode -1))))
+
+  (defun company-maybe-turn-on-fci (&rest ignore)
+    (when company-fci-mode-on-p (fci-mode 1)))
+
+  (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+  (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
+  (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
+  ;; end of workaround
+
   (define-key company-active-map (kbd "TAB") 'mb/company-complete-common-or-selection)
   (define-key company-active-map (kbd "<tab>") 'mb/company-complete-common-or-selection)
   (define-key company-active-map (kbd "M-j") 'company-select-next)
@@ -961,10 +980,13 @@ narrowed."
   :ensure t
   :diminish yas-minor-mode
   :config
-  (use-package helm-c-yasnippet :ensure t)
-  (setq helm-yas-display-key-on-candidate t
-        helm-yas-space-match-any-greedy   t
-        yas-verbosity                       1
+  (use-package helm-c-yasnippet
+    :ensure t
+    :config
+    (setq helm-yas-display-key-on-candidate t
+          helm-yas-space-match-any-greedy   t))
+
+  (setq yas-verbosity                       1
         yas-wrap-around-region              t
         yas-prompt-functions '(yas/ido-prompt yas/completing-prompt))
 
@@ -1044,14 +1066,13 @@ Clear field placeholder if field was not modified."
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook (lambda ()
                               (setq flyspell-consider-dash-as-word-delimiter-flag t)
-                              (flyspell-prog-mode)
-                              ))
+                              (flyspell-prog-mode)))
   :config
   ;; helm interface for flyspell
   (use-package helm-flyspell
-    :ensure t)
+    :ensure t
+    :bind* ([f8] . helm-flyspell-correct))
 
-  (global-set-key [f8]    'helm-flyspell-correct)
   (global-set-key [M-f8]  'flyspell-buffer))
 
 
@@ -1082,10 +1103,10 @@ Clear field placeholder if field was not modified."
 ;; EditorConfig
 (use-package editorconfig
   :ensure t
+  :defer t
   :init
-  (editorconfig-mode 1)
-
   (mb/ensure-bin-tool-exists "editorconfig")
+  (add-hook 'prog-mode-hook 'editorconfig-mode)
 
   (defun mb/reload-editorconfig ( )
     "Reload editorconfig file and set variables for current major mode."
@@ -1512,8 +1533,15 @@ Clear field placeholder if field was not modified."
 ;; Flycheck: error checking on the fly
 (use-package flycheck
   :ensure t
+  :defer t
+  :bind*
+  ("M-e 1" . flycheck-first-error)
+  ("M-e j" . flycheck-next-error)
+  ("M-e k" . flycheck-previous-error)
+  ("M-e l" . mb/toggle-flyckeck-errors-list)
+  ("M-e b" . flycheck-buffer)
   :init
-  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (global-flycheck-mode)
 
   :config
   (setq flycheck-indication-mode 'right-fringe
@@ -1550,15 +1578,7 @@ Clear field placeholder if field was not modified."
     (interactive)
     (-if-let (window (flycheck-get-error-list-window))
         (quit-window nil window)
-      (flycheck-list-errors)))
-
-  (define-prefix-command 'mb-flycheck-map)
-  (global-set-key (kbd "M-e")   'mb-flycheck-map)
-  (global-set-key (kbd "M-e 1") 'flycheck-first-error)
-  (global-set-key (kbd "M-e j") 'flycheck-next-error)
-  (global-set-key (kbd "M-e k") 'flycheck-previous-error)
-  (global-set-key (kbd "M-e l") 'mb/toggle-flyckeck-errors-list)
-  (global-set-key (kbd "M-e b") 'flycheck-buffer))
+      (flycheck-list-errors))))
 
 
 
@@ -1598,7 +1618,7 @@ Clear field placeholder if field was not modified."
 ;; Rainbow delimiters
 (use-package rainbow-delimiters
   :ensure t
-  :defer
+  :defer t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
@@ -1607,6 +1627,8 @@ Clear field placeholder if field was not modified."
 ;; Highlight-indentation: highlight indentation columns
 (use-package highlight-indentation
   :ensure t
+  :defer t
+  :init (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode)
   :config
   (set-face-background 'highlight-indentation-face mb-color12)
   (set-face-background 'highlight-indentation-current-column-face mb-color13))
@@ -1655,9 +1677,8 @@ Clear field placeholder if field was not modified."
 ;; highlight todos
 (use-package hl-todo
   :ensure t
-  :config
-  (setq hl-todo-activate-in-modes '(prog-mode))
-  (global-hl-todo-mode))
+  :defer t
+  :init (add-hook 'prog-mode-hook 'hl-todo-mode))
 
 
 
@@ -1997,6 +2018,8 @@ It use className instead of class."
     :modes java-mode)
 
   (add-to-list 'flycheck-checkers 'java)
+
+  ;; check only on save
   (add-hook 'java-mode-hook (lambda () (setq flycheck-check-syntax-automatically '(mode-enabled save))))
 
   (message "mb: CC MODE"))
@@ -2013,8 +2036,6 @@ It use className instead of class."
 
   (add-hook 'js-mode-hook 'rainbow-mode)
 
-  ;; disable jshint since we prefer eslint checking
-  ;; (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(javascript-jshint)))
   (add-hook 'js-mode-hook (lambda ()
                             ;; (setq imenu-create-index-function 'mb/imenu-js-make-index)
                             (mb/emmet-jsx)))
@@ -2067,17 +2088,19 @@ It use className instead of class."
   :mode
   ("\\.json\\'" . json-mode)
   ("\\.eslintrc\\'" . json-mode)
-  :init
-  ;; disable json-jsonlist checking for json files
-  (setq-default flycheck-disabled-checkers (append flycheck-disabled-checkers '(json-jsonlist)))
 
+  :config
   (defun mb/json-beautify (&rest ignored)
     "Beautify json buffer.  Ignore all `IGNORED' vars."
     (json-mode-beautify))
   ;; set format function for json
   (add-hook 'json-mode-hook (lambda ()
                               (setq-local indent-region-function 'mb/json-beautify)))
-  :config (message "mb: JSON MODE"))
+
+  ;; disable json-jsonlist checking for json files
+  (add-to-list 'flycheck-disabled-checkers 'json-jsonlint)
+
+  (message "mb: JSON MODE"))
 
 
 
@@ -2111,27 +2134,27 @@ It use className instead of class."
   (evil-leader/set-key-for-mode 'web-mode
     "mr" 'web-mode-element-rename)
 
-  (add-hook 'web-mode-hook 'rainbow-mode)
-
   ;; React.js JSX-related configs
 
-  ;; use eslint with web-mode for jsx files
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+  ;; use eslint with web-mode for jsx files
   (defun mb/web-mode-jsx-hacks ()
     "Enable eslint for jsx in flycheck."
     (if (or (equal web-mode-content-type "jsx")
             (equal web-mode-content-type "javascript"))
         (progn
-          (flycheck-select-checker 'javascript-eslint)
           (setq imenu-create-index-function 'mb/imenu-js-make-index)
-          (mb/emmet-jsx))
+          (mb/emmet-jsx)
+          (message "enabled web mode for js/jsx"))
       (progn
-        (flycheck-disable-checker 'javascript-eslint)
-        (emmet-mode t))))
+        (setq flycheck-disabled-checkers '(javascript-eslint))
+        (emmet-mode t)
+        (message "enabled web mode"))))
 
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
-  ;; (setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
+  (add-hook 'web-mode-hook 'rainbow-mode)
+
   (message "mb: WEB MODE"))
 
 
