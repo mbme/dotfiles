@@ -285,7 +285,6 @@
   "Perform a bunch of operations on the whitespace content of a buffer."
   (interactive)
   (mb/indent-buffer)
-  (ethan-wspace-clean-all)
   (message "mb: cleanup and indent buffer"))
 
 (defun mb/rename-file-and-buffer ()
@@ -473,7 +472,7 @@ narrowed."
 
 
 (defun mb/ensure-bin-tool-exists (name)
-  "Check if bin tool `NAME' exists or throw error."
+  "Check if bin tool `NAME' exists and show warning if it doesn't."
   (if (executable-find name)
       (message "MB: found required bin tool %s" name)
     (warn "MB: executable %s not found!" name)))
@@ -1635,23 +1634,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Ethan-wspace manage whitespace
-(use-package ethan-wspace
-  :ensure t
-  :diminish ethan-wspace-mode
-  :config
-  (setq mode-require-final-newline nil
-        require-final-newline nil)
-
-  ;; do not highlight missing new line at the end of the snippet file
-  (add-hook 'snippet-mode-hook
-            (lambda ()
-              (setq ethan-wspace-errors (remove 'no-nl-eof ethan-wspace-errors))))
-
-  (global-ethan-wspace-mode 1))
-
-
-
 ;; Highlight-chars: highlight tabs and trailing whitespace
 (defvar mb-highlight-chars t "If highlight-chars should be enabled or not.")
 (make-variable-buffer-local 'mb-highlight-chars)
@@ -1659,7 +1641,6 @@ Clear field placeholder if field was not modified."
 (defun mb/no-highlight-whitespace ()
   "Disable whitespace highlighting."
   (interactive)
-  (ethan-wspace-mode 0)
   (setq mb-highlight-chars nil))
 
 (use-package highlight-chars
@@ -1671,8 +1652,6 @@ Clear field placeholder if field was not modified."
                                      (hc-highlight-hard-hyphens)
                                      (hc-highlight-hard-spaces)
                                      (hc-highlight-tabs)))))
-
-
 
 ;; highlight todos
 (use-package hl-todo
@@ -1847,14 +1826,13 @@ It use className instead of class."
 
 ;; Makefile mode
 
-(defun mb/disable-ethan-wspace ()
-  "Disable whitespace management and use tabs."
+(defun mb/use-tabs ()
+  "Use tabs."
   (setq tab-width        8
-        indent-tabs-mode 1)
-  (ethan-wspace-mode 0))
+        indent-tabs-mode 1))
 
-(add-hook 'makefile-mode-hook 'mb/disable-ethan-wspace)
-(add-hook 'makefile-bsdmake-mode-hook 'mb/disable-ethan-wspace)
+(add-hook 'makefile-mode-hook 'mb/use-tabs)
+(add-hook 'makefile-bsdmake-mode-hook 'mb/use-tabs)
 
 
 
@@ -1871,8 +1849,6 @@ It use className instead of class."
               (go-eldoc-setup)
 
               (add-hook 'before-save-hook 'gofmt-before-save)
-
-              (setq ethan-wspace-errors (remove 'tabs ethan-wspace-errors))
 
               (set (make-local-variable 'company-backends) '((company-go :with company-dabbrev-code)))
               (company-mode)
@@ -1944,6 +1920,7 @@ It use className instead of class."
 
 ;; Ruby mode
 (use-package ruby-mode
+  :disabled t
   :ensure t
   :mode
   ("\\.\\(?:gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode)
@@ -1958,6 +1935,7 @@ It use className instead of class."
 
 ;; Clojure mode
 (use-package clojure-mode
+  :disabled t
   :ensure t
   :mode (("\\.cljs$" . clojure-mode)
          ("\\.cljx$" . clojure-mode)
@@ -2152,6 +2130,7 @@ It use className instead of class."
         (emmet-mode t)
         (message "enabled web mode"))))
 
+  (add-hook 'web-mode-hook (lambda () (fci-mode -1)))
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
   (add-hook 'web-mode-hook 'rainbow-mode)
 
@@ -2188,6 +2167,7 @@ It use className instead of class."
 
 ;; LESS-mode
 (use-package less-css-mode
+  :disabled t
   :ensure t
   :defer t
   :config (message "mb: LESS MODE"))
@@ -2196,6 +2176,7 @@ It use className instead of class."
 
 ;; Yaml
 (use-package yaml-mode
+  :disabled t
   :ensure t
   :mode ("\\.yml$" . yaml-mode)
   :config (message "mb: YAML MODE"))
@@ -2206,7 +2187,14 @@ It use className instead of class."
 (use-package rust-mode
   :ensure t
   :defer t
-  :config (message "mb: RUST MODE"))
+  :config
+  (mb/ensure-bin-tool-exists "rustfmt")
+  (setq rust-indent-offset mb-tab-size)
+  (use-package flycheck-rust
+    :ensure t
+    :init
+    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  (message "mb: RUST MODE"))
 
 
 
@@ -2230,6 +2218,7 @@ It use className instead of class."
 
 ;; CoffeeScript
 (use-package coffee-mode
+  :disabled t
   :ensure t
   :defer t
   :config
@@ -2252,6 +2241,7 @@ It use className instead of class."
 
 ;; Php-mode
 (use-package php-mode
+  :disabled t
   :ensure t
   :defer t
   :config
@@ -2294,6 +2284,7 @@ It use className instead of class."
 
 ;; Ocaml
 (use-package tuareg
+  :disabled t
   :ensure t
   :mode
   ("\\.ml[ily]?$" . tuareg-mode)
@@ -2336,7 +2327,6 @@ It use className instead of class."
                           (list exec-directory)))
 
   (add-hook 'tuareg-mode-hook (lambda()
-                                (setq-local require-final-newline nil)
                                 (merlin-mode)
                                 (utop-minor-mode)))
 
