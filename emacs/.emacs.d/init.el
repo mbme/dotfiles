@@ -679,6 +679,21 @@ narrowed."
   (global-set-key (kbd "M-h") 'left-char)
   (global-set-key (kbd "M-l") 'right-char)
 
+  ;; Overload shifts so that they don't lose the selection
+  ;; @see http://superuser.com/a/789156
+  (defun mb/evil-shift-left-visual ()
+    (interactive)
+    (evil-shift-left (region-beginning) (region-end))
+    (evil-normal-state)
+    (evil-visual-restore))
+  (defun mb/evil-shift-right-visual ()
+    (interactive)
+    (evil-shift-right (region-beginning) (region-end))
+    (evil-normal-state)
+    (evil-visual-restore))
+  (define-key evil-visual-state-map (kbd ">") 'mb/evil-shift-right-visual)
+  (define-key evil-visual-state-map (kbd "<") 'mb/evil-shift-left-visual)
+
   (evil-leader/set-key
     "lm" 'evil-show-marks
     "u" 'undo-tree-visualize))
