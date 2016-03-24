@@ -2209,6 +2209,15 @@ It use className instead of class."
     :ensure t
     :init
     (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+  (use-package racer
+    :ensure t
+    :init
+    (setq racer-rust-src-path "/usr/src/rust/src/")
+    (add-hook 'rust-mode-hook #'racer-mode)
+    (add-hook 'racer-mode-hook #'eldoc-mode))
+  (use-package company-racer
+    :ensure t
+    :init (add-to-list 'company-backends 'company-racer))
   (message "mb: RUST MODE"))
 
 
