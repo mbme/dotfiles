@@ -21,18 +21,22 @@ alias -r ctlu='systemctl --user'
 
 # PATH must be set in .zshrc because /etc/profile override PATH set in .zshenv
 
-export GEM_HOME="$(ruby -rubygems -e "puts Gem.user_dir")"
-ruby_bin="$GEM_HOME/bin"
+#export GEM_HOME="$(ruby -rubygems -e "puts Gem.user_dir")"
+#ruby_bin="$GEM_HOME/bin"
 
 main_go_path="/mnt/data/projects/goworkspace"
-export GOPATH="$main_go_path:/mnt/data/projects/vita:/mnt/data/projects/vita/vendor"
+export GOPATH="$main_go_path"
 
 npm_bin="$HOME/.npm-global/bin"
 
+rust_bin="$HOME/.cargo/bin"
+
 utils="$HOME/bin"
 
-path=($path $utils $main_go_path/bin $ruby_bin $npm_bin)
+path=($path $utils $main_go_path/bin $npm_bin $rust_bin)
 
+# OPAM CONFIGURATION
+#. "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
 
 # for termite to be able to open new terminal in current dir
 . /etc/profile.d/vte.sh

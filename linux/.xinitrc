@@ -12,9 +12,9 @@ log () {
 # add and use display mode 1600x900
 #xrandr --newmode "1600x900"  118.25  1600 1696 1856 2112  900 903 908 934 -hsync +vsync
 #xrandr --addmode eDP1 1600x900
-xrandr --output eDP1 --mode 1600x900 --primary
+# xrandr --output eDP1 --mode 1600x900 --primary
 
-log "display mode 1600x900"
+# log "display mode 1600x900"
 
 $HOME/bin/mb-monitor-toggle &
 
