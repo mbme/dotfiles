@@ -2152,6 +2152,8 @@ It use className instead of class."
 
   (message "mb: WEB MODE"))
 
+(use-package nxml-mode
+  :init (add-hook 'nxml-mode-hook 'emmet-mode))
 
 
 ;; Css
@@ -2376,8 +2378,24 @@ It use className instead of class."
   :config
   (use-package company-shell
     :ensure t
-    :config (add-to-list 'company-backends 'company-shell))
+    :config
+    (add-to-list 'company-backends 'company-shell))
   (message "mb: SH MODE"))
+
+
+
+;; Typescript mode
+(use-package tss
+  :ensure t
+  :defer t
+  :mode ("\\.ts\\'" . typescript-mode)
+  :init
+  (evil-leader/set-key-for-mode 'typescript-mode
+    "mj" 'tss-jump-to-definition
+    "mh" 'tss-popup-help)
+  :config
+  (tss-config-default)
+  (message "mb: TYPESCRIPT MODE"))
 
 
 
