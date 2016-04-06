@@ -2151,6 +2151,8 @@ It use className instead of class."
 
   (message "mb: WEB MODE"))
 
+(use-package nxml-mode
+  :init (add-hook 'nxml-mode-hook 'emmet-mode))
 
 
 ;; Css
