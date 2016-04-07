@@ -44,7 +44,7 @@ xbindkeys &
 log "loaded keybindings"
 
 # disable touchpad
-synclient TouchpadOff=1
+synclient TouchpadOff=1 FingerLow=15 FingerHigh=23
 
 # update x resources db
 xrdb -merge $HOME/.Xresources

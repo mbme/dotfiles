@@ -1678,6 +1678,7 @@ Clear field placeholder if field was not modified."
 
 ;; highlight max line length
 (use-package fill-column-indicator
+  :disabled t
   :ensure t
   :defer t
   :init
@@ -2206,7 +2207,8 @@ It use className instead of class."
   :defer t
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
-  (setq rust-indent-offset mb-tab-size)
+  (setq rust-indent-offset  mb-tab-size
+        rust-format-on-save nil)
   (use-package flycheck-rust
     :ensure t
     :init

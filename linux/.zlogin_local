@@ -1,0 +1,9 @@
+# run startx after login if this is first virtual terminal
+if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
+
+    # backup previous log file, ignore errors
+    rm ~/.xorg.old.log
+    mv ~/.xorg.log ~/.xorg.old.log 2>/dev/null
+
+    exec startx -- -keeptty -nolisten tcp > ~/.xorg.log 2>&1
+fi
