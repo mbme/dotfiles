@@ -909,6 +909,7 @@ narrowed."
       "ps" 'helm-projectile-ag
       "pS" 'mb/helm-projectile-ag-dwim
       "ph" 'helm-projectile
+      "pt" 'projectile-test-project
       "pr" 'helm-projectile-recentf
       "pb" 'helm-projectile-switch-to-buffer))
 

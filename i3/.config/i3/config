@@ -89,7 +89,7 @@ bindsym $mod+Shift+x move workspace to output right
 # reload the configuration file
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+q exec $HOME/.config/i3/exit.sh
+bindsym $mod+Shift+q exec mb-exit
 
 # go to prev workspace
 bindsym $mod+Tab workspace back_and_forth
