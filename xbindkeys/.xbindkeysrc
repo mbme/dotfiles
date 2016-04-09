@@ -45,13 +45,8 @@
     XF86MonBrightnessDown
 
 
-# Show oblogout (shutdown/restart/sleep/logout window)
-"oblogout"
-    m:0xc + c:119
-    Control+Alt + Delete
-
 #terminal
-"termite"
+"mb-terminal"
     m:0x40 + c:36
     Mod4 + Return
 
