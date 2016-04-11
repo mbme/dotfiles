@@ -2390,12 +2390,19 @@ It use className instead of class."
   :ensure t
   :defer t
   :mode ("\\.ts\\'" . typescript-mode)
-  :init
-  (evil-leader/set-key-for-mode 'typescript-mode
-    "mj" 'tss-jump-to-definition
-    "mh" 'tss-popup-help)
   :config
-  (tss-config-default)
+  (use-package tide
+    :ensure t
+    :init
+    (evil-leader/set-key-for-mode 'typescript-mode
+      "mj" 'tide-jump-to-definition
+      "mh" 'tide-documentation-at-point
+      "mr" 'tide-rename-symbol)
+    (add-hook 'typescript-mode-hook
+              (lambda ()
+                (tide-setup)
+                (setq flycheck-check-syntax-automatically '(save mode-enabled))
+                (eldoc-mode 1))))
   (message "mb: TYPESCRIPT MODE"))
 
 
@@ -2442,7 +2449,7 @@ It use className instead of class."
 
   "bd" 'mb/delete-current-buffer-file
   "bh" 'bury-buffer
-  "br" 'rename-current-buffer-file
+  "br" 'mb/rename-file-and-buffer
   "bs" 'scratch)
 
 
