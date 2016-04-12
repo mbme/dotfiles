@@ -2386,10 +2386,10 @@ It use className instead of class."
 
 
 ;; Typescript mode
-(use-package tss
+(use-package typescript-mode
   :ensure t
   :defer t
-  :mode ("\\.ts\\'" . typescript-mode)
+  :mode ("\\.ts$" . typescript-mode)
   :config
   (use-package tide
     :ensure t
