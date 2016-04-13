@@ -9,7 +9,7 @@ set $secondary_screen HDMI1
 
 set $border 5
 
-set $font xft:Ubuntu Mono 10
+set $font xft:Ubuntu Mono 12
 font $font
 
 # Use Mouse+$mod to drag floating windows to their wanted position
