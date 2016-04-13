@@ -147,14 +147,14 @@ bar {
            urgent_workspace    $c_urgent    $c_urgent      $c_text
     }
 
-    status_command $HOME/.config/i3/conky-i3bar.sh
+    status_command exec $HOME/.config/i3/conky-i3bar.sh "primary"
 }
 
 bar {
     font         $font
     position     top
     output       $secondary_screen
-    tray_output  $primary_screen
+    tray_output  $secondary_screen
     mode         invisible
 
     colors {
@@ -175,7 +175,7 @@ bar {
            urgent_workspace    $c_urgent    $c_urgent      $c_text
     }
 
-    status_command $HOME/.config/i3/conky-i3bar2.sh
+    status_command exec $HOME/.config/i3/conky-i3bar.sh "secondary"
 }
 
 exec_always --no-startup-id $HOME/.config/i3/toggle_bar.sh clear
