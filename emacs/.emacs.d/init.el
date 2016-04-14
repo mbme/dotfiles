@@ -2014,8 +2014,11 @@ It use className instead of class."
 
   (add-to-list 'flycheck-checkers 'java)
 
-  ;; check only on save
-  (add-hook 'java-mode-hook (lambda () (setq flycheck-check-syntax-automatically '(mode-enabled save))))
+  (add-hook 'java-mode-hook (lambda ()
+                              ;; check only on save
+                              (setq flycheck-check-syntax-automatically '(mode-enabled save))
+                              ;; disable auto-indent
+                              (electric-indent-local-mode 0)))
 
   (message "mb: CC MODE"))
 
