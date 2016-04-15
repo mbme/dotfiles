@@ -3,8 +3,12 @@
 cases="lock screen
 logout
 suspend
+sleep
 hibernate
 reboot
+restart
+shutdown
+halt
 poweroff"
 
 res=$(echo "$cases" | rofi -dmenu)
@@ -13,19 +17,19 @@ case "$res" in
     "lock screen")
         mb-lock-screen
         ;;
-    logout)
+    "logout")
         i3-msg exit
         ;;
-    suspend)
+    "suspend" | "sleep")
         mb-lock-screen && systemctl suspend
         ;;
-    hibernate)
+    "hibernate")
         mb-lock-screen && systemctl hibernate
         ;;
-    reboot)
+    "reboot" | "restart")
         systemctl reboot
         ;;
-    poweroff)
+    "shutdown" | "poweroff" | "halt")
         systemctl poweroff
         ;;
 esac
