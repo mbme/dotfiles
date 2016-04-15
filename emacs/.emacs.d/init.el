@@ -695,6 +695,7 @@ narrowed."
   (define-key evil-visual-state-map (kbd "<") 'mb/evil-shift-left-visual)
 
   (evil-leader/set-key
+    "w"  'save-buffer
     "lm" 'evil-show-marks
     "u" 'undo-tree-visualize))
 
@@ -1174,7 +1175,6 @@ Clear field placeholder if field was not modified."
 
   (global-unset-key (kbd "M-,"))
 
-  (define-key evil-normal-state-map (kbd ";") 'avy-goto-word-or-subword-1)
   ;; free key for avy-jump
   (define-key evil-normal-state-map (kbd "M-.") nil))
 
@@ -1217,6 +1217,7 @@ Clear field placeholder if field was not modified."
   (defun mb/other-window ()
     (other-window 1))
   (setq aw-keys '(?a ?s ?d ?f ?g ?j ?k ?l))
+  (setq aw-scope 'frame)
   (setq aw-dispatch-always t)
   (setq aw-dispatch-alist
         '((?w mb/other-window)
@@ -1602,7 +1603,7 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :init
-  (evil-leader/set-key "w" 'er/expand-region)
+  (define-key evil-normal-state-map (kbd "C-w") 'er/expand-region)
   (setq expand-region-contract-fast-key "W"
         expand-region-reset-fast-key    "r"))
 
@@ -2394,6 +2395,7 @@ It use className instead of class."
   :defer t
   :mode ("\\.ts$" . typescript-mode)
   :config
+
   (use-package tide
     :ensure t
     :init
@@ -2406,6 +2408,17 @@ It use className instead of class."
                 (tide-setup)
                 (setq flycheck-check-syntax-automatically '(save mode-enabled))
                 (eldoc-mode 1))))
+
+  ;; linting with tslint
+  ;; https://palantir.github.io/tslint/
+  (use-package flycheck-typescript-tslint
+    :ensure t
+    :init
+    (eval-after-load 'flycheck
+      '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup)))
+
+  (add-hook 'typescript-mode-hook 'emmet-mode)
+
   (message "mb: TYPESCRIPT MODE"))
 
 
