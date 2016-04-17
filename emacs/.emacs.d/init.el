@@ -279,12 +279,14 @@
 (defun mb/indent-buffer ()
   "Reindent buffer."
   (interactive)
-  (indent-region (point-min) (point-max)))
+  (save-excursion
+    (indent-region (point-min) (point-max) nil)))
 
 (defun mb/cleanup-buffer ()
   "Perform a bunch of operations on the whitespace content of a buffer."
   (interactive)
   (mb/indent-buffer)
+  (whitespace-cleanup)
   (message "mb: cleanup and indent buffer"))
 
 (defun mb/rename-file-and-buffer ()
@@ -664,14 +666,24 @@ narrowed."
 
   ;; disable man look up
   (define-key evil-motion-state-map "K" nil)
+
+  ;; insert tabs only in emacs state
+  (define-key evil-motion-state-map (kbd "TAB")
+    (lambda () (interactive) (when (evil-emacs-state-p) (indent-for-tab-command))))
+
   ;; insert newline only in emacs state
-  (define-key evil-motion-state-map (kbd "RET") (lambda () (interactive) (when (evil-emacs-state-p) (newline))))
+  (define-key evil-motion-state-map (kbd "RET")
+    (lambda () (interactive) (when (evil-emacs-state-p) (newline))))
+
   (define-key evil-motion-state-map (kbd " ") nil)
 
   ;; in many modes q is close/exit etc., so leave it unbound
   (define-key evil-normal-state-map "q" nil)
   (define-key evil-normal-state-map "Q" 'evil-record-macro)
   (define-key evil-window-map "q" 'evil-window-delete)
+
+  (define-key evil-normal-state-map (kbd "M-f") 'evil-scroll-page-down)
+  (define-key evil-normal-state-map (kbd "M-b") 'evil-scroll-page-up)
 
   ;; move everywhere with M-hjkl
   (global-set-key (kbd "M-j") 'evil-next-line)
@@ -692,12 +704,7 @@ narrowed."
     (evil-normal-state)
     (evil-visual-restore))
   (define-key evil-visual-state-map (kbd ">") 'mb/evil-shift-right-visual)
-  (define-key evil-visual-state-map (kbd "<") 'mb/evil-shift-left-visual)
-
-  (evil-leader/set-key
-    "w"  'save-buffer
-    "lm" 'evil-show-marks
-    "u" 'undo-tree-visualize))
+  (define-key evil-visual-state-map (kbd "<") 'mb/evil-shift-left-visual))
 
 
 
@@ -866,7 +873,7 @@ narrowed."
     "bm" 'helm-bookmarks
 
     "ff" 'helm-find-files
-    "s"  'helm-occur
+    "fs" 'helm-occur
     "fc" 'helm-colors))
 
 
@@ -1173,38 +1180,11 @@ Clear field placeholder if field was not modified."
         avy-all-windows 'all-frames
         avy-style       'at-full)
 
-  (global-unset-key (kbd "M-,"))
-
   ;; free key for avy-jump
-  (define-key evil-normal-state-map (kbd "M-.") nil))
+  (define-key evil-normal-state-map (kbd "M-.") nil)
 
-
-
-;; Swiper: better search using ivy (ido alternative)
-(use-package swiper
-  :ensure t
-  :diminish ivy-mode
-  :config
-  ;; additional functions for ivy
-  (use-package counsel
-    :ensure t)
-
-  (ivy-mode 1)
-
-  (setq
-   ivy-use-virtual-buffers t
-   ivy-count-format "(%d/%d) ")
-
-  (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
-  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
-  (define-key ivy-minibuffer-map (kbd "C-w") 'ivy-backward-kill-word)
-
-  (global-set-key (kbd "C-s") 'swiper)
-  (global-set-key (kbd "C-r") 'swiper)
-  (global-set-key (kbd "C-c C-r") 'ivy-resume)
-  (global-set-key [f7] 'ivy-resume)
-
-  (global-set-key (kbd "C-x C-f") 'counsel-find-file))
+  (define-key evil-normal-state-map (kbd "gc") 'avy-goto-char)
+  (define-key evil-normal-state-map (kbd "gl") 'avy-goto-line))
 
 
 
@@ -1231,7 +1211,6 @@ Clear field placeholder if field was not modified."
 
           (?o delete-other-windows)
           (?O delete-other-windows " Ace - Maximize Window"))))
-
 
 
 
@@ -1280,6 +1259,16 @@ Clear field placeholder if field was not modified."
     "d"         'bookmark-bmenu-delete
     (kbd "C-d") 'bookmark-bmenu-delete-backwards
     "x"         'bookmark-bmenu-execute-deletions))
+
+
+
+
+;; Show available keybindings in separate window
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :init
+  (which-key-mode))
 
 
 
@@ -1603,7 +1592,7 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :init
-  (define-key evil-normal-state-map (kbd "C-w") 'er/expand-region)
+  (evil-leader/set-key "w" 'er/expand-region)
   (setq expand-region-contract-fast-key "W"
         expand-region-reset-fast-key    "r"))
 
@@ -2392,7 +2381,6 @@ It use className instead of class."
 ;; Typescript mode
 (use-package typescript-mode
   :ensure t
-  :defer t
   :mode ("\\.ts$" . typescript-mode)
   :config
 
@@ -2441,9 +2429,7 @@ It use className instead of class."
   (global-set-key (kbd "C-<wheel-down>") 'text-scale-decrease))
 
 
-(global-set-key (kbd "C-c L")   'mb/untabify-buffer)
-(global-set-key (kbd "C-c l")   'mb/cleanup-buffer)
-(global-set-key (kbd "C-c t")   'mb/sort-columns)
+(global-set-key (kbd "M-,") 'evil-jump-backward)
 (global-set-key (kbd "C-x e")   'mb/eval-and-replace)
 (global-set-key [M-tab]         'mb/prev-buffer)
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
@@ -2458,16 +2444,21 @@ It use className instead of class."
 ;; NOTE: m is reserved for mode-local bindings
 (evil-leader/set-key
   "2"  'call-last-kbd-macro
+  "q"  'evil-quit
   ","  'mb/prev-buffer
   "n"  'mb/narrow-or-widen-dwim
   "ll" 'mb/cleanup-buffer
+  "lt" 'mb/sort-columns
   "k"  'kill-this-buffer
+  ";"  'evil-ex
+  "s"  'save-buffer
+  "lm" 'evil-show-marks
+  "u"  'undo-tree-visualize
 
   "bd" 'mb/delete-current-buffer-file
   "bh" 'bury-buffer
   "br" 'mb/rename-file-and-buffer
   "bs" 'scratch)
-
 
 (provide 'init)
 ;;; init.el ends here
