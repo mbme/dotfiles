@@ -849,6 +849,20 @@ narrowed."
 
   (advice-add 'helm-imenu :around #'mb/advice-add-to-evil-jump-list)
 
+  (defun mb/helm-open-current-file-externally ()
+    "Open current file with external program which is selected with helm."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (when (and filename (file-exists-p filename))
+          (helm-open-file-externally filename))))
+
+  (defun mb/helm-open-current-file-wit-default-tool ()
+    "Open current file with default external program."
+    (interactive)
+    (let ((filename (buffer-file-name)))
+      (when (and filename (file-exists-p filename))
+          (helm-open-file-with-default-tool filename))))
+
   (define-key helm-map (kbd "M-j") 'helm-next-line)
   (define-key helm-map (kbd "M-k") 'helm-previous-line)
   (define-key helm-map (kbd "M-h") 'helm-previous-source)
@@ -867,12 +881,14 @@ narrowed."
     "TAB" 'helm-all-mark-rings
 
     "<SPC>" 'helm-mini
-    "r" 'helm-recentf
+    "r"     'helm-recentf
 
     "bb" 'helm-buffers-list
     "bm" 'helm-bookmarks
 
     "ff" 'helm-find-files
+    "fo" 'mb/helm-open-current-file-externally
+    "fO" 'mb/helm-open-current-file-wit-default-tool
     "fs" 'helm-occur
     "fc" 'helm-colors))
 
