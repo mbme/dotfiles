@@ -240,8 +240,7 @@
 
  tab-width          mb-tab-size
  c-basic-offset     mb-tab-size
- py-indent-offset   mb-tab-size
- nxml-child-indent  mb-tab-size)
+ py-indent-offset   mb-tab-size)
 
 (setq-default
  ;; Sentences do not need double spaces to end
@@ -2162,8 +2161,19 @@ It use className instead of class."
 
   (message "mb: WEB MODE"))
 
+
+
+;; XML
 (use-package nxml-mode
-  :init (add-hook 'nxml-mode-hook 'emmet-mode))
+  :mode ("\\.xml\\'" . nxml-mode)
+  :config
+
+  (setq nxml-child-indent  mb-tab-size)
+
+  (add-hook 'nxml-mode-hook 'emmet-mode)
+
+  (message "mb: nXML MODE"))
+
 
 
 ;; Css
