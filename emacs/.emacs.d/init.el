@@ -668,7 +668,7 @@ narrowed."
 
   ;; insert tabs only in emacs state
   (define-key evil-motion-state-map (kbd "TAB")
-    (lambda () (interactive) (when (evil-emacs-state-p) (indent-for-tab-command))))
+    (lambda () (interactive) (if (evil-emacs-state-p) (indent-for-tab-command) (evil-jump-forward))))
 
   ;; insert newline only in emacs state
   (define-key evil-motion-state-map (kbd "RET")
@@ -1188,11 +1188,11 @@ Clear field placeholder if field was not modified."
 (use-package avy
   :ensure t
   :bind*
-  ("M-." . avy-goto-word-or-subword-1) ;; FIXME remove this
+  ("M-." . avy-goto-word-or-subword-1)
   ("M-;" . avy-goto-line)
   :init
   (setq avy-background  t
-        avy-all-windows 'all-frames
+        avy-all-windows nil
         avy-style       'at-full)
 
   ;; free key for avy-jump
@@ -1689,7 +1689,7 @@ Clear field placeholder if field was not modified."
   :defer t
   :init
   (setq fci-rule-width 1)
-  (add-hook 'prog-mode-hook 'fci-mode))
+  (add-hook 'prog-mode-hook (lambda () (fci-mode 1))))
 
 
 
@@ -1735,6 +1735,9 @@ It use className instead of class."
     "gb" 'magit-blame)
 
   :config
+  (use-package evil-magit
+    :ensure t)
+
   (setq magit-last-seen-setup-instructions "1.4.0"
         vc-follow-symlinks nil
 
@@ -2126,21 +2129,20 @@ It use className instead of class."
   ("\\.eco\\'"        . web-mode)
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
-
-  :config
+  :init
   (setq web-mode-enable-auto-pairing  nil
         web-mode-markup-indent-offset mb-web-indent-size ; html tag in html file
         web-mode-css-indent-offset    mb-web-indent-size ; css in html file
         web-mode-code-indent-offset   mb-web-indent-size ; js code in html file
         )
 
+  :config
   (evil-leader/set-key-for-mode 'web-mode
     "mr" 'web-mode-element-rename)
 
-  ;; React.js JSX-related configs
-
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+  ;; React.js JSX-related configs
   ;; use eslint with web-mode for jsx files
   (defun mb/web-mode-jsx-hacks ()
     "Enable eslint for jsx in flycheck."
