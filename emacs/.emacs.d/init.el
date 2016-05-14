@@ -2238,7 +2238,6 @@ It use className instead of class."
   (use-package racer
     :ensure t
     :init
-    (setq racer-rust-src-path "/usr/src/rust/src/")
     (add-hook 'rust-mode-hook #'racer-mode)
     (add-hook 'racer-mode-hook #'eldoc-mode))
   (use-package company-racer
