@@ -953,7 +953,6 @@ narrowed."
 
 
 ;; Company-mode: autocomplete
-(defvar-local company-fci-mode-on-p nil)
 (use-package company
   :ensure t
   :diminish company-mode
@@ -984,20 +983,6 @@ narrowed."
   (delete 'company-ropemacs company-backends)
 
   (global-company-mode 1)
-
-  ;; FIXME this is workarond for compatibility with the fci-mode
-  (defun company-turn-off-fci (&rest ignore)
-    (when (boundp 'fci-mode)
-      (setq company-fci-mode-on-p fci-mode)
-      (when fci-mode (fci-mode -1))))
-
-  (defun company-maybe-turn-on-fci (&rest ignore)
-    (when company-fci-mode-on-p (fci-mode 1)))
-
-  (add-hook 'company-completion-started-hook 'company-turn-off-fci)
-  (add-hook 'company-completion-finished-hook 'company-maybe-turn-on-fci)
-  (add-hook 'company-completion-cancelled-hook 'company-maybe-turn-on-fci)
-  ;; end of workaround
 
   (define-key company-active-map (kbd "TAB") 'mb/company-complete-common-or-selection)
   (define-key company-active-map (kbd "<tab>") 'mb/company-complete-common-or-selection)
@@ -1682,17 +1667,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; highlight max line length
-(use-package fill-column-indicator
-  :disabled t
-  :ensure t
-  :defer t
-  :init
-  (setq fci-rule-width 1)
-  (add-hook 'prog-mode-hook (lambda () (fci-mode 1))))
-
-
-
 ;; Emmet mode
 (use-package emmet-mode
   :ensure t
@@ -2157,7 +2131,6 @@ It use className instead of class."
         (emmet-mode t)
         (message "enabled web mode"))))
 
-  (add-hook 'web-mode-hook (lambda () (fci-mode -1)))
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
   (add-hook 'web-mode-hook 'rainbow-mode)
 
