@@ -853,14 +853,14 @@ narrowed."
     (interactive)
     (let ((filename (buffer-file-name)))
       (when (and filename (file-exists-p filename))
-          (helm-open-file-externally filename))))
+        (helm-open-file-externally filename))))
 
   (defun mb/helm-open-current-file-wit-default-tool ()
     "Open current file with default external program."
     (interactive)
     (let ((filename (buffer-file-name)))
       (when (and filename (file-exists-p filename))
-          (helm-open-file-with-default-tool filename))))
+        (helm-open-file-with-default-tool filename))))
 
   (define-key helm-map (kbd "M-j") 'helm-next-line)
   (define-key helm-map (kbd "M-k") 'helm-previous-line)
@@ -2103,6 +2103,7 @@ It use className instead of class."
   ("\\.eco\\'"        . web-mode)
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
+  ("\\.tsx\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
         web-mode-markup-indent-offset mb-web-indent-size ; html tag in html file
@@ -2114,23 +2115,33 @@ It use className instead of class."
   (evil-leader/set-key-for-mode 'web-mode
     "mr" 'web-mode-element-rename)
 
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-
   ;; React.js JSX-related configs
   ;; use eslint with web-mode for jsx files
   (defun mb/web-mode-jsx-hacks ()
     "Enable eslint for jsx in flycheck."
-    (if (or (equal web-mode-content-type "jsx")
-            (equal web-mode-content-type "javascript"))
-        (progn
-          (setq imenu-create-index-function 'mb/imenu-js-make-index)
-          (mb/emmet-jsx)
-          (message "enabled web mode for js/jsx"))
-      (progn
-        (setq flycheck-disabled-checkers '(javascript-eslint))
-        (emmet-mode t)
-        (message "enabled web mode"))))
+    (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
+              (string-equal "js" (file-name-extension buffer-file-name)))
+      (setq imenu-create-index-function 'mb/imenu-js-make-index)
 
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+      (mb/emmet-jsx)
+      (message "mb: WEB MODE FOR JSX")))
+
+  (defun mb/web-mode-tsx-hacks ()
+    "Enable tide & tslint for tsx in flycheck."
+    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+      (flycheck-add-mode 'typescript-tslint 'web-mode)
+
+      (tide-setup)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
+      (eldoc-mode 1)
+
+      (mb/emmet-jsx)
+      (message "mb: WEB MODE FOR TSX")))
+
+  (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
   (add-hook 'web-mode-hook 'rainbow-mode)
 
@@ -2383,31 +2394,23 @@ It use className instead of class."
   :ensure t
   :mode ("\\.ts$" . typescript-mode)
   :config
-
-  (use-package tide
-    :ensure t
-    :init
-    (evil-leader/set-key-for-mode 'typescript-mode
-      "mj" 'tide-jump-to-definition
-      "mh" 'tide-documentation-at-point
-      "mr" 'tide-rename-symbol)
-    (add-hook 'typescript-mode-hook
-              (lambda ()
-                (tide-setup)
-                (setq flycheck-check-syntax-automatically '(save mode-enabled))
-                (eldoc-mode 1))))
-
-  ;; linting with tslint
-  ;; https://palantir.github.io/tslint/
-  (use-package flycheck-typescript-tslint
-    :ensure t
-    :init
-    (eval-after-load 'flycheck
-      '(add-hook 'flycheck-mode-hook #'flycheck-typescript-tslint-setup)))
-
   (add-hook 'typescript-mode-hook 'emmet-mode)
 
   (message "mb: TYPESCRIPT MODE"))
+
+(use-package tide
+  :ensure t
+  :init
+  (evil-leader/set-key-for-mode 'typescript-mode
+    "mj" 'tide-jump-to-definition
+    "mh" 'tide-documentation-at-point
+    "mr" 'tide-rename-symbol)
+  (add-hook 'typescript-mode-hook
+            (lambda ()
+              (tide-setup)
+              (setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (eldoc-mode 1)
+              )))
 
 
 
