@@ -480,6 +480,18 @@ narrowed."
 
 
 
+(defun mb/load-theme (theme)
+  "Properly load THEME in daemon mode."
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (select-frame frame)
+                  (load-theme theme t)))
+    (load-theme theme t)))
+
+
+
+
 ;; ---------------------------------------- PLUGINS
 
 
@@ -518,6 +530,7 @@ narrowed."
 
 ;; Solarized theme
 (use-package solarized-theme
+  :disabled t
   :ensure t
   :config
   ;; selection (region) colors
@@ -525,7 +538,24 @@ narrowed."
                       :background mb-color12
                       :foreground mb-color6)
 
-  (load-theme 'solarized-light t))
+  ;; (mb/load-theme 'solarized-dark)
+  (mb/load-theme 'solarized-light))
+
+
+;; Monokai theme (dark)
+(use-package monokai-theme
+  :disabled t
+  :ensure t
+  :config
+  (mb/load-theme 'monokai))
+
+
+;; Material theme (dark & lite)
+(use-package material-theme
+  :ensure t
+  :config
+  ;; (mb/load-theme 'material-light)
+  (mb/load-theme 'material))
 
 
 
