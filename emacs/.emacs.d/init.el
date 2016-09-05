@@ -2042,6 +2042,7 @@ It use className instead of class."
         js2-consistent-level-indent-inner-bracket-p t
         ;; allow for multi-line var indenting
         js2-pretty-multiline-decl-indentation-p t
+        js2-indent-switch-body t
 
         ;; Don't highlight missing variables in js2-mode: we have jslint for that
         js2-highlight-external-variables          nil
@@ -2293,10 +2294,9 @@ It use className instead of class."
   geiser-mode-map
   geiser-repl-mode-map
   :config
-  (setq geiser-active-implementations '(chicken))
-  (setq scheme-program-name "csi -:c")
   (add-hook 'geiser-mode-hook (lambda ()
                                 (define-key geiser-mode-map (kbd "M-.") nil)
+                                (define-key geiser-mode-map (kbd "M-`") nil)
                                 (define-key geiser-repl-mode-map (kbd "M-`") nil)))
 
   (evil-leader/set-key-for-mode 'scheme-mode
