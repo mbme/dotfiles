@@ -491,6 +491,16 @@ narrowed."
 
 
 
+;; spacemax implementation of kill-this-buffer
+;; @see https://github.com/syl20bnr/spacemacs/pull/6225
+(defun mb/kill-this-buffer ()
+  "Kill the current buffer."
+  (interactive)
+  (if (window-minibuffer-p)
+      (abort-recursive-edit)
+    (kill-buffer (current-buffer))))
+
+
 
 ;; ---------------------------------------- PLUGINS
 
@@ -1485,7 +1495,7 @@ Clear field placeholder if field was not modified."
     "c" 'helm-find-files
     "n" 'evil-search-next
     "N" 'evil-search-previous
-    "q" 'kill-this-buffer))
+    "q" 'mb/kill-this-buffer))
 
 
 
@@ -2482,7 +2492,7 @@ It use className instead of class."
   "n"  'mb/narrow-or-widen-dwim
   "ll" 'mb/cleanup-buffer
   "lt" 'mb/sort-columns
-  "k"  'kill-this-buffer
+  "k"  'mb/kill-this-buffer
   ";"  'evil-ex
   "s"  'save-buffer
   "lm" 'evil-show-marks
