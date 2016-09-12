@@ -479,16 +479,14 @@ narrowed."
     (warn "MB: executable %s not found!" name)))
 
 
-
-(defun mb/load-theme (theme)
-  "Properly load THEME in daemon mode."
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (select-frame frame)
-                  (load-theme theme t)))
-    (load-theme theme t)))
-
+(defmacro mb/load-theme! (theme)
+  "Load THEME even when starting Emacs as a daemon."
+  `(if (daemonp)
+       (add-hook 'after-make-frame-functions
+                 (lambda (frame)
+                   (select-frame frame)
+                   (load-theme ,theme t)))
+     (load-theme ,theme t)))
 
 
 ;; spacemax implementation of kill-this-buffer
@@ -548,8 +546,8 @@ narrowed."
                       :background mb-color12
                       :foreground mb-color6)
 
-  ;; (mb/load-theme 'solarized-dark)
-  (mb/load-theme 'solarized-light))
+  ;; (mb/load-theme! 'solarized-dark)
+  (mb/load-theme! 'solarized-light))
 
 
 ;; Monokai theme (dark)
@@ -557,15 +555,15 @@ narrowed."
   :disabled t
   :ensure t
   :config
-  (mb/load-theme 'monokai))
+  (mb/load-theme! 'monokai))
 
 
 ;; Material theme (dark & lite)
 (use-package material-theme
   :ensure t
   :config
-  ;; (mb/load-theme 'material-light)
-  (mb/load-theme 'material))
+  ;; (mb/load-theme! 'material-light)
+  (mb/load-theme! 'material))
 
 
 
