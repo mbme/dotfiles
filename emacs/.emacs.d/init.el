@@ -19,6 +19,8 @@
 ;; base configs dir
 (defvar mb-dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
+(defvar mb-customizations-file (expand-file-name "custom.el" mb-dotfiles-dir))
+
 ;; dir for temp files
 (defvar mb-save-path (expand-file-name "save-files/" mb-dotfiles-dir))
 
@@ -60,6 +62,9 @@
 (defvar  mb-evil-emacs-face     mb-color11)
 (defvar  mb-evil-replace-face   mb-color6)
 (defvar  mb-evil-operator-face  mb-color10)
+
+;; load customizations file if it exists
+(load mb-customizations-file t)
 
 ;; load local settings if file exists
 (load (expand-file-name "local.el" mb-dotfiles-dir) t)
@@ -144,6 +149,9 @@
 
  ;; Don't defer screen updates when performing operations.
  redisplay-dont-pause t
+
+ ;; file to save customizations done through UI
+ custom-file mb-customizations-file
 
  ;; do not break line even if its too long
  truncate-lines t
@@ -252,7 +260,7 @@
 ;; copy-paste (work with both terminal (S-INS) and X11 apps.):
 (when (and mb-is-linux (> (display-color-cells) 16)) ;if linux and not in CLI
   ;;copy-paste should work (default in emacs24)
-  (setq x-select-enable-clipboard t
+  (setq select-enable-clipboard t
         ;; with other X-clients
         interprogram-paste-function 'x-cut-buffer-or-selection-value))
 
@@ -727,6 +735,8 @@ narrowed."
   (global-set-key (kbd "M-k") 'evil-previous-line)
   (global-set-key (kbd "M-h") 'left-char)
   (global-set-key (kbd "M-l") 'right-char)
+
+  (evil-ex-define-cmd "Q[uit]" 'evil-quit)
 
   ;; Overload shifts so that they don't lose the selection
   ;; @see http://superuser.com/a/789156
@@ -1615,6 +1625,30 @@ Clear field placeholder if field was not modified."
   (advice-add 'flycheck-next-error :around #'mb/advice-add-to-evil-jump-list)
   (advice-add 'flycheck-previous-error :around #'mb/advice-add-to-evil-jump-list)
 
+  (flycheck-define-checker javascript-flow
+    "A JavaScript syntax and style checker using Flow. See URL `http://flowtype.org/'."
+    :command ("flow" source-original "--old-output-format" "--color=never")
+    :standard-input t
+    :predicate
+    (lambda ()
+      (and
+       buffer-file-name
+       (file-exists-p buffer-file-name)
+       (locate-dominating-file buffer-file-name ".flowconfig")))
+    :error-patterns
+    ((error line-start
+            (file-name)
+            ":"
+            line
+            ":"
+            (minimal-match (one-or-more not-newline))
+            ": "
+            (message (minimal-match (and (one-or-more anything) "\n")))
+            line-end))
+    :modes (js-mode js2-mode js3-mode js2-jsx-mode))
+
+  (add-to-list 'flycheck-checkers 'javascript-flow)
+
   ;; from Spacemacs
   (defun mb/toggle-flyckeck-errors-list ()
     "Toggle flycheck's error list window."
@@ -1875,6 +1909,7 @@ It use className instead of class."
 
 ;; Go-mode: Golang mode
 (use-package go-mode ; requires godef bin
+  :disabled t
   :ensure t
   :mode ("\\.go\\'" . go-mode)
   :init
@@ -2047,9 +2082,10 @@ It use className instead of class."
 ;; Javascript
 (use-package js-mode
   :defer t
-  :defines javascript-indent-level js-indent-level
+  :defines javascript-indent-level js-indent-level js-switch-indent-offset
   :config
   (setq javascript-indent-level mb-web-indent-size
+        js-switch-indent-offset mb-web-indent-size
         js-indent-level         mb-web-indent-size)
 
   (add-hook 'js-mode-hook 'rainbow-mode)
@@ -2080,7 +2116,6 @@ It use className instead of class."
         js2-consistent-level-indent-inner-bracket-p t
         ;; allow for multi-line var indenting
         js2-pretty-multiline-decl-indentation-p t
-        js2-indent-switch-body t
 
         ;; Don't highlight missing variables in js2-mode: we have jslint for that
         js2-highlight-external-variables          nil
@@ -2249,7 +2284,7 @@ It use className instead of class."
 ;; Rust
 (use-package rust-mode
   :ensure t
-  :defer t
+  :mode ("\\.ts$" . rust-mode)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-indent-offset  mb-tab-size
@@ -2324,6 +2359,7 @@ It use className instead of class."
 
 ;; Scheme
 (use-package geiser
+  :disabled t
   :ensure t
   :defer t
   :defines
@@ -2438,6 +2474,7 @@ It use className instead of class."
 
 (use-package tide
   :ensure t
+  :defer t
   :init
   (evil-leader/set-key-for-mode 'typescript-mode
     "mj" 'tide-jump-to-definition
