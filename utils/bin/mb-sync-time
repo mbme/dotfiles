@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# requires ntp package
+sudo ntpd -gq
