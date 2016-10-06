@@ -1,1 +1,2 @@
-local.el
+.emacs.d/local.el
+.emacs.d/custom.el
