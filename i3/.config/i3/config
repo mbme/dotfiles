@@ -232,7 +232,7 @@ assign [class="Quodlibet"]  9
 
 new_window  normal  $border
 new_float   normal  $border
-# hide_edge_borders both
+hide_edge_borders smart
 
 for_window [class="^Oblogout"] fullscreen
 
