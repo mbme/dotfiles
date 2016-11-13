@@ -27,6 +27,7 @@ export WINEDLLOVERRIDES=winemenubuilder.exe=d
 export MAVEN_HOME=/opt/maven
 export MAVEN_OPTS="-Xmx900m" # -XX:MaxPermSize=450m"
 
+export CARGO_HOME="$HOME/.cargo"
 
 if [ -n "$DISPLAY" ]; then
     TERM=xterm-256color

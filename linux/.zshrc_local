@@ -30,6 +30,7 @@ export GOPATH="$main_go_path"
 npm_bin="$HOME/.npm-global/bin"
 
 rust_bin="$HOME/.cargo/bin"
+export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 utils="$HOME/bin"
 

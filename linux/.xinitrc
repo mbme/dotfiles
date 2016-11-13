@@ -44,7 +44,7 @@ xbindkeys &
 log "loaded keybindings"
 
 # disable touchpad
-synclient TouchpadOff=1 FingerLow=15 FingerHigh=23
+synclient TouchpadOff=1 FingerLow=23 FingerHigh=27
 
 # update x resources db
 xrdb -merge $HOME/.Xresources
@@ -68,12 +68,10 @@ nitrogen --restore
 
 kupfer --no-splash &
 
-# redshift-gtk &
-redshift & # start without UI
+redshift-gtk &
+#redshift & # start without UI
 
-unclutter -idle 3 -jitter 5 -noevents -root &
-
-kbdd -n &
+#unclutter -idle 3 -jitter 5 -noevents -root &
 
 #conky -c $home/.config/conkyrc &
 
@@ -92,7 +90,7 @@ kbdd -n &
 
 # without DBUS_SESSION_BUS_ADDRESS terminal started
 # from emacs can't communicate with gnome keyring daemon
-systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH
+systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH RUST_SRC_PATH CARGO_HOME
 systemctl --user start emacs &
 
 log "starting i3 wm"
