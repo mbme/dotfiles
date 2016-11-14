@@ -984,7 +984,7 @@ narrowed."
       "pr" 'helm-projectile-recentf
       "pb" 'helm-projectile-switch-to-buffer))
 
-  (projectile-global-mode)
+  (projectile-mode)
 
   ;; remove prefix "/:" when detecting base
   ;; dir to avoid issues with command line apps:
@@ -1175,6 +1175,7 @@ Clear field placeholder if field was not modified."
 (use-package editorconfig
   :ensure t
   :defer t
+  :diminish editorconfig-mode
   :init
   (mb/ensure-bin-tool-exists "editorconfig")
   (add-hook 'prog-mode-hook 'editorconfig-mode)
@@ -1590,7 +1591,9 @@ Clear field placeholder if field was not modified."
   :bind*
   ("M-e 1" . flycheck-first-error)
   ("M-e j" . flycheck-next-error)
+  ("M-e M-j" . flycheck-next-error)
   ("M-e k" . flycheck-previous-error)
+  ("M-e M-k" . flycheck-previous-error)
   ("M-e l" . mb/toggle-flyckeck-errors-list)
   ("M-e b" . flycheck-buffer)
   :init
@@ -2284,7 +2287,7 @@ It use className instead of class."
 ;; Rust
 (use-package rust-mode
   :ensure t
-  :mode ("\\.ts$" . rust-mode)
+  :mode ("\\.rs$" . rust-mode)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-indent-offset  mb-tab-size
