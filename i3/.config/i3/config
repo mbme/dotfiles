@@ -3,13 +3,12 @@
 
 set $mod Mod4
 
-set $primary_screen eDP1
-# set $secondary_screen DP1
-set $secondary_screen HDMI1
+set_from_resource $primary_screen i3wm.primary.screen eDP1
+set_from_resource $secondary_screen i3wm.secondary.screen HDMI1
+set_from_resource $font i3wm.i3wm.font xft:Ubuntu Mono 12
 
 set $border 5
 
-set $font xft:Ubuntu Mono 12
 font $font
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -197,13 +196,13 @@ client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
 
 # startup on first workspace if single screen
 workspace 1 output $primary_screen
-workspace 2 output $primary_screen
-workspace 3 output $primary_screen
-workspace 4 output $primary_screen
-workspace 5 output $primary_screen
-workspace 7 output $secondary_screen
-workspace 8 output $primary_screen
-workspace 9 output $primary_screen
+workspace 2 output $secondary_screen
+workspace 3 output $secondary_screen
+workspace 4 output $secondary_screen
+workspace 5 output $secondary_screen
+workspace 7 output $primary_screen
+workspace 8 output $secondary_screen
+workspace 9 output $secondary_screen
 
 assign [class="^Firefox$"] 2
 assign [class="^Firefox-WORK$"] 10
