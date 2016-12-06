@@ -2120,6 +2120,8 @@ It use className instead of class."
         ;; allow for multi-line var indenting
         js2-pretty-multiline-decl-indentation-p t
 
+        js-switch-indent-offset mb-web-indent-size
+
         ;; Don't highlight missing variables in js2-mode: we have jslint for that
         js2-highlight-external-variables          nil
         js2-mode-show-parse-errors                nil
