@@ -16,7 +16,7 @@ current_dir = realpath(".")
 stuff_extensions = [
     ".jpg", ".jpeg", ".txt", ".png",
     ".part", ".html", ".htm", ".css", ".rtf",
-    ".m3u", ".gif", ".zip", ".nfo", ".sfv"
+    ".m3u", ".gif", ".zip", ".nfo", ".sfv", ".log", ".cue"
 ]
 
 
