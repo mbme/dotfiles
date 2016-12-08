@@ -102,6 +102,7 @@ let g:netrw_liststyle=3 " show file tree in NetRW (Explore)
 
 " Solarized
 set t_Co=256
+let g:solarized_termcolors=256
 if has('gui_running')
     set background=light
 else
