@@ -964,6 +964,12 @@ narrowed."
     ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
     (setq projectile-switch-project-action 'helm-projectile-recentf)
 
+    (defun mb/helm-ag--insert-thing-at-point (&rest args)
+      (helm-aif (thing-at-point (first args))
+          (s-replace-all '(("$" . "\\$")) (substring-no-properties it))
+        ""))
+    (advice-add 'helm-ag--insert-thing-at-point :override #'mb/helm-ag--insert-thing-at-point)
+
     (defun mb/helm-projectile-ag-dwim ()
       "Ag search in current project using symbol at point."
       (interactive)
