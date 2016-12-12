@@ -965,7 +965,7 @@ narrowed."
     (setq projectile-switch-project-action 'helm-projectile-recentf)
 
     (defun mb/helm-ag--insert-thing-at-point (&rest args)
-      (helm-aif (thing-at-point (first args))
+      (helm-aif (thing-at-point (car args))
           (s-replace-all '(("$" . "\\$")) (substring-no-properties it))
         ""))
     (advice-add 'helm-ag--insert-thing-at-point :override #'mb/helm-ag--insert-thing-at-point)
