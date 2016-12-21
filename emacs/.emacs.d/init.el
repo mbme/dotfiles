@@ -1636,7 +1636,12 @@ Clear field placeholder if field was not modified."
 
   (flycheck-define-checker javascript-flow
     "A JavaScript syntax and style checker using Flow. See URL `http://flowtype.org/'."
-    :command ("flow" source-original "--old-output-format" "--color=never")
+    :command (
+              "flow"
+              "check-contents"
+              "--from" "emacs"
+              "--color=never"
+              source-original)
     :standard-input t
     :predicate
     (lambda ()
@@ -1649,9 +1654,7 @@ Clear field placeholder if field was not modified."
             (file-name)
             ":"
             line
-            ":"
-            (minimal-match (one-or-more not-newline))
-            ": "
+            "\n"
             (message (minimal-match (and (one-or-more anything) "\n")))
             line-end))
     :modes (js-mode js2-mode js3-mode js2-jsx-mode))
