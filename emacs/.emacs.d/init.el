@@ -2213,6 +2213,8 @@ It use className instead of class."
 
       (flycheck-add-mode 'javascript-eslint 'web-mode)
 
+      (setq web-mode-enable-auto-quoting nil)
+
       (mb/emmet-jsx)
       (message "mb: WEB MODE FOR JSX")))
 
@@ -2225,6 +2227,8 @@ It use className instead of class."
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
       (eldoc-mode 1)
+
+      (setq web-mode-enable-auto-quoting nil)
 
       (mb/emmet-jsx)
       (message "mb: WEB MODE FOR TSX")))
