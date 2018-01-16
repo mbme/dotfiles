@@ -218,6 +218,7 @@ assign [class="/usr/bin/chromium-continuous-bin"] 4
 assign [class="Steam"] 5
 
 assign [class="Skype"] 7
+assign [class="Franz"] 7
 assign [class="Pidgin"] 7
 assign [class="Gitter"] 7
 assign [class="HipChat"] 7
@@ -250,8 +251,12 @@ for_window [class="^/usr/bin/chromium-continuous-bin" title="^Developer Tools"] 
 
 for_window [class="^Emacs"] border normal
 
+for_window [class="^Steam" title="^Steam - News .*"] floating enable
+
 for_window [class="^Skype"] floating enable
 for_window [class="^Skype" window_role="ConversationsWindow"] floating disable
+
+for_window [class="^Franz"] border pixel $border
 
 for_window [class="^Thunderbird" instance="Calendar"] floating enable
 for_window [class="^Thunderbird" instance="Msgcompose"] floating enable

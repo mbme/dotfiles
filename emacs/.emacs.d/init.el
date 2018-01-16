@@ -91,9 +91,6 @@
 
 (setq use-package-verbose t)
 
-;; Diminish: cleanup mode line
-(require 'diminish)
-
 (require 'bind-key)
 
 ;; create temp files dir if it does not exists
@@ -511,6 +508,10 @@ narrowed."
 ;; ---------------------------------------- PLUGINS
 
 
+;; Diminish: cleanup mode line
+(use-package diminish :ensure t)
+
+
 
 ;; Fix PATH on Mac
 (use-package exec-path-from-shell
@@ -847,7 +848,7 @@ narrowed."
           helm-ag-fuzzy-match t))
 
   (setq
-   helm-split-window-in-side-p           t
+   helm-split-window-inside-p            t
    helm-prevent-escaping-from-minibuffer t
    helm-always-two-windows               t
    helm-move-to-line-cycle-in-source     t
@@ -1114,16 +1115,11 @@ Clear field placeholder if field was not modified."
           (define-key map (kbd "C-g") 'yas-abort-snippet)
           map))
 
-  (defun mb/yas-expand ()
-    "Expand yasnippet or return nil."
-    (let ((yas-fallback-behavior 'return-nil))
-      (yas-expand)))
-
   (defun mb/yas-expand-or-complete ()
     "Expand yasnippet or show matching snippets."
     (interactive)
     (company-abort)
-    (or (mb/yas-expand)
+    (or (yas-expand)
         (helm-yas-complete)))
 
   (global-set-key (kbd "C-j") 'mb/yas-expand-or-complete))
@@ -1633,33 +1629,6 @@ Clear field placeholder if field was not modified."
   (advice-add 'flycheck-first-error :around #'mb/advice-add-to-evil-jump-list)
   (advice-add 'flycheck-next-error :around #'mb/advice-add-to-evil-jump-list)
   (advice-add 'flycheck-previous-error :around #'mb/advice-add-to-evil-jump-list)
-
-  (flycheck-define-checker javascript-flow
-    "A JavaScript syntax and style checker using Flow. See URL `http://flowtype.org/'."
-    :command (
-              "flow"
-              "check-contents"
-              "--from" "emacs"
-              "--color=never"
-              source-original)
-    :standard-input t
-    :predicate
-    (lambda ()
-      (and
-       buffer-file-name
-       (file-exists-p buffer-file-name)
-       (locate-dominating-file buffer-file-name ".flowconfig")))
-    :error-patterns
-    ((error line-start
-            (file-name)
-            ":"
-            line
-            "\n"
-            (message (minimal-match (and (one-or-more anything) "\n")))
-            line-end))
-    :modes (js-mode js2-mode js3-mode js2-jsx-mode))
-
-  (add-to-list 'flycheck-checkers 'javascript-flow)
 
   ;; from Spacemacs
   (defun mb/toggle-flyckeck-errors-list ()
@@ -2192,6 +2161,7 @@ It use className instead of class."
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
   ("\\.tsx\\'"        . web-mode)
+  ("\\.vue\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
         web-mode-markup-indent-offset mb-web-indent-size ; html tag in html file
@@ -2208,7 +2178,8 @@ It use className instead of class."
   (defun mb/web-mode-jsx-hacks ()
     "Enable eslint for jsx in flycheck."
     (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-              (string-equal "js" (file-name-extension buffer-file-name)))
+              (string-equal "js" (file-name-extension buffer-file-name))
+              (string-equal "vue" (file-name-extension buffer-file-name)))
       (setq imenu-create-index-function 'mb/imenu-js-make-index)
 
       (flycheck-add-mode 'javascript-eslint 'web-mode)
