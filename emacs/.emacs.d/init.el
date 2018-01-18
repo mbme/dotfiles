@@ -173,6 +173,8 @@
 ;; set font for all windows
 (add-to-list 'default-frame-alist `(font . ,mb-font))
 
+;; highlight current line
+(global-hl-line-mode t)
 
 ;; Enable disabled features
 (put 'downcase-region           'disabled nil)
@@ -418,7 +420,6 @@ narrowed."
                              ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:=]*)[ \t]*{" 1)
                              )))
 
-;; FIXME check for unsaved changes before running this
 (defun mb/eslint-fix-file ()
   "Fix some issues in current file using `eslint --fix'."
   (interactive)
@@ -585,6 +586,24 @@ narrowed."
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff       t))
+
+
+;; evil uses dabbrev and hippie-expand
+
+;; do not split words on _ and -
+(require 'dabbrev)
+(setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_\-]")
+
+;; Hippie expand is dabbrev expand on steroids
+(require 'hippie-exp)
+(setq hippie-expand-try-functions-list '(try-expand-dabbrev
+                                         try-expand-dabbrev-all-buffers
+                                         try-expand-dabbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-expand-list
+                                         try-expand-line))
 
 
 
@@ -1220,25 +1239,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Avy-mode: ace-jump replacement
-(use-package avy
-  :ensure t
-  :bind*
-  ("M-." . avy-goto-word-or-subword-1)
-  ("M-;" . avy-goto-line)
-  :init
-  (setq avy-background  t
-        avy-all-windows nil
-        avy-style       'at-full)
-
-  ;; free key for avy-jump
-  (define-key evil-normal-state-map (kbd "M-.") nil)
-
-  (define-key evil-normal-state-map (kbd "gc") 'avy-goto-char)
-  (define-key evil-normal-state-map (kbd "gl") 'avy-goto-line))
-
-
-
 ;; Ace-window: switch windows
 (use-package ace-window
   :ensure t
@@ -1265,19 +1265,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Linum-mode: show line numbers
-;; disabled: currently company mode breaks it
-;; (setq linum-format "%4d")
-;; (global-linum-mode 0)
-
-
-
-;; Hl-line mode: highlight current line
-(global-hl-line-mode t)
-;; (set-face-background 'hl-line mb-color13)
-
-
-
 ;; Uniquify: unique buffer names
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward
@@ -1289,38 +1276,12 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Bookmark menu (local)
-(use-package bookmark
-  :bind ([f11] . bookmark-bmenu-list)
-  :config
-  (setq bookmark-default-file (expand-file-name "bookmarks" mb-save-path)
-        bookmark-save-flag 1)
-
-  (evil-set-initial-state 'bookmark-bmenu-mode 'normal)
-
-  (define-key bookmark-bmenu-mode-map [f11] 'quit-window)
-
-  (evil-define-key 'normal bookmark-bmenu-mode-map
-    (kbd "RET") 'bookmark-bmenu-this-window
-    "J"         'bookmark-jump
-    "r"         'bookmark-bmenu-rename
-    "R"         'bookmark-bmenu-relocate
-    "s"         'bookmark-bmenu-save
-
-    "d"         'bookmark-bmenu-delete
-    (kbd "C-d") 'bookmark-bmenu-delete-backwards
-    "x"         'bookmark-bmenu-execute-deletions))
-
-
-
-
-;; Show available keybindings in separate window
+;; Show available keybindings in a separate window
 (use-package which-key
   :ensure t
   :diminish which-key-mode
   :init
   (which-key-mode))
-
 
 
 
@@ -1346,16 +1307,6 @@ Clear field placeholder if field was not modified."
 (require 'saveplace)
 (setq-default save-place t
               save-place-file (expand-file-name "saveplace" mb-save-path))
-
-
-;; Savehist: save mode-line history between sessions.
-(require 'savehist)
-(setq savehist-file (expand-file-name "savehist" mb-save-path)
-      history-length 1000
-      savehist-autosave-interval 60
-      ;; save searches
-      savehist-additional-variables '(search ring regexp-search-ring))
-(savehist-mode t)
 
 
 
@@ -1392,81 +1343,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Eshell
-(use-package eshell
-  :defer t
-
-  :init
-  (defun mb/projectile-eshell ()
-    "Open eshell in project root."
-    (interactive)
-    (projectile-with-default-dir (projectile-project-root)
-      (eshell)))
-  (evil-leader/set-key
-    "e" 'eshell
-    "pe" 'mb/projectile-eshell
-    "E" (lambda () (interactive) (eshell t)))
-
-  :config
-  ;; half-way through typing a long command and need something else,
-  ;; just M-q to hide it, type the new command, and continue where I left off.
-  (use-package esh-buf-stack
-    :ensure t
-    :config (setup-eshell-buf-stack))
-
-  (setq eshell-scroll-to-bottom-on-input t)
-
-  ;; keybinding for eshell must be defined in eshell hook
-  (add-hook 'eshell-mode-hook '(lambda ()
-                                 (add-to-list 'eshell-visual-commands "htop")
-                                 (add-to-list 'eshell-visual-commands "ranger")
-                                 (add-to-list 'eshell-visual-commands "tig")
-                                 (add-to-list 'eshell-visual-commands "vim")
-
-                                 (define-key eshell-mode-map [tab] 'company-manual-begin)
-                                 (define-key eshell-mode-map [M-tab] 'mb/prev-buffer)
-                                 (define-key eshell-mode-map (kbd "M-h") 'helm-eshell-history)
-
-                                 (define-key eshell-mode-map (kbd "C-d") 'bury-buffer)
-
-                                 (define-key eshell-mode-map (kbd "M-q") 'eshell-push-command)
-
-                                 (mb/no-highlight-whitespace)
-
-                                 ;; use helm to show candidates
-                                 (define-key eshell-mode-map [remap eshell-pcomplete] 'helm-esh-pcomplete)
-                                 ;; use helm to show history
-                                 (substitute-key-definition 'eshell-list-history 'helm-eshell-history eshell-mode-map)))
-
-  (add-hook 'term-mode-hook 'mb/no-highlight-whitespace)
-
-  ;; override default eshell `clear' command.
-  (defun eshell/clear ()
-    "Clear the eshell buffer."
-    (let ((inhibit-read-only t))
-      (erase-buffer))))
-
-
-
-;; Hippie expand is dabbrev expand on steroids
-;; do not split words on _ and -
-(use-package hippie-exp
-  :bind* ("M-/" . hippie-expand)
-  :config
-  (use-package dabbrev
-    :init
-    (setq dabbrev-abbrev-char-regexp "[a-zA-Z0-9?!_\-]"))
-  (setq hippie-expand-try-functions-list '(try-expand-dabbrev
-                                           try-expand-dabbrev-all-buffers
-                                           try-expand-dabbrev-from-kill
-                                           try-complete-file-name-partially
-                                           try-complete-file-name
-                                           try-expand-all-abbrevs
-                                           try-expand-list
-                                           try-expand-line)))
-
-
-
 ;; Eldoc
 (add-hook  'emacs-lisp-mode-hook        'turn-on-eldoc-mode)
 (add-hook  'lisp-interaction-mode-hook  'turn-on-eldoc-mode)
@@ -1482,8 +1358,7 @@ Clear field placeholder if field was not modified."
   :config
   (require 'dired-x)
 
-  (setq dired-auto-revert-buffer t    ; automatically revert buffer
-        dired-clean-up-buffers-too t) ; kill buffers for deleted files
+  (setq dired-auto-revert-buffer t)    ; automatically revert buffer
 
   (evil-set-initial-state 'wdired-mode 'normal)
   (evil-leader/set-key "d" 'dired-jump)
@@ -1507,12 +1382,6 @@ Clear field placeholder if field was not modified."
     "n" 'evil-search-next
     "N" 'evil-search-previous
     "q" 'mb/kill-this-buffer))
-
-
-
-;; Which-function-mode: show current function (disabled)
-;; (require 'which-func)
-;; (which-function-mode 1)
 
 
 
@@ -1660,7 +1529,6 @@ Clear field placeholder if field was not modified."
         show-paren-priority 10
         ;; highlight everything inside parens
         show-paren-style 'expression)
-  ;; (set-face-background 'show-paren-match-face mb-color12)
   (show-paren-mode 1))
 
 
@@ -1765,8 +1633,7 @@ It use className instead of class."
   (use-package evil-magit
     :ensure t)
 
-  (setq magit-last-seen-setup-instructions "1.4.0"
-        vc-follow-symlinks nil
+  (setq vc-follow-symlinks nil
 
         ;; open magit status in same window as current buffer
         magit-status-buffer-switch-function 'switch-to-buffer
