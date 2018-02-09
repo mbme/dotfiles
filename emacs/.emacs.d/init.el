@@ -1035,7 +1035,7 @@ narrowed."
   company-dabbrev-downcase
   :config
   (setq
-   company-idle-delay                0.3
+   company-idle-delay                0.12
    company-tooltip-limit             20
    company-minimum-prefix-length     2
    company-echo-delay                0
@@ -2045,8 +2045,7 @@ It use className instead of class."
   (defun mb/web-mode-jsx-hacks ()
     "Enable eslint for jsx in flycheck."
     (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-              (string-equal "js" (file-name-extension buffer-file-name))
-              (string-equal "vue" (file-name-extension buffer-file-name)))
+              (string-equal "js" (file-name-extension buffer-file-name)))
       (setq imenu-create-index-function 'mb/imenu-js-make-index)
 
       (flycheck-add-mode 'javascript-eslint 'web-mode)

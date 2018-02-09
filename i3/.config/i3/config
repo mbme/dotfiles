@@ -3,8 +3,8 @@
 
 set $mod Mod4
 
-set_from_resource $primary_screen i3wm.primary.screen eDP1
-set_from_resource $secondary_screen i3wm.secondary.screen HDMI1
+set_from_resource $primary_screen i3wm.primary.screen eDP-1-1
+set_from_resource $secondary_screen i3wm.secondary.screen HDMI-1-1
 set_from_resource $font i3wm.i3wm.font xft:Ubuntu Mono 12
 
 set $border 5
@@ -124,9 +124,9 @@ bindsym $mod+r mode "resize"
 bar {
     font         $font
     position     top
-    tray_output  $primary_screen
-    output       $primary_screen
     mode         invisible
+    wheel_up_cmd   nop
+    wheel_down_cmd nop
 
     colors {
            # solarized
@@ -147,34 +147,6 @@ bar {
     }
 
     status_command exec $HOME/.config/i3/conky-i3bar.sh "primary"
-}
-
-bar {
-    font         $font
-    position     top
-    output       $secondary_screen
-    tray_output  $secondary_screen
-    mode         invisible
-
-    colors {
-           # solarized
-           set  $c_active      #268bd2
-           set  $c_inactive    #859900
-           set  $c_background  #073642
-           set  $c_text        #eee8d5
-           set  $c_urgent      #cb4b16
-
-           background $c_background
-           statusline $c_text
-
-           #colorclass         border       background     text
-           focused_workspace   $c_active    $c_active      $c_text
-           active_workspace    $c_inactive  $c_inactive    $c_text
-           inactive_workspace  $c_inactive  $c_background  $c_text
-           urgent_workspace    $c_urgent    $c_urgent      $c_text
-    }
-
-    status_command exec $HOME/.config/i3/conky-i3bar.sh "secondary"
 }
 
 exec_always --no-startup-id $HOME/.config/i3/toggle_bar.sh clear
@@ -213,6 +185,7 @@ assign [class="^jetbrains-webstorm"] 3
 assign [class="Chromium"] 4
 assign [class="chromium"] 4
 assign [class="Chrome"] 4
+assign [class="Google-chrome-beta"] 4
 assign [class="/usr/bin/chromium-continuous-bin"] 4
 
 assign [class="Steam"] 5
@@ -246,6 +219,7 @@ for_window [class="^Firefox" instance="Navigator"] floating disable, border pixe
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
+for_window [class="^Google-chrome-beta"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin" title="^Developer Tools"] floating disable, border pixel $border
 
@@ -278,6 +252,7 @@ for_window [class="^Gcolor2"]     floating enable
 for_window [class="^Vncviewer"]   floating enable
 for_window [class="^Remmina"]     floating enable
 for_window [class="^dota_linux"]  floating enable
+for_window [class="^Gtk-recordMyDesktop"] floating enable
 # for_window [class="^Termite"]     floating enable
 
 for_window [class="^Gnome-screenshot"] floating enable
