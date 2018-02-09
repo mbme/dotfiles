@@ -950,9 +950,6 @@ narrowed."
     "<SPC>" 'helm-mini
     "r"     'helm-recentf
 
-    "bb" 'helm-buffers-list
-    "bm" 'helm-bookmarks
-
     "ff" 'helm-find-files
     "fo" 'mb/helm-open-current-file-externally
     "fO" 'mb/helm-open-current-file-wit-default-tool
@@ -2363,7 +2360,6 @@ It use className instead of class."
   (global-set-key (kbd "C-<wheel-down>") 'text-scale-decrease))
 
 
-(global-set-key (kbd "M-,") 'evil-jump-backward)
 (global-set-key (kbd "C-x e")   'mb/eval-and-replace)
 (global-set-key [M-tab]         'mb/prev-buffer)
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
@@ -2379,18 +2375,15 @@ It use className instead of class."
 (evil-leader/set-key
   "2"  'call-last-kbd-macro
   "q"  'evil-quit
-  ","  'mb/prev-buffer
   "n"  'mb/narrow-or-widen-dwim
   "ll" 'mb/cleanup-buffer
   "lt" 'mb/sort-columns
   "k"  'mb/kill-this-buffer
-  ";"  'evil-ex
   "s"  'save-buffer
   "lm" 'evil-show-marks
   "u"  'undo-tree-visualize
 
   "bd" 'mb/delete-current-buffer-file
-  "bh" 'bury-buffer
   "br" 'mb/rename-file-and-buffer
   "bs" 'scratch)
 

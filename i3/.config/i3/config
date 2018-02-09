@@ -3,8 +3,6 @@
 
 set $mod Mod4
 
-set_from_resource $primary_screen i3wm.primary.screen eDP1
-set_from_resource $secondary_screen i3wm.secondary.screen HDMI1
 set_from_resource $font i3wm.i3wm.font xft:Ubuntu Mono 12
 
 set $border 5
@@ -124,8 +122,6 @@ bindsym $mod+r mode "resize"
 bar {
     font         $font
     position     top
-    tray_output  $primary_screen
-    output       $primary_screen
     mode         invisible
 
     colors {
