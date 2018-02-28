@@ -30,7 +30,7 @@ ${if_up eno1}\
 $endif\
 # CPU temperature:
 {"full_text":"CPU","color":"\#888888","separator":false,"separator_block_width":6},\
-{"full_text":"$cpu% /${exec sensors | grep 'Physical id 0' | cut -c18-23}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
+{"full_text":"$cpu% / ${exec sensors | grep 'Package id 0' | cut -c17-24}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
 # RAM usage
 {"full_text":"RAM","color":"\#888888","separator":false,"separator_block_width":6},\
 {"full_text":"$memperc%","color":"\#EEEEEE","separator":true,"separator_block_width":16},\

@@ -1,6 +1,3 @@
-# vaapi is deprecated 
-vo=opengl-hq
+hwdec=auto
+hwdec-codecs=all
 ao=pulse
-
-# for volume normalization
-af=drc
