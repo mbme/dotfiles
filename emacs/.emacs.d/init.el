@@ -548,7 +548,6 @@ narrowed."
 
 ;; Solarized theme
 (use-package solarized-theme
-  :disabled t
   :ensure t
   :config
   ;; selection (region) colors
@@ -570,6 +569,7 @@ narrowed."
 
 ;; Material theme (dark & lite)
 (use-package material-theme
+  :disabled t
   :ensure t
   :config
   ;; (mb/load-theme! 'material-light)

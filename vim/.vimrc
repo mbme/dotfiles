@@ -106,7 +106,8 @@ let g:solarized_termcolors=256
 if has('gui_running')
     set background=light
 else
-    set background=dark
+    "set background=dark
+    set background=light
 endif
 " ignore errors if theme not found
 silent! colorscheme solarized
