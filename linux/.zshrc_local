@@ -22,13 +22,14 @@ main_go_path="/mnt/data/projects/goworkspace"
 export GOPATH="$main_go_path"
 
 npm_bin="$HOME/.npm-global/bin"
+yarn_bin="$HOME/.config/yarn/global/node_modules/.bin"
 
 rust_bin="$HOME/.cargo/bin"
 export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 
 utils="$HOME/bin"
 
-path=($path $utils $main_go_path/bin $npm_bin $rust_bin)
+path=($path $utils $main_go_path/bin $npm_bin $yarn_bin $rust_bin)
 
 # OPAM CONFIGURATION
 #. "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
