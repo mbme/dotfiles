@@ -7,3 +7,5 @@ Xft.lcdfilter: lcddefault
 Xft.rgba: rgb
 
 Xcursor.theme: Simple-and-Soft
+
+*i3wm.font: xft:Ubuntu Mono 11

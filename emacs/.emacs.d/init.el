@@ -12,7 +12,6 @@
 ;; ---------------------------------------- VARS
 
 
-
 (defvar mb-is-mac-os (eq system-type 'darwin))
 (defvar mb-is-linux (eq system-type 'gnu/linux))
 
@@ -69,6 +68,8 @@
 ;; load local settings if file exists
 (load (expand-file-name "local.el" mb-dotfiles-dir) t)
 
+;; keep packages in emacs-version-specific directories
+(setq package-user-dir (expand-file-name (concat "packages/" emacs-version "/elpa") mb-dotfiles-dir))
 
 
 ;; ---------------------------------------- INIT

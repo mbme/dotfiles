@@ -16,7 +16,7 @@ log () {
 
 # log "display mode 1600x900"
 
-$HOME/bin/mb-monitor-toggle &
+$HOME/bin/mb-external-monitor &
 
 ### ---------------
 
@@ -52,9 +52,6 @@ xrdb -merge $HOME/.Xresources
 # set cursor
 xsetroot -cursor_name left_ptr
 
-# autodetect connected monitor
-srandrd mb-monitor-toggle
-
 # enable auto screenlock
 xautolock -time 15 -locker "mb-lock-screen" &
 
@@ -64,7 +61,7 @@ nitrogen --restore
 #syndaemon -t -k -i 2 -d
 #log "started synaptics daemon"
 
-# compton -b &
+compton -b &
 
 kupfer --no-splash &
 

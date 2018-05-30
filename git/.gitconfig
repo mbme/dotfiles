@@ -14,6 +14,7 @@
     comm = commit
     ch = checkout
     get-submodules = submodule update --init --recursive
+    b = branch
 [http]
     postBuffer = 524288000
 [include]
