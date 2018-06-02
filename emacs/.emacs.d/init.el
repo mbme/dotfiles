@@ -1590,7 +1590,7 @@ Clear field placeholder if field was not modified."
 (use-package emmet-mode
   :ensure t
   :defer t
-  ;; :diminish emmet-mode
+  :diminish emmet-mode
   :init
   (setq emmet-preview-default nil
         emmet-indentation mb-web-indent-size)
