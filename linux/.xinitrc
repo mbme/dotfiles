@@ -43,6 +43,8 @@ log "started PulseAudio"
 xbindkeys &
 log "loaded keybindings"
 
+/usr/lib/geoclue-2.0/demos/agent &
+
 # disable touchpad
 synclient TouchpadOff=1 FingerLow=23 FingerHigh=27
 

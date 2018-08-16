@@ -1753,140 +1753,14 @@ It use className instead of class."
 
 
 
-;; Go-mode: Golang mode
-(use-package go-mode ; requires godef bin
-  :disabled t
-  :ensure t
-  :mode ("\\.go\\'" . go-mode)
-  :init
-  (add-to-list 'hs-special-modes-alist '(go-mode "{" "}" "/[*/]" nil nil))
-
-  (add-hook 'go-mode-hook
-            (lambda ()
-              ;; go-eldoc
-              (go-eldoc-setup)
-
-              (add-hook 'before-save-hook 'gofmt-before-save)
-
-              (set (make-local-variable 'company-backends) '((company-go :with company-dabbrev-code)))
-              (company-mode)
-
-              ;; unbind go-mode-insert-and-indent
-              ;; because it conflicts with something else
-              (define-key go-mode-map (kbd "}") nil)
-              (define-key go-mode-map (kbd ")") nil)
-              (define-key go-mode-map (kbd ",") nil)
-              (define-key go-mode-map (kbd ":") nil)
-              (define-key go-mode-map (kbd "=") nil)))
-
-  :config
-  ;; go get -u golang.org/x/tools/cmd/gorename
-  ;; go build golang.org/x/tools/cmd/gorename
-  (use-package go-rename
-    :ensure t
-    :if (executable-find "gorename")
-    :init (mb/ensure-bin-tool-exists "gorename")
-    :config
-    (evil-leader/set-key-for-mode 'go-mode
-      "mr" 'go-rename))
-
-  ;; go get -u github.com/nsf/gocode
-  (use-package go-eldoc
-    :ensure t
-    :init (mb/ensure-bin-tool-exists "gocode")
-    :if (executable-find "gocode"))
-
-  (use-package company-go
-    :ensure t
-    :if (executable-find "gocode")
-    :init (mb/ensure-bin-tool-exists "gocode")
-    :config
-    (setq company-go-insert-arguments nil)
-    (evil-leader/set-key-for-mode 'go-mode
-      "mj" 'godef-jump
-      "md" 'godef-describe))
-
-  (evil-leader/set-key-for-mode 'go-mode
-    "ma" 'go-import-add
-    "mi" 'go-goto-imports)
-
-  (message "mb: GO MODE"))
-
-
-
 ;; Python mode
 (use-package python
   :ensure t
-  :mode ("\\.py\\'" . python-mode)
+  :defer t
   :interpreter ("python" . python-mode)
   :init
-  (setq anaconda-mode-installation-directory (expand-file-name  "anaconda-mode"  mb-save-path)
-        python-indent-offset mb-tab-size)
-
-  (add-hook 'python-mode-hook 'anaconda-mode)
-  (add-hook 'python-mode-hook 'eldoc-mode)
-
-  :config
-  (use-package anaconda-mode
-    :ensure t)
-  (use-package company-anaconda
-    :ensure t)
-  (add-to-list 'company-backends 'company-anaconda)
+  (setq python-indent-offset mb-tab-size)
   (message "mb: PYTHON MODE"))
-
-
-
-;; Ruby mode
-(use-package ruby-mode
-  :disabled t
-  :ensure t
-  :mode
-  ("\\.\\(?:gemspec\\|irbrc\\|gemrc\\|rake\\|rb\\|ru\\|thor\\)\\'" . ruby-mode)
-  ("\\(Capfile\\|Gemfile\\(?:\\.[a-zA-Z0-9._-]+\\)?\\|[rR]akefile\\)\\'" . ruby-mode)
-  :interpreter "ruby"
-  :init
-  (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode)
-  :config
-  (message "mb: RUBY MODE"))
-
-
-
-;; Clojure mode
-(use-package clojure-mode
-  :disabled t
-  :ensure t
-  :mode (("\\.cljs$" . clojure-mode)
-         ("\\.cljx$" . clojure-mode)
-         ("\\.edn$" . clojure-mode)
-         ("\\.dtm$" . clojure-mode))
-  :init
-  (evil-leader/set-key-for-mode 'clojure-mode
-    "mj"  'cider-jack-in
-    "mq"  'cider-quit
-    "mn"  'cider-repl-set-ns
-    "meb" 'cider-eval-buffer
-    "mer" 'cider-eval-region
-    "mes" 'cider-eval-last-sexp
-    "mz"  'cider-switch-to-repl-buffer)
-
-  (add-hook 'clojure-mode-hook 'eldoc-mode)
-
-  :config
-  (use-package clojure-mode-extra-font-locking
-    :ensure t)
-  (use-package clojure-snippets
-    :ensure t)
-  (use-package cider
-    :ensure t)
-
-  (setq nrepl-hide-special-buffers t)
-  (setq cider-repl-use-pretty-printing t)
-  ;; (setq cider-repl-display-in-current-window t)
-
-  (evil-set-initial-state 'cider-repl-mode 'emacs)
-  (evil-set-initial-state 'nrepl-mode 'emacs)
-
-  (message "mb: CLOJURE MODE"))
 
 
 
@@ -2116,15 +1990,6 @@ It use className instead of class."
 
 
 
-;; LESS-mode
-(use-package less-css-mode
-  :disabled t
-  :ensure t
-  :defer t
-  :config (message "mb: LESS MODE"))
-
-
-
 ;; Yaml
 (use-package yaml-mode
   :disabled t
@@ -2176,17 +2041,6 @@ It use className instead of class."
 
 
 
-;; CoffeeScript
-(use-package coffee-mode
-  :disabled t
-  :ensure t
-  :defer t
-  :config
-  (custom-set-variables `(coffee-tab-width ,mb-web-indent-size))
-  (message "mb: COFFEESCRIPT MODE"))
-
-
-
 ;; Emacs Lisp
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "meb" 'eval-buffer)
 (evil-leader/set-key-for-mode 'emacs-lisp-mode "mer" 'eval-region)
@@ -2196,101 +2050,6 @@ It use className instead of class."
             (setq mode-name "ELisp")))
 (add-hook 'lisp-interaction-mode-hook
           (lambda() (setq mode-name "λ")))
-
-
-
-;; Php-mode
-(use-package php-mode
-  :disabled t
-  :ensure t
-  :defer t
-  :config
-  (define-key php-mode-map [(meta tab)] nil)
-  (message "mb: PHP MODE"))
-
-
-
-;; Scheme
-(use-package geiser
-  :disabled t
-  :ensure t
-  :defer t
-  :defines
-  geiser-active-implementations
-  scheme-program-name
-  geiser-mode-map
-  geiser-repl-mode-map
-  :config
-  (add-hook 'geiser-mode-hook (lambda ()
-                                (define-key geiser-mode-map (kbd "M-.") nil)
-                                (define-key geiser-mode-map (kbd "M-`") nil)
-                                (define-key geiser-repl-mode-map (kbd "M-`") nil)))
-
-  (evil-leader/set-key-for-mode 'scheme-mode
-    "mj" 'run-geiser
-    "mb" 'geiser-compile-current-buffer
-    "md" 'geiser-doc-symbol-at-point
-    "meb" 'geiser-eval-buffer
-    "meB" 'geiser-eval-buffer-and-go
-    "mef" 'geiser-eval-definition
-    "meF" 'geiser-eval-definition-and-go
-    "mes" 'geiser-eval-last-sexp
-    "mer" 'geiser-eval-region
-    "meR" 'geiser-eval-region-and-go)
-
-  (message "mb: SCHEME MODE"))
-
-
-
-;; Ocaml
-(use-package tuareg
-  :disabled t
-  :ensure t
-  :mode
-  ("\\.ml[ily]?$" . tuareg-mode)
-  ("\\.topml$" . tuareg-mode)
-
-  :config
-  ;; autocomplete
-  (use-package merlin
-    :ensure t
-    :if (executable-find "ocamlmerlin")
-    :init
-    (mb/ensure-bin-tool-exists "ocamlmerlin")
-    (require 'merlin-company)
-    (add-to-list 'company-backends 'merlin-company-backend)
-
-    ;; Use opam switch to lookup ocamlmerlin binary
-    (setq merlin-command 'opam)
-    (setq merlin-error-after-save nil))
-
-  ;; repl
-  (use-package utop
-    :ensure t
-    :if (executable-find "utop")
-    :init (mb/ensure-bin-tool-exists "utop"))
-
-  ;; source code indent
-  (use-package ocp-indent
-    :ensure t
-    :if (executable-find "ocp-indent")
-    :init (mb/ensure-bin-tool-exists "ocp-indent"))
-
-  (mb/ensure-bin-tool-exists "opam")
-
-  ;; Setup environment variables using opam
-  (dolist (var (car (read-from-string (shell-command-to-string "opam config env --sexp"))))
-    (setenv (car var) (cadr var)))
-
-  ;; Update the emacs path
-  (setq exec-path (append (parse-colon-path (getenv "PATH"))
-                          (list exec-directory)))
-
-  (add-hook 'tuareg-mode-hook (lambda()
-                                (merlin-mode)
-                                (utop-minor-mode)))
-
-  (message "mb: OCAML MODE"))
 
 
 
@@ -2340,6 +2099,22 @@ It use className instead of class."
               (eldoc-mode 1)
               )))
 
+
+
+;; Groovy mode (for Jenkinsfile)
+(use-package groovy-mode
+  :ensure t
+  :defer t
+  :config
+  (message "mb: GROOVY MODE"))
+
+
+;; Dockerfile mode
+(use-package dockerfile-mode
+  :ensure t
+  :defer t
+  :config
+  (message "mb: DOCKERFILE MODE"))
 
 
 ;; ---------------------------------------- GLOBAL KEYBINDINGS

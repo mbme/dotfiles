@@ -19,3 +19,5 @@
     postBuffer = 524288000
 [include]
     path = .gitconfig_local
+[merge]
+	conflictstyle = diff3
