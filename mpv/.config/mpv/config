@@ -1,3 +1,6 @@
 hwdec=auto
 hwdec-codecs=all
 ao=pulse
+#no-sub-auto
+#no-sub-ass
+no-sub
