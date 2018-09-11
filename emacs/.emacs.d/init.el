@@ -410,17 +410,6 @@ narrowed."
   (interactive)
   (ansi-color-apply-on-region (point-min) (point-max)))
 
-;; @see https://stackoverflow.com/questions/20863386/idomenu-not-working-in-javascript-mode
-;; @see https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-javascript.el
-(defun mb/imenu-js-make-index ()
-  "Create imenu for javascript file."
-  (imenu--generic-function '(("Function" "function[ \t]+\\([a-zA-Z0-9_$.]+\\)[ \t]*(" 1)
-                             ("Function" "^[ \t]*\\([a-zA-Z0-9_$.]+\\)[ \t]*=[ \t]*function[ \t]*(" 1)
-                             ("Class"    "class[ \t]+\\([a-zA-Z0-9_$.]+\\([ \t]+extends[ \t]+[a-zA-Z0-9_$.]+\\)?\\)[ \t]*{" 1)
-                             ("Method" "[ \t{]\\([a-zA-Z0-9_$.]+\\):[ \t]*function[ \t]*(" 1)
-                             ("Method"   "^[ \t]+\\([a-zA-Z0-9_$]+\\)[ \t]*([a-zA-Z0-9_$, {}:=]*)[ \t]*{" 1)
-                             )))
-
 (defun mb/eslint-fix-file ()
   "Fix some issues in current file using `eslint --fix'."
   (interactive)
@@ -1559,25 +1548,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Highlight-chars: highlight tabs and trailing whitespace
-(defvar mb-highlight-chars t "If highlight-chars should be enabled or not.")
-(make-variable-buffer-local 'mb-highlight-chars)
-
-(defun mb/no-highlight-whitespace ()
-  "Disable whitespace highlighting."
-  (interactive)
-  (setq mb-highlight-chars nil))
-
-(use-package highlight-chars
-  :ensure t
-  :config
-  (add-hook 'font-lock-mode-hook (lambda ()
-                                   (when mb-highlight-chars
-                                     (hc-highlight-trailing-whitespace)
-                                     (hc-highlight-hard-hyphens)
-                                     (hc-highlight-hard-spaces)
-                                     (hc-highlight-tabs)))))
-
 ;; highlight todos
 (use-package hl-todo
   :ensure t
@@ -1655,8 +1625,6 @@ It use className instead of class."
 
   (diminish 'auto-revert-mode)
   (define-key magit-file-section-map (kbd "K") 'magit-discard)
-
-  (add-hook 'magit-mode-hook 'mb/no-highlight-whitespace)
 
   ;; blame
   (evil-define-key 'normal magit-blame-map
@@ -1918,7 +1886,6 @@ It use className instead of class."
     "Enable eslint for jsx in flycheck."
     (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
               (string-equal "js" (file-name-extension buffer-file-name)))
-      (setq imenu-create-index-function 'mb/imenu-js-make-index)
 
       (flycheck-add-mode 'javascript-eslint 'web-mode)
 
