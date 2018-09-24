@@ -999,13 +999,6 @@ narrowed."
 
   (projectile-mode)
 
-  ;; remove prefix "/:" when detecting base
-  ;; dir to avoid issues with command line apps:
-  ;; "/:/home/mbme/configs" -> "/home/mbme/configs"
-  (advice-add 'projectile-project-root :around
-              (lambda (origin-fun)
-                (s-chop-prefix "/:" (funcall origin-fun))))
-
   (evil-leader/set-key
     "pD" 'projectile-dired
     "pR" 'projectile-replace
@@ -1341,7 +1334,6 @@ Clear field placeholder if field was not modified."
 
 ;; Dired
 (use-package dired
-  :defer t
   :config
   (require 'dired-x)
 

@@ -67,8 +67,8 @@ compton -b &
 
 kupfer --no-splash &
 
-redshift-gtk &
-#redshift & # start without UI
+#redshift-gtk &
+redshift & # start without UI
 
 #unclutter -idle 3 -jitter 5 -noevents -root &
 
