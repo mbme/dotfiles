@@ -1715,7 +1715,6 @@ It use className instead of class."
 
 ;; Python mode
 (use-package python
-  :ensure t
   :defer t
   :interpreter ("python" . python-mode)
   :init
@@ -1889,17 +1888,18 @@ It use className instead of class."
   (defun mb/web-mode-tsx-hacks ()
     "Enable tide & tslint for tsx in flycheck."
     (when (string-equal "tsx" (file-name-extension buffer-file-name))
-      (flycheck-add-mode 'typescript-tslint 'web-mode)
-
       (tide-setup)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
       (eldoc-mode 1)
+      (tide-hl-identifier-mode 1)
 
-      (setq web-mode-enable-auto-quoting nil)
+      ;; (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
+      ;; (setq web-mode-enable-auto-quoting nil)
 
       (mb/emmet-jsx)
       (message "mb: WEB MODE FOR TSX")))
+
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
 
   (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
@@ -2046,18 +2046,12 @@ It use className instead of class."
 (use-package tide
   :ensure t
   :defer t
-  :init
-  (evil-leader/set-key-for-mode 'typescript-mode
-    "mj" 'tide-jump-to-definition
-    "mh" 'tide-documentation-at-point
-    "mr" 'tide-rename-symbol)
-  (add-hook 'typescript-mode-hook
-            (lambda ()
-              (tide-setup)
-              (setq flycheck-check-syntax-automatically '(save mode-enabled))
-              (eldoc-mode 1)
-              )))
-
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save))
+  :config
+  (message "mb: TIDE MODE"))
 
 
 ;; Groovy mode (for Jenkinsfile)
