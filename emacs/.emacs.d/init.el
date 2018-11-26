@@ -845,6 +845,7 @@ narrowed."
   helm-source-imenu
 
   :config
+  (ido-mode -1)
   (require 'helm-config)
   (require 'helm-imenu)
 
@@ -1715,9 +1716,8 @@ It use className instead of class."
 
 ;; Python mode
 (use-package python
-  :defer t
   :interpreter ("python" . python-mode)
-  :init
+  :config
   (setq python-indent-offset mb-tab-size)
   (message "mb: PYTHON MODE"))
 
@@ -1725,9 +1725,9 @@ It use className instead of class."
 
 ;; C-based languages like Java
 (use-package cc-mode
-  :defer t
+  :mode
+  ("\\.java\\'" . java-mode)
   :config
-
   ;; Set the default formatting styles for various C based modes.
   ;; Particularly, change the default style from GNU to Java.
   (setq c-default-style
@@ -1814,6 +1814,21 @@ It use className instead of class."
 
   (add-hook 'js2-jsx-mode-hook (lambda () (mb/emmet-jsx)))
   (message "mb: JS2 MODE"))
+
+
+
+(use-package nodejs-repl
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'js-mode-hook
+            (lambda ()
+              (define-key js-mode-map (kbd "C-x C-e") 'nodejs-repl-send-last-expression)
+              (define-key js-mode-map (kbd "C-c C-j") 'nodejs-repl-send-line)
+              (define-key js-mode-map (kbd "C-c C-r") 'nodejs-repl-send-region)
+              (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
+              (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl)))
+  (message "mb: NODEJS REPL"))
 
 
 
@@ -2039,6 +2054,7 @@ It use className instead of class."
   :ensure t
   :mode ("\\.ts$" . typescript-mode)
   :config
+  (mb/ensure-bin-tool-exists "tslint")
   (add-hook 'typescript-mode-hook 'emmet-mode)
 
   (message "mb: TYPESCRIPT MODE"))
