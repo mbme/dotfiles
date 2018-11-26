@@ -1966,9 +1966,7 @@ It use className instead of class."
 
 ;; Yaml
 (use-package yaml-mode
-  :disabled t
   :ensure t
-  :mode ("\\.yml$" . yaml-mode)
   :config (message "mb: YAML MODE"))
 
 
