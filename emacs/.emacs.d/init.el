@@ -420,6 +420,16 @@ narrowed."
   ;; revert buffer to see changes in FS
   (revert-buffer t t))
 
+(defun mb/tslint-fix-file ()
+  "Fix some issues in current file using `tslint --fix'."
+  (interactive)
+  (message "mb: tslint --fix this file")
+  (when (buffer-modified-p)
+    (save-buffer))
+  (shell-command (concat "tslint --fix " (buffer-file-name)))
+  ;; revert buffer to see changes in FS
+  (revert-buffer t t))
+
 
 (defun mb/advice-add-to-evil-jump-list (origin-fun &rest args)
   "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
