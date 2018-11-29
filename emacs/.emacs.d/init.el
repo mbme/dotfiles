@@ -619,8 +619,17 @@ narrowed."
   (defvar evil-want-C-u-scroll t)
   (defvar evil-want-Y-yank-to-eol t)
   (defvar evil-want-C-i-jump t)
+  (defvar evil-want-keybinding nil)
 
   :config
+  ;; integration of evil with various packages
+  (use-package evil-collection
+    :ensure t
+    :init
+    (defvar evil-collection-company-use-tng nil)
+    :config
+    (evil-collection-init))
+
   ;; vim leader feature
   (use-package evil-leader
     :ensure t
@@ -716,9 +725,6 @@ narrowed."
 
   (define-key evil-insert-state-map [escape] 'evil-normal-state)
 
-  (evil-add-hjkl-bindings package-menu-mode-map 'emacs
-    "H" 'package-menu-quick-help)
-
   ;; disable man look up
   (define-key evil-motion-state-map "K" nil)
 
@@ -803,9 +809,6 @@ narrowed."
    ido-default-file-method       'selected-window
    ido-auto-merge-work-directories-length  -1)
 
-  (ido-mode 1)
-  ;; (ido-everywhere 1)
-
   (add-hook 'ido-setup-hook
             (lambda()
               (define-key ido-completion-map (kbd "<backtab>") 'ido-prev-match)
@@ -813,15 +816,6 @@ narrowed."
               (define-key ido-file-dir-completion-map (kbd "C-w") 'ido-delete-backward-updir)
               (define-key ido-completion-map (kbd "M-j") 'ido-next-match)
               (define-key ido-completion-map (kbd "M-k") 'ido-prev-match))))
-
-
-;; Better ido-based M-x
-(use-package smex
-  :ensure t
-  :bind ("M-`" . smex-major-mode-commands)
-  :config
-  (setq smex-save-file (expand-file-name "smex-items" mb-save-path))
-  (smex-initialize))
 
 
 
@@ -845,7 +839,6 @@ narrowed."
   helm-source-imenu
 
   :config
-  (ido-mode -1)
   (require 'helm-config)
   (require 'helm-imenu)
 
@@ -1065,8 +1058,7 @@ narrowed."
           helm-yas-space-match-any-greedy   t))
 
   (setq yas-verbosity                       1
-        yas-wrap-around-region              t
-        yas-prompt-functions '(yas/ido-prompt yas/completing-prompt))
+        yas-wrap-around-region              t)
 
   (yas-global-mode)
 
@@ -1534,7 +1526,7 @@ Clear field placeholder if field was not modified."
 (use-package highlight-indentation
   :ensure t
   :defer t
-  :init (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode)
+  :init (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode 'yaml-mode)
   :config
   (set-face-background 'highlight-indentation-face mb-color12)
   (set-face-background 'highlight-indentation-current-column-face mb-color13))
@@ -1617,24 +1609,6 @@ It use className instead of class."
         magit-set-upstream-on-push 'askifnotset)
 
   (diminish 'auto-revert-mode)
-  (define-key magit-file-section-map (kbd "K") 'magit-discard)
-
-  ;; blame
-  (evil-define-key 'normal magit-blame-map
-    "q"         'magit-blame-mode
-    "j"         'magit-blame-next-chunk
-    "k"         'magit-blame-previous-chunk
-    (kbd "RET") 'magit-show-commit)
-
-  (evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-  (evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
-  (evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-    "K" 'magit-discard
-    "L" 'magit-key-mode-popup-logging)
-  (evil-add-hjkl-bindings magit-status-mode-map 'emacs
-    "K" 'magit-discard
-    "l" 'magit-key-mode-popup-logging
-    "h" 'magit-toggle-diff-refine-hunk)
 
   (message "mb: initialized MAGIT"))
 
