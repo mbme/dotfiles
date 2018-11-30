@@ -1536,7 +1536,9 @@ Clear field placeholder if field was not modified."
 (use-package highlight-indentation
   :ensure t
   :defer t
-  :init (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode 'yaml-mode)
+  :init
+  (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode)
+  (add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
   :config
   (set-face-background 'highlight-indentation-face mb-color12)
   (set-face-background 'highlight-indentation-current-column-face mb-color13))
