@@ -2070,6 +2070,15 @@ It use className instead of class."
   (message "mb: DOCKERFILE MODE"))
 
 
+
+;; Graphql mode
+(use-package graphql-mode
+  :ensure t
+  :defer t
+  :config
+  (message "mb: GRAPHQL MODE"))
+
+
 ;; ---------------------------------------- GLOBAL KEYBINDINGS
 
 
