@@ -504,6 +504,12 @@ narrowed."
       (abort-recursive-edit)
     (kill-buffer (current-buffer))))
 
+(defun mb/js-to-json ()
+  "Convert JS value into JSON."
+  (interactive)
+  (save-excursion
+    (shell-command-on-region (mark) (point) "node-transform eval-arg 'x => JSON.stringify(x, null, 2)'" (buffer-name) t "*MB ERROR BUFFER*" t)))
+
 
 
 ;; ---------------------------------------- PLUGINS
@@ -997,6 +1003,7 @@ narrowed."
       "ps" 'helm-projectile-ag
       "pS" 'mb/helm-projectile-ag-dwim
       "ph" 'helm-projectile
+      "pe" 'projectile-run-eshell
       "pt" 'projectile-test-project
       "pr" 'helm-projectile-recentf
       "pb" 'helm-projectile-switch-to-buffer))
@@ -1803,21 +1810,6 @@ It use className instead of class."
 
 
 
-(use-package nodejs-repl
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'js-mode-hook
-            (lambda ()
-              (define-key js-mode-map (kbd "C-x C-e") 'nodejs-repl-send-last-expression)
-              (define-key js-mode-map (kbd "C-c C-j") 'nodejs-repl-send-line)
-              (define-key js-mode-map (kbd "C-c C-r") 'nodejs-repl-send-region)
-              (define-key js-mode-map (kbd "C-c C-l") 'nodejs-repl-load-file)
-              (define-key js-mode-map (kbd "C-c C-z") 'nodejs-repl-switch-to-repl)))
-  (message "mb: NODEJS REPL"))
-
-
-
 ;; Json-mode
 (use-package json-mode
   :ensure t
@@ -2030,6 +2022,15 @@ It use className instead of class."
     :config
     (add-to-list 'company-backends 'company-shell))
   (message "mb: SH MODE"))
+
+(use-package eshell
+  :defer t
+  :init
+  (add-hook 'eshell-mode-hook
+          (lambda ()
+            (define-key eshell-mode-map (kbd "M-<tab>") nil)))
+  :config
+  (message "mb: ESHELL MODE"))
 
 
 
