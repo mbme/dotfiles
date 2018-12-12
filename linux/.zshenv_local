@@ -10,6 +10,10 @@
 export TERMINAL="termite"
 export BROWSER="firefox"
 
+# enable WebRenderer in Firefox 64
+export MOZ_ACCELERATED=1
+export MOZ_WEBRENDER=1
+
 export GTK2_RC_FILES="/etc/gtk-2.0/gtkrc:$HOME/.gtkrc-2.0"
 
 # Use XToolkit in java applications

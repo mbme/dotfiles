@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 # /etc/udev/rules.d/95-monitor-hotplug.rules
-# KERNEL=="card0", SUBSYSTEM=="drm", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/mbme/.Xauthority", RUN+="/usr/bin/su mbme -c /home/mbme/bin/mb-external-monitor"
+# KERNEL=="card0", SUBSYSTEM=="drm", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="$HOME/.Xauthority", RUN+="/usr/bin/su isymch -c /home/isymch/bin/mb-external-monitor"
 
 export DISPLAY=":0"
-export XAUTHORITY="/home/mbme/.Xauthority"
+export XAUTHORITY="$HOME/.Xauthority"
 export PULSE_RUNTIME_PATH="/run/user/$(id -u)/pulse"
 export PULSE_SERVER="unix:/run/user/$(id -u)/pulse/native"
 export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$(id -u)/bus"
@@ -23,8 +23,8 @@ function connect(){
 
     sleep 2
 
-    pactl set-default-sink $ext_audio
-    for i in ${INPUTS[*]}; do pacmd move-sink-input $i $ext_audio &> /dev/null; done
+    # pactl set-default-sink $ext_audio
+    # for i in ${INPUTS[*]}; do pacmd move-sink-input $i $ext_audio &> /dev/null; done
 
     nitrogen --restore &> /dev/null
 }
@@ -34,8 +34,8 @@ function disconnect(){
 
     sleep 2
 
-    pactl set-default-sink $int_audio
-    for i in ${INPUTS[*]}; do pacmd move-sink-input $i $int_audio &> /dev/null; done
+    # pactl set-default-sink $int_audio
+    # for i in ${INPUTS[*]}; do pacmd move-sink-input $i $int_audio &> /dev/null; done
 
     nitrogen --restore &> /dev/null
 }

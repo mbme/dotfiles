@@ -180,6 +180,7 @@ assign [class="Steam"] 5
 
 assign [class="Skype"] 7
 assign [class="Slack"] 7
+assign [class="discord"] 7
 assign [class="Franz"] 7
 assign [class="Pidgin"] 7
 assign [class="Gitter"] 7

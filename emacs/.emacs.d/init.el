@@ -508,7 +508,7 @@ narrowed."
   "Convert JS value into JSON."
   (interactive)
   (save-excursion
-    (shell-command-on-region (mark) (point) "node-transform eval-arg 'x => JSON.stringify(x, null, 2)'" (buffer-name) t "*MB ERROR BUFFER*" t)))
+    (shell-command-on-region (mark) (point) "node-transform 'x => JSON.stringify(eval(`(${x})`), null, 2)'" (buffer-name) t "*MB ERROR BUFFER*" t)))
 
 
 

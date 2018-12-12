@@ -1,10 +1,5 @@
 #!/usr/bin/env node
 
-const str1 = process.argv[2]
-const str2 = process.argv[3]
-
-const evalArg = str1 === 'eval-arg'
-const fn = eval(evalArg ? str2 : str1)
-
+const fn = eval(process.argv[2])
 const data = require("fs").readFileSync(0, "utf-8")
-console.log(fn(evalArg ? eval(`(${data})`) : data))
+console.log(fn(data))
