@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DIR="$HOME/.config/i3"
 STATE_FILE=$DIR/bar_state

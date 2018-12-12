@@ -144,7 +144,7 @@ bar {
            urgent_workspace    $c_urgent    $c_urgent      $c_text
     }
 
-    status_command exec $HOME/.config/i3/conky-i3bar.sh "primary"
+    status_command exec $HOME/.config/i3/conky-i3bar.sh
 }
 
 exec_always --no-startup-id $HOME/.config/i3/toggle_bar.sh clear
