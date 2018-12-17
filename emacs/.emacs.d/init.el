@@ -1054,6 +1054,7 @@ narrowed."
   (define-key company-active-map (kbd "M-j") 'company-select-next)
   (define-key company-active-map (kbd "M-k") 'company-select-previous)
   (define-key company-active-map (kbd "C-w") nil)
+  (define-key company-active-map (kbd "C-j") nil)
   (define-key company-active-map [escape]         'company-abort)
   (define-key company-active-map (kbd "<escape>") 'company-abort)
 
