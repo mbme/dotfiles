@@ -1,25 +1,17 @@
 #!/usr/bin/env bash
 
-device="amixer -D pulse"
-
 case "$1" in
     up)
-        $device sset master playback 5%+
+        pactl set-sink-volume @DEFAULT_SINK@ +5%
         ;;
     down)
-        $device sset Master playback 5%-
+        pactl set-sink-volume @DEFAULT_SINK@ -5%
         ;;
     toggle)
-        $device sset Master toggle
+        pactl set-sink-mute @DEFAULT_SINK@ toggle
         ;;
     status)
-        status=$($device get Master)
-        if [[ $status =~ \[off\] ]]; then
-            status=0
-        else
-            [[ "$status" =~ ([0-9]+)% ]] && status=${BASH_REMATCH[1]}
-        fi
-        printf "%3s%%" "$status"
+        pactl list sinks | grep -A 9 "State: RUNNING" | grep "Volume:" | awk '{print $5}'
         ;;
     *)
         echo "Accepted arguments are: up, down, toggle and status."

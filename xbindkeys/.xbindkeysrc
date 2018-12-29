@@ -1,25 +1,25 @@
 # run xbindkeys -k to select keybinding
 
 # Increase volume
-"amixer sset Master playback 5%+"
+"mb-speakers up"
     m:0x0 + c:123
     XF86AudioRaiseVolume
 # win-shift-pageup
-"amixer sset Master playback 5%+"
+"mb-speakers up"
     m:0x50 +c:112
     Mod2+Mod4 + Prior
 
 # Decrease volume
-"amixer sset Master playback 5%-"
+"mb-speakers down"
     m:0x0 + c:122
     XF86AudioLowerVolume
 # win-shift-pagedown
-"amixer sset Master playback 5%-"
+"mb-speakers down"
     m:0x50 +c:117
     Mod2+Mod4 + Next
 
 # Toggle mute
-"amixer sset Master toggle"
+"mb-speakers toggle"
     m:0x0 + c:121
     XF86AudioMute
 
