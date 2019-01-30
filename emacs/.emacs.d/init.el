@@ -431,11 +431,6 @@ narrowed."
   (revert-buffer t t))
 
 
-(defun mb/advice-add-to-evil-jump-list (origin-fun &rest args)
-  "Save current pos to evil jump list before executing ORIGIN-FUN with ARGS."
-  (evil-set-jump)
-  (apply origin-fun args))
-
 (defun mb/advice-ensure-evil-insert-state (origin-fun &rest args)
   "Ensure that evil is in insert state before executing ORIGIN-FUN with ARGS."
   (evil-insert-state)
@@ -671,7 +666,7 @@ narrowed."
     :ensure t
     :config
     (global-evil-matchit-mode 1)
-    (advice-add 'evilmi-jump-items :around #'mb/advice-add-to-evil-jump-list))
+    (evil-add-command-properties #'evilmi-jump-items :jump t))
 
   ;; exchange with objects
   (use-package evil-exchange
@@ -914,7 +909,7 @@ narrowed."
             :default ""
             :buffer "*helm imenu*")))
 
-  (advice-add 'helm-imenu :around #'mb/advice-add-to-evil-jump-list)
+  (evil-add-command-properties #'helm-imenu :jump t)
 
   (defun mb/helm-open-current-file-externally ()
     "Open current file with external program which is selected with helm."
@@ -1003,7 +998,7 @@ narrowed."
       (let ((helm-ag-insert-at-point 'symbol))
         (helm-projectile-ag)))
 
-    (advice-add 'mb/helm-projectile-ag-dwim :around #'mb/advice-add-to-evil-jump-list)
+    (evil-add-command-properties #'mb/helm-projectile-ag-dwim :jump t)
 
     (evil-leader/set-key
       "pp" 'helm-projectile-switch-project
@@ -1494,10 +1489,9 @@ Clear field placeholder if field was not modified."
             (`interrupted " -")
             (`suspicious '(propertize " ?" 'face 'warning)))))
 
-
-  (advice-add 'flycheck-first-error :around #'mb/advice-add-to-evil-jump-list)
-  (advice-add 'flycheck-next-error :around #'mb/advice-add-to-evil-jump-list)
-  (advice-add 'flycheck-previous-error :around #'mb/advice-add-to-evil-jump-list)
+  (evil-add-command-properties #'flycheck-first-error :jump t)
+  (evil-add-command-properties #'flycheck-next-error :jump t)
+  (evil-add-command-properties #'flycheck-previous-error :jump t)
 
   ;; from Spacemacs
   (defun mb/toggle-flyckeck-errors-list ()
