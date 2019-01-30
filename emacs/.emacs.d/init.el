@@ -958,6 +958,16 @@ narrowed."
 
 
 
+;; Avy: jump to char/line
+(use-package avy
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "jj" 'evil-avy-goto-char-timer
+    "jl" 'evil-avy-goto-line))
+
+
+
 ;; Projectile: project management tool
 (use-package projectile
   :ensure t
@@ -1584,7 +1594,6 @@ It use className instead of class."
 ;; Magit: UI for git
 (use-package magit
   :ensure t
-  :defer t
   :defines
   magit-last-seen-setup-instructions
   magit-status-buffer-switch-function
@@ -1894,6 +1903,7 @@ It use className instead of class."
       (message "mb: WEB MODE FOR TSX")))
 
   (flycheck-add-mode 'typescript-tslint 'web-mode)
+  (flycheck-add-mode 'typescript-tslint 'js2-mode)
 
   (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
