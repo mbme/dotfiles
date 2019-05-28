@@ -511,7 +511,11 @@ narrowed."
 
 
 ;; Diminish: cleanup mode line
-(use-package diminish :ensure t)
+(use-package diminish
+  :ensure t
+  :config
+  (eval-after-load 'hi-lock
+    '(diminish 'hi-lock-mode)))
 
 
 
@@ -556,25 +560,9 @@ narrowed."
                       :background mb-color12
                       :foreground mb-color6)
 
-  ;; (mb/load-theme! 'solarized-dark)
-  (mb/load-theme! 'solarized-light))
-
-
-;; Monokai theme (dark)
-(use-package monokai-theme
-  :disabled t
-  :ensure t
-  :config
-  (mb/load-theme! 'monokai))
-
-
-;; Material theme (dark & lite)
-(use-package material-theme
-  :disabled t
-  :ensure t
-  :config
-  ;; (mb/load-theme! 'material-light)
-  (mb/load-theme! 'material))
+  (mb/load-theme! 'solarized-dark)
+  ;; (mb/load-theme! 'solarized-light)
+  )
 
 
 
@@ -633,58 +621,6 @@ narrowed."
   (defvar evil-want-keybinding nil)
 
   :config
-  ;; integration of evil with various packages
-  (use-package evil-collection
-    :ensure t
-    :init
-    (defvar evil-collection-company-use-tng nil)
-    :config
-    (evil-collection-init))
-
-  ;; vim leader feature
-  (use-package evil-leader
-    :ensure t
-    :config
-    (setq evil-leader/in-all-states     t
-          evil-leader/non-normal-prefix "M-")
-    (global-set-key (kbd "M-<SPC>") evil-leader--default-map)
-    (evil-leader/set-leader "<SPC>")
-    (global-evil-leader-mode))
-
-  ;; emulates surround.vim
-  (use-package evil-surround
-    :ensure t
-    :config (global-evil-surround-mode 1))
-
-  ;; search for selected text with * and #
-  (use-package evil-visualstar
-    :ensure t
-    :config (global-evil-visualstar-mode 1))
-
-  ;; match braces/tags with %
-  (use-package evil-matchit
-    :ensure t
-    :config
-    (global-evil-matchit-mode 1)
-    (evil-add-command-properties #'evilmi-jump-items :jump t))
-
-  ;; exchange with objects
-  (use-package evil-exchange
-    :ensure t
-    :config (evil-exchange-install))
-
-  ;; comment/uncomment
-  (use-package evil-nerd-commenter
-    :ensure t
-    :config
-    (evil-leader/set-key
-      "ci" 'evilnc-comment-or-uncomment-lines
-      "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-      "cc" 'evilnc-copy-and-comment-lines
-      "cp" 'evilnc-comment-or-uncomment-paragraphs
-      "cr" 'comment-or-uncomment-region
-      "cv" 'evilnc-toggle-invert-comment-line-by-line))
-
   (setq
    evil-shift-width mb-tab-size
    ;; more granular undo
@@ -780,20 +716,84 @@ narrowed."
   (define-key evil-visual-state-map (kbd ">") 'mb/evil-shift-right-visual)
   (define-key evil-visual-state-map (kbd "<") 'mb/evil-shift-left-visual))
 
+;; integration of evil with various packages
+(use-package evil-collection
+  :after evil
+  :ensure t
+  :custom
+  (evil-collection-company-use-tng nil)
+  (evil-collection-setup-minibuffer nil)
+  :init
+  (evil-collection-init))
+
+;; vim leader feature
+(use-package evil-leader
+  :after evil
+  :ensure t
+  :config
+  (setq evil-leader/in-all-states     t
+        evil-leader/non-normal-prefix "M-")
+  (global-set-key (kbd "M-<SPC>") evil-leader--default-map)
+  (evil-leader/set-leader "<SPC>")
+  (global-evil-leader-mode))
+
+;; emulates surround.vim
+(use-package evil-surround
+  :after evil
+  :ensure t
+  :config (global-evil-surround-mode 1))
+
+;; match braces/tags with %
+(use-package evil-matchit
+  :after evil
+  :ensure t
+  :config
+  (global-evil-matchit-mode 1)
+  (evil-add-command-properties #'evilmi-jump-items :jump t))
+
+;; text exchange operator (select, gx, select other word, gx)
+(use-package evil-exchange
+  :after evil
+  :ensure t
+  :config (evil-exchange-install))
+
+;; xml tag attribute as a text object (bound to x)
+(use-package exato
+  :after evil
+  :ensure t)
+
+;; comment/uncomment
+(use-package evil-nerd-commenter
+  :after evil
+  :ensure t
+  :config
+  (evil-leader/set-key
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "cc" 'evilnc-copy-and-comment-lines
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    "cr" 'comment-or-uncomment-region
+    "cv" 'evilnc-toggle-invert-comment-line-by-line))
+
+;; momentarily highlight changes made by commands such as undo, yank-pop, etc.
+(use-package evil-goggles
+  :after evil
+  :ensure t
+  :diminish evil-goggles-mode
+  :config
+  (evil-goggles-mode)
+
+  ;; optionally use diff-mode's faces; as a result, deleted text
+  ;; will be highlighed with `diff-removed` face which is typically
+  ;; some red color (as defined by the color theme)
+  ;; other faces such as `diff-added` will be used for other actions
+  (evil-goggles-use-diff-faces))
+
 
 
 ;; Ido mode: text menu item selecting
 (use-package ido
   :config
-  ;; smarter fuzzy matching for ido
-  (use-package flx-ido
-    :ensure t
-    :config (flx-ido-mode 1))
-  ;; vertical menu for ido
-  (use-package ido-vertical-mode
-    :ensure t
-    :config (ido-vertical-mode 1))
-
   (setq
    ido-enable-prefix          nil
    ido-enable-flex-matching   t
@@ -828,6 +828,19 @@ narrowed."
               (define-key ido-completion-map (kbd "M-j") 'ido-next-match)
               (define-key ido-completion-map (kbd "M-k") 'ido-prev-match))))
 
+;; smarter fuzzy matching for ido
+(use-package flx-ido
+  :after ido
+  :ensure t
+  :config (flx-ido-mode 1))
+
+;; vertical menu for ido
+(use-package ido-vertical-mode
+  :after ido
+  :ensure t
+  :config (ido-vertical-mode 1))
+
+
 
 
 ;; Helm
@@ -852,14 +865,6 @@ narrowed."
   :config
   (require 'helm-config)
   (require 'helm-imenu)
-
-  (mb/ensure-bin-tool-exists "ag")
-
-  (use-package helm-ag
-    :ensure t
-    :config
-    (setq helm-ag-use-agignore t
-          helm-ag-fuzzy-match t))
 
   (setq
    helm-split-window-inside-p            t
@@ -951,6 +956,15 @@ narrowed."
     "fs" 'helm-occur
     "fc" 'helm-colors))
 
+(use-package helm-ag
+  :after helm
+  :ensure t
+  :init
+  (mb/ensure-bin-tool-exists "ag")
+  :config
+  (setq helm-ag-use-agignore t
+        helm-ag-fuzzy-match t))
+
 
 
 ;; Avy: jump to char/line
@@ -978,47 +992,48 @@ narrowed."
    projectile-sort-order         'modification-time)
 
   :config
-  (use-package helm-projectile
-    :ensure t
-    :config
-    (helm-projectile-on)
-
-    ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
-    (setq projectile-switch-project-action 'helm-projectile-recentf)
-
-    (defun mb/helm-ag--insert-thing-at-point (&rest args)
-      (helm-aif (thing-at-point (car args))
-          (s-replace-all '(("$" . "\\$")) (substring-no-properties it))
-        ""))
-    (advice-add 'helm-ag--insert-thing-at-point :override #'mb/helm-ag--insert-thing-at-point)
-
-    (defun mb/helm-projectile-ag-dwim ()
-      "Ag search in current project using symbol at point."
-      (interactive)
-      (let ((helm-ag-insert-at-point 'symbol))
-        (helm-projectile-ag)))
-
-    (evil-add-command-properties #'mb/helm-projectile-ag-dwim :jump t)
-
-    (evil-leader/set-key
-      "pp" 'helm-projectile-switch-project
-      "pd" 'helm-projectile-find-dir
-      "pf" 'helm-projectile-find-file
-      "pF" 'helm-projectile-find-file-dwim
-      "ps" 'helm-projectile-ag
-      "pS" 'mb/helm-projectile-ag-dwim
-      "ph" 'helm-projectile
-      "pe" 'projectile-run-eshell
-      "pt" 'projectile-test-project
-      "pr" 'helm-projectile-recentf
-      "pb" 'helm-projectile-switch-to-buffer))
-
   (projectile-mode)
 
   (evil-leader/set-key
     "pD" 'projectile-dired
     "pR" 'projectile-replace
     "pk" 'projectile-kill-buffers))
+
+(use-package helm-projectile
+  :after (helm projectile)
+  :ensure t
+  :config
+  (helm-projectile-on)
+
+  ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
+  (setq projectile-switch-project-action 'helm-projectile-recentf)
+
+  (defun mb/helm-ag--insert-thing-at-point (&rest args)
+    (helm-aif (thing-at-point (car args))
+        (s-replace-all '(("$" . "\\$")) (substring-no-properties it))
+      ""))
+  (advice-add 'helm-ag--insert-thing-at-point :override #'mb/helm-ag--insert-thing-at-point)
+
+  (defun mb/helm-projectile-ag-dwim ()
+    "Ag search in current project using symbol at point."
+    (interactive)
+    (let ((helm-ag-insert-at-point 'symbol))
+      (helm-projectile-ag)))
+
+  (evil-add-command-properties #'mb/helm-projectile-ag-dwim :jump t)
+
+  (evil-leader/set-key
+    "pp" 'helm-projectile-switch-project
+    "pd" 'helm-projectile-find-dir
+    "pf" 'helm-projectile-find-file
+    "pF" 'helm-projectile-find-file-dwim
+    "ps" 'helm-projectile-ag
+    "pS" 'mb/helm-projectile-ag-dwim
+    "ph" 'helm-projectile
+    "pe" 'projectile-run-eshell
+    "pt" 'projectile-test-project
+    "pr" 'helm-projectile-recentf
+    "pb" 'helm-projectile-switch-to-buffer))
 
 
 
@@ -1074,12 +1089,6 @@ narrowed."
   :ensure t
   :diminish yas-minor-mode
   :config
-  (use-package helm-c-yasnippet
-    :ensure t
-    :config
-    (setq helm-yas-display-key-on-candidate t
-          helm-yas-space-match-any-greedy   t))
-
   (setq yas-verbosity                       1
         yas-wrap-around-region              t)
 
@@ -1139,6 +1148,13 @@ Clear field placeholder if field was not modified."
 
   (global-set-key (kbd "C-j") 'mb/yas-expand-or-complete))
 
+(use-package helm-c-yasnippet
+  :after (helm yasnippet)
+  :ensure t
+  :config
+  (setq helm-yas-display-key-on-candidate t
+        helm-yas-space-match-any-greedy   t))
+
 
 
 ;; Flyspell-mode: spell-checking on the fly as you type
@@ -1156,12 +1172,13 @@ Clear field placeholder if field was not modified."
                               (setq flyspell-consider-dash-as-word-delimiter-flag t)
                               (flyspell-prog-mode)))
   :config
-  ;; helm interface for flyspell
-  (use-package helm-flyspell
-    :ensure t
-    :bind* ([f8] . helm-flyspell-correct))
-
   (global-set-key [M-f8]  'flyspell-buffer))
+
+;; helm interface for flyspell
+(use-package helm-flyspell
+  :after (helm flyspell)
+  :ensure t
+  :bind* ([f8] . helm-flyspell-correct))
 
 
 
@@ -1170,9 +1187,9 @@ Clear field placeholder if field was not modified."
   :config
   (setq recentf-save-file (expand-file-name "recentf" mb-save-path)
         recentf-max-menu-items 25
-        recentf-max-saved-items 100
-        ;; cleanup no-existing files on startup
-        ;; can has problems with remote files
+        recentf-max-saved-items 1000
+        ;; cleanup non-existing files on startup
+        ;; may have problems with remote files
         recentf-auto-cleanup 'mode)
   ;; Ignore ephemeral git commit message files
   (add-to-list 'recentf-exclude "/COMMIT_EDITMSG$")
@@ -1227,12 +1244,11 @@ Clear field placeholder if field was not modified."
                       (replace (format "(%d/%d)" here total)))))
         status)))
   (setq anzu-mode-line-update-function 'mb/anzu-update-mode-line)
-  (global-anzu-mode t)
+  (global-anzu-mode t))
 
-  :config
-  (use-package evil-anzu
-    :ensure t))
-
+(use-package evil-anzu
+  :after (evil anzu)
+  :ensure t)
 
 
 ;; Ace-window: switch windows
@@ -1380,12 +1396,13 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Volatile-highlights: momentarily highlight changes
-;; made by commands such as undo, yank-pop, etc.
-(use-package volatile-highlights
+;; Highlight all matches of the word under the cursor
+(use-package highlight-thing
   :ensure t
-  :diminish volatile-highlights-mode
-  :config (volatile-highlights-mode t))
+  :diminish highlight-thing-mode
+  :hook (prog-mode . highlight-thing-mode)
+  :config
+  (setq highlight-thing-delay-seconds 1.5))
 
 
 
@@ -1565,26 +1582,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Emmet mode
-(use-package emmet-mode
-  :ensure t
-  :defer t
-  :diminish emmet-mode
-  :init
-  (setq emmet-preview-default nil
-        emmet-indentation mb-web-indent-size)
-  :config
-  (define-key emmet-mode-keymap (kbd "C-j") nil))
-
-(defun mb/emmet-jsx ()
-  "Enable emmet with jsx support.
-It use className instead of class."
-  (interactive)
-  (setq emmet-expand-jsx-className? t)
-  (emmet-mode t))
-
-
-
 ;; Magit: UI for git
 (use-package magit
   :ensure t
@@ -1606,9 +1603,6 @@ It use className instead of class."
     "gb" 'magit-blame)
 
   :config
-  (use-package evil-magit
-    :ensure t)
-
   (setq vc-follow-symlinks nil
 
         ;; open magit status in same window as current buffer
@@ -1634,6 +1628,10 @@ It use className instead of class."
   (diminish 'auto-revert-mode)
 
   (message "mb: initialized MAGIT"))
+
+(use-package evil-magit
+  :after (evil magit)
+  :ensure t)
 
 
 
@@ -1768,7 +1766,7 @@ It use className instead of class."
 
   (add-hook 'js-mode-hook (lambda ()
                             ;; (setq imenu-create-index-function 'mb/imenu-js-make-index)
-                            (mb/emmet-jsx)))
+                            ))
   (message "mb: JS MODE"))
 
 
@@ -1778,8 +1776,8 @@ It use className instead of class."
 (use-package js2-mode
   :ensure t
   :mode
-  ("\\.js\\'" . js2-mode)
-  ("\\.jsx\\'" . js2-jsx-mode)
+  ;; ("\\.js\\'" . js2-mode)
+  ;; ("\\.jsx\\'" . js2-jsx-mode)
   :interpreter ("node" . js2-jsx-mode)
   :defines
   js2-consistent-level-indent-inner-bracket-p
@@ -1809,7 +1807,6 @@ It use className instead of class."
   ;; ensure that we're in insert state when inserting js line break
   (advice-add 'js2-line-break :around #'mb/advice-ensure-evil-insert-state)
 
-  (add-hook 'js2-jsx-mode-hook (lambda () (mb/emmet-jsx)))
   (message "mb: JS2 MODE"))
 
 
@@ -1856,6 +1853,8 @@ It use className instead of class."
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
   ("\\.tsx\\'"        . web-mode)
+  ("\\.js\\'"         . web-mode)
+  ("\\.jsx\\'"        . web-mode)
   ("\\.vue\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
@@ -1879,7 +1878,6 @@ It use className instead of class."
 
       (setq web-mode-enable-auto-quoting nil)
 
-      (mb/emmet-jsx)
       (message "mb: WEB MODE FOR JSX")))
 
   (defun mb/web-mode-tsx-hacks ()
@@ -1893,7 +1891,6 @@ It use className instead of class."
       ;; (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
       ;; (setq web-mode-enable-auto-quoting nil)
 
-      (mb/emmet-jsx)
       (message "mb: WEB MODE FOR TSX")))
 
   (flycheck-add-mode 'typescript-tslint 'web-mode)
@@ -1914,8 +1911,6 @@ It use className instead of class."
 
   (setq nxml-child-indent  mb-tab-size)
 
-  (add-hook 'nxml-mode-hook 'emmet-mode)
-
   (message "mb: nXML MODE"))
 
 
@@ -1927,9 +1922,6 @@ It use className instead of class."
   (setq css-indent-offset mb-web-indent-size)
 
   (add-hook 'css-mode-hook 'rainbow-mode)
-
-  ;; enable Emmet's css abbreviation.
-  (add-hook 'css-mode-hook  'emmet-mode)
 
   (message "mb: CSS MODE"))
 
@@ -1950,6 +1942,7 @@ It use className instead of class."
 ;; Yaml
 (use-package yaml-mode
   :ensure t
+  :defer t
   :config (message "mb: YAML MODE"))
 
 
@@ -1962,19 +1955,25 @@ It use className instead of class."
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-indent-offset  mb-tab-size
         rust-format-on-save nil)
-  (use-package flycheck-rust
-    :ensure t
-    :init
-    (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-  (use-package racer
-    :ensure t
-    :init
-    (add-hook 'rust-mode-hook #'racer-mode)
-    (add-hook 'racer-mode-hook #'eldoc-mode))
-  (use-package company-racer
-    :ensure t
-    :init (add-to-list 'company-backends 'company-racer))
   (message "mb: RUST MODE"))
+
+(use-package flycheck-rust
+  :after rust-mode
+  :ensure t
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+(use-package racer
+  :after rust-mode
+  :ensure t
+  :init
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode))
+
+(use-package company-racer
+  :after rust-mode
+  :ensure t
+  :init (add-to-list 'company-backends 'company-racer))
 
 
 
@@ -2022,18 +2021,20 @@ It use className instead of class."
                      "zshrc\\'"))
     (add-to-list 'auto-mode-alist (cons pattern 'sh-mode)))
   :config
-  (use-package company-shell
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-shell))
   (message "mb: SH MODE"))
+
+(use-package company-shell
+  :after (company sh-script)
+  :ensure t
+  :config
+  (add-to-list 'company-backends 'company-shell))
 
 (use-package eshell
   :defer t
   :init
   (add-hook 'eshell-mode-hook
-          (lambda ()
-            (define-key eshell-mode-map (kbd "M-<tab>") nil)))
+            (lambda ()
+              (define-key eshell-mode-map (kbd "M-<tab>") nil)))
   :config
   (message "mb: ESHELL MODE"))
 
@@ -2045,7 +2046,6 @@ It use className instead of class."
   :mode ("\\.ts$" . typescript-mode)
   :config
   (mb/ensure-bin-tool-exists "tslint")
-  (add-hook 'typescript-mode-hook 'emmet-mode)
 
   (message "mb: TYPESCRIPT MODE"))
 
