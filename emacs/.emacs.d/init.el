@@ -737,6 +737,13 @@ narrowed."
   (evil-leader/set-leader "<SPC>")
   (global-evil-leader-mode))
 
+;; match visual selection with * and #
+(use-package evil-visualstar
+  :after evil
+  :ensure t
+  :config
+  (global-evil-visualstar-mode))
+
 ;; emulates surround.vim
 (use-package evil-surround
   :after evil
