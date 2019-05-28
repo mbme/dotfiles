@@ -1865,9 +1865,6 @@ It use className instead of class."
         )
 
   :config
-  (evil-leader/set-key-for-mode 'web-mode
-    "mr" 'web-mode-element-rename)
-
   ;; React.js JSX-related configs
   ;; use eslint with web-mode for jsx files
   (defun mb/web-mode-jsx-hacks ()
@@ -2046,6 +2043,7 @@ It use className instead of class."
   :config
   (mb/ensure-bin-tool-exists "tslint")
   (add-hook 'typescript-mode-hook 'emmet-mode)
+  (setq typescript-indent-level mb-web-indent-size)
 
   (message "mb: TYPESCRIPT MODE"))
 

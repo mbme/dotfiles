@@ -46,7 +46,7 @@ log "loaded keybindings"
 /usr/lib/geoclue-2.0/demos/agent &
 
 # disable touchpad
-synclient TouchpadOff=1 FingerLow=23 FingerHigh=27
+synclient TouchpadOff=1
 
 # update x resources db
 xrdb -merge $HOME/.Xresources

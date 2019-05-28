@@ -6,21 +6,20 @@ int_mon="eDP1"
 ext_mon="HDMI1"
 #ext_mon="HDMI-1-1"
 
+res_2k="2560x1440"
+res_4k="3840x2160"
+
 function connect(){
-    # xrandr --newmode "1680x1050_60.00"  147.14  1680 1784 1968 2256  1050 1051 1054 1087  -HSync +Vsync --verbose
-    # xrandr --addmode $ext_mon 1680x1050_60.00 --verbose
-    # xrandr --output $ext_mon --mode 1680x1050_60.00 --left-of $int_mon --verbose
-    # xrandr --output $ext_mon --mode 2560x1440 --left-of $int_mon --verbose
+    # xrandr --output $ext_mon --mode $res_2k --left-of $int_mon --verbose
     xrandr --output $ext_mon --auto --left-of $int_mon --verbose
-    xrandr --output $int_mon --auto --verbose
+    xrandr --output $int_mon --off --verbose
     # xrandr --output $ext_mon --auto --left-of $int_mon --verbose
     # xrandr --dpi 96x96 --verbose
     sleep 3 && nitrogen --restore
 }
 
 function disconnect(){
-    xrandr --output $ext_mon --off --verbose
-    xrandr --output $int_mon --auto --verbose
+    xrandr --output $int_mon --auto --output $ext_mon --off --verbose
     sleep 3 && nitrogen --restore
 }
 
