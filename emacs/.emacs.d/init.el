@@ -1954,6 +1954,7 @@ Clear field placeholder if field was not modified."
 ;; Rust
 (use-package rust-mode
   :ensure t
+  :defer t
   :mode ("\\.rs$" . rust-mode)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
