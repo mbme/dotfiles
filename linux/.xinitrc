@@ -55,7 +55,7 @@ xrdb -merge $HOME/.Xresources
 xsetroot -cursor_name left_ptr
 
 # enable auto screenlock
-xautolock -time 15 -locker "mb-lock-screen" &
+xautolock -time 60 -locker "mb-lock-screen" &
 
 nitrogen --restore
 
@@ -66,6 +66,9 @@ nitrogen --restore
 compton -b &
 
 kupfer --no-splash &
+
+# per-window layout
+kbdd
 
 #redshift-gtk &
 redshift & # start without UI

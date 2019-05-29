@@ -1782,7 +1782,7 @@ Clear field placeholder if field was not modified."
 ;; JS2 mode
 (use-package js2-mode
   :ensure t
-  :mode
+  ;; :mode
   ;; ("\\.js\\'" . js2-mode)
   ;; ("\\.jsx\\'" . js2-jsx-mode)
   :interpreter ("node" . js2-jsx-mode)
@@ -1896,7 +1896,8 @@ Clear field placeholder if field was not modified."
       (tide-hl-identifier-mode 1)
 
       ;; (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
-      ;; (setq web-mode-enable-auto-quoting nil)
+
+      (setq web-mode-enable-auto-quoting nil)
 
       (message "mb: WEB MODE FOR TSX")))
 
