@@ -1871,9 +1871,6 @@ Clear field placeholder if field was not modified."
         )
 
   :config
-  (evil-leader/set-key-for-mode 'web-mode
-    "mr" 'web-mode-element-rename)
-
   ;; React.js JSX-related configs
   ;; use eslint with web-mode for jsx files
   (defun mb/web-mode-jsx-hacks ()
@@ -1958,6 +1955,7 @@ Clear field placeholder if field was not modified."
 ;; Rust
 (use-package rust-mode
   :ensure t
+  :defer t
   :mode ("\\.rs$" . rust-mode)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
@@ -2054,6 +2052,7 @@ Clear field placeholder if field was not modified."
   :mode ("\\.ts$" . typescript-mode)
   :config
   (mb/ensure-bin-tool-exists "tslint")
+  (setq typescript-indent-level mb-web-indent-size)
 
   (message "mb: TYPESCRIPT MODE"))
 
