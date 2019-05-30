@@ -25,8 +25,6 @@ function connect(){
 
     # pactl set-default-sink $ext_audio
     # for i in ${INPUTS[*]}; do pacmd move-sink-input $i $ext_audio &> /dev/null; done
-
-    nitrogen --restore &> /dev/null
 }
 
 function disconnect(){
@@ -36,8 +34,6 @@ function disconnect(){
 
     # pactl set-default-sink $int_audio
     # for i in ${INPUTS[*]}; do pacmd move-sink-input $i $int_audio &> /dev/null; done
-
-    nitrogen --restore &> /dev/null
 }
 
 xrandr | grep "^$ext_mon connected" &> /dev/null && connect || disconnect

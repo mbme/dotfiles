@@ -15,12 +15,10 @@ function connect(){
     xrandr --output $int_mon --off --verbose
     # xrandr --output $ext_mon --auto --left-of $int_mon --verbose
     # xrandr --dpi 96x96 --verbose
-    sleep 3 && nitrogen --restore
 }
 
 function disconnect(){
     xrandr --output $int_mon --auto --output $ext_mon --off --verbose
-    sleep 3 && nitrogen --restore
 }
 
 xrandr | grep "^$ext_mon connected" &> /dev/null && connect || disconnect

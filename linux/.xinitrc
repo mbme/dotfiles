@@ -54,10 +54,11 @@ xrdb -merge $HOME/.Xresources
 # set cursor
 xsetroot -cursor_name left_ptr
 
+# set background color (xsetroot can't set it while compton is running)
+hsetroot -solid "#002B36"
+
 # enable auto screenlock
 xautolock -time 60 -locker "mb-lock-screen" &
-
-nitrogen --restore
 
 # disable mouse clicks for 2 seconds if typing
 #syndaemon -t -k -i 2 -d
@@ -70,8 +71,8 @@ kupfer --no-splash &
 # per-window layout
 kbdd
 
-#redshift-gtk &
-redshift & # start without UI
+redshift-gtk &
+#redshift & # start without UI
 
 #unclutter -idle 3 -jitter 5 -noevents -root &
 
