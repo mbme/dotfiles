@@ -782,20 +782,6 @@ narrowed."
     "cr" 'comment-or-uncomment-region
     "cv" 'evilnc-toggle-invert-comment-line-by-line))
 
-;; momentarily highlight changes made by commands such as undo, yank-pop, etc.
-(use-package evil-goggles
-  :after evil
-  :ensure t
-  :diminish evil-goggles-mode
-  :config
-  (evil-goggles-mode)
-
-  ;; optionally use diff-mode's faces; as a result, deleted text
-  ;; will be highlighed with `diff-removed` face which is typically
-  ;; some red color (as defined by the color theme)
-  ;; other faces such as `diff-added` will be used for other actions
-  (evil-goggles-use-diff-faces))
-
 
 
 ;; Ido mode: text menu item selecting
@@ -1534,7 +1520,10 @@ Clear field placeholder if field was not modified."
   :init
   (evil-leader/set-key "w" 'er/expand-region)
   (setq expand-region-contract-fast-key "W"
-        expand-region-reset-fast-key    "r"))
+        expand-region-reset-fast-key    "r")
+  :config
+  (evil-add-command-properties #'er/expand-region :jump t)
+  (evil-add-command-properties #'er/contract-region :jump t))
 
 
 
