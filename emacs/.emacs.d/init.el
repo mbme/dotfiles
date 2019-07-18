@@ -560,8 +560,8 @@ narrowed."
                       :background mb-color12
                       :foreground mb-color6)
 
-  (mb/load-theme! 'solarized-dark)
-  ;; (mb/load-theme! 'solarized-light)
+  ;; (mb/load-theme! 'solarized-dark)
+  (mb/load-theme! 'solarized-light)
   )
 
 
@@ -2053,6 +2053,7 @@ Clear field placeholder if field was not modified."
          (typescript-mode . tide-hl-identifier-mode)
          (before-save . tide-format-before-save))
   :config
+  (evil-add-command-properties #'tide-jump-to-definition :jump t)
   (message "mb: TIDE MODE"))
 
 
