@@ -835,128 +835,54 @@ narrowed."
 
 
 
-
-;; Helm
-(use-package helm
+;; Ivy
+(use-package ivy
   :ensure t
-  :diminish helm-mode
-  :defines
-  helm-scroll-amount
-  helm-ff-search-library-in-sexp
-  helm-ff-file-name-history-use-recentf
-  helm-mode-handle-completion-in-region
-  helm-M-x-fuzzy-match
-  helm-buffers-fuzzy-matching
-  helm-recentf-fuzzy-match
-  helm-mode-fuzzy-match
-  helm-imenu-fuzzy-match
-  helm-semantic-fuzzy-match
-  helm-locate-fuzzy-match
-  helm-apropos-fuzzy-match
-  helm-source-imenu
-
   :config
-  (require 'helm-config)
-  (require 'helm-imenu)
+  (ivy-mode 1)
 
-  (setq
-   helm-split-window-inside-p            t
-   helm-prevent-escaping-from-minibuffer t
-   helm-always-two-windows               t
-   helm-move-to-line-cycle-in-source     t
-   helm-scroll-amount                    8
-   helm-ff-search-library-in-sexp        t
-   helm-ff-file-name-history-use-recentf t
-   helm-mode-handle-completion-in-region nil
-   helm-echo-input-in-header-line        t
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "(%d/%d) "
+        ivy-wrap t
+        ivy-height 25)
 
-   ;; disable fuzzy matching for recentf because it breaks MRU order
-   helm-recentf-fuzzy-match              nil
-
-   ;; enable fuzzy for everything else
-   helm-M-x-fuzzy-match                  t
-   helm-buffers-fuzzy-matching           t
-   helm-mode-fuzzy-match                 t
-   helm-semantic-fuzzy-match             t
-   helm-imenu-fuzzy-match                t
-   helm-locate-fuzzy-match               t
-   helm-apropos-fuzzy-match              t)
-
-  ;; hide minibuffer while helm is open
-  (add-hook 'helm-minibuffer-set-up-hook
-            (lambda ()
-              (when (with-helm-buffer helm-echo-input-in-header-line)
-                (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-                  (overlay-put ov 'window (selected-window))
-                  (overlay-put ov 'face (let ((bg-color (face-background 'default nil)))
-                                          `(:background ,bg-color :foreground ,bg-color)))
-                  (setq-local cursor-type nil)))))
-
-  ;; enables helm for completing everything: M-x, find file etc.
-  (helm-mode 1)
-
-  (defun mb/helm-imenu ()
-    "Preconfigured `helm' for `imenu' (not using symbol at point)."
-    (interactive)
-    (unless helm-source-imenu
-      (setq helm-source-imenu
-            (helm-make-source "Imenu" 'helm-imenu-source
-              :fuzzy-match helm-imenu-fuzzy-match)))
-    (let ((imenu-auto-rescan t))
-      (helm :sources 'helm-source-imenu
-            :default ""
-            :buffer "*helm imenu*")))
-
-  (evil-add-command-properties #'helm-imenu :jump t)
-
-  (defun mb/helm-open-current-file-externally ()
-    "Open current file with external program which is selected with helm."
-    (interactive)
-    (let ((filename (buffer-file-name)))
-      (when (and filename (file-exists-p filename))
-        (helm-open-file-externally filename))))
-
-  (defun mb/helm-open-current-file-wit-default-tool ()
-    "Open current file with default external program."
-    (interactive)
-    (let ((filename (buffer-file-name)))
-      (when (and filename (file-exists-p filename))
-        (helm-open-file-with-default-tool filename))))
-
-  (define-key helm-map (kbd "M-j") 'helm-next-line)
-  (define-key helm-map (kbd "M-k") 'helm-previous-line)
-  (define-key helm-map (kbd "M-h") 'helm-previous-source)
-  (define-key helm-map (kbd "M-l") 'helm-next-source)
-  (define-key helm-map (kbd "M-J") 'helm-follow-action-forward)
-  (define-key helm-map (kbd "M-K") 'helm-follow-action-backward)
-
-  (global-set-key (kbd "M-x") 'helm-M-x)
-  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
-
-  (global-set-key (kbd "M-i") 'mb/helm-imenu)
-  (global-set-key (kbd "M-I") 'helm-imenu)
+  (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
+  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
 
   (evil-leader/set-key
-    "`" 'helm-resume
-    "TAB" 'helm-all-mark-rings
+    "`" 'ivy-resume
+    ))
 
-    "<SPC>" 'helm-mini
-    "r"     'helm-recentf
-
-    "ff" 'helm-find-files
-    "fo" 'mb/helm-open-current-file-externally
-    "fO" 'mb/helm-open-current-file-wit-default-tool
-    "fs" 'helm-occur
-    "fc" 'helm-colors))
-
-(use-package helm-ag
-  :after helm
+(use-package swiper
+  :after ivy
   :ensure t
-  :init
-  (mb/ensure-bin-tool-exists "ag")
   :config
-  (setq helm-ag-use-agignore t
-        helm-ag-fuzzy-match t))
+  (evil-leader/set-key
+    "o" 'swiper
+    "O" 'swiper-thing-at-point
+    ))
+
+;; counsel use it for M-x
+(use-package smex
+  :ensure t)
+
+(use-package counsel
+  :after ivy
+  :ensure t
+  :bind*
+  ("M-x" . 'counsel-M-x)
+  ("C-s" . 'swiper)
+  ("C-x C-f" . 'counsel-find-file)
+  ("<f1> f" . 'counsel-describe-function)
+  ("<f1> v" . 'counsel-describe-variable)
+  ("<f1> i" . 'counsel-info-lookup-symbol)
+  ("<f1> u" . 'counsel-unicode-char)
+  :config
+  (evil-leader/set-key
+    "r" 'counsel-recentf
+    "y" 'counsel-yank-pop
+    "SPC" 'counsel-ibuffer
+    ))
 
 
 
@@ -972,6 +898,7 @@ narrowed."
 
 ;; Projectile: project management tool
 (use-package projectile
+  :after ivy
   :ensure t
   :init
   ;; variables must be set BEFORE requiring projectile
@@ -981,7 +908,7 @@ narrowed."
 
    projectile-mode-line          '(:eval (format " [%s]" (projectile-project-name)))
 
-   projectile-completion-system  'helm
+   projectile-completion-system  'ivy
    projectile-sort-order         'modification-time)
 
   :config
@@ -989,44 +916,31 @@ narrowed."
 
   (evil-leader/set-key
     "pD" 'projectile-dired
+    "pe" 'projectile-run-eshell
+    "pr" 'projectile-recentf
     "pR" 'projectile-replace
     "pk" 'projectile-kill-buffers))
 
-(use-package helm-projectile
-  :after (helm projectile)
+
+(use-package counsel-projectile
+  :after projectile
   :ensure t
   :config
-  (helm-projectile-on)
-
-  ;; must be after helm-projectile-on otherwise it would be overwritten by helm-projectile
-  (setq projectile-switch-project-action 'helm-projectile-recentf)
-
-  (defun mb/helm-ag--insert-thing-at-point (&rest args)
-    (helm-aif (thing-at-point (car args))
-        (s-replace-all '(("$" . "\\$")) (substring-no-properties it))
-      ""))
-  (advice-add 'helm-ag--insert-thing-at-point :override #'mb/helm-ag--insert-thing-at-point)
-
-  (defun mb/helm-projectile-ag-dwim ()
-    "Ag search in current project using symbol at point."
+  (defun mb/counsel-projectile-ag-dwim ()
+    "Search in the project with ag using thing at the point"
     (interactive)
-    (let ((helm-ag-insert-at-point 'symbol))
-      (helm-projectile-ag)))
-
-  (evil-add-command-properties #'mb/helm-projectile-ag-dwim :jump t)
+    (let ((counsel-projectile-ag-initial-input '(projectile-symbol-or-selection-at-point)))
+      (counsel-projectile-ag)))
 
   (evil-leader/set-key
-    "pp" 'helm-projectile-switch-project
-    "pd" 'helm-projectile-find-dir
-    "pf" 'helm-projectile-find-file
-    "pF" 'helm-projectile-find-file-dwim
-    "ps" 'helm-projectile-ag
-    "pS" 'mb/helm-projectile-ag-dwim
-    "ph" 'helm-projectile
-    "pe" 'projectile-run-eshell
-    "pt" 'projectile-test-project
-    "pr" 'helm-projectile-recentf
-    "pb" 'helm-projectile-switch-to-buffer))
+    "pd" 'counsel-projectile-find-dir
+    "pf" 'counsel-projectile-find-file
+    "pF" 'counsel-projectile-find-file-dwim
+    "ps" 'counsel-projectile-ag
+    "pS" 'mb/counsel-projectile-ag-dwim
+    "pb" 'counsel-projectile-switch-to-buffer
+    "pp" 'counsel-projectile-switch-project
+    ))
 
 
 
@@ -1130,23 +1044,7 @@ Clear field placeholder if field was not modified."
 
           (define-key map (kbd "<backtab>") 'yas-prev-field)
           (define-key map (kbd "C-g") 'yas-abort-snippet)
-          map))
-
-  (defun mb/yas-expand-or-complete ()
-    "Expand yasnippet or show matching snippets."
-    (interactive)
-    (company-abort)
-    (or (yas-expand)
-        (helm-yas-complete)))
-
-  (global-set-key (kbd "C-j") 'mb/yas-expand-or-complete))
-
-(use-package helm-c-yasnippet
-  :after (helm yasnippet)
-  :ensure t
-  :config
-  (setq helm-yas-display-key-on-candidate t
-        helm-yas-space-match-any-greedy   t))
+          map)))
 
 
 
@@ -1167,11 +1065,14 @@ Clear field placeholder if field was not modified."
   :config
   (global-set-key [M-f8]  'flyspell-buffer))
 
-;; helm interface for flyspell
-(use-package helm-flyspell
-  :after (helm flyspell)
+
+(use-package flyspell-correct-ivy
+  :after flyspell
   :ensure t
-  :bind* ([f8] . helm-flyspell-correct))
+  :bind*
+  ("<f8>" . 'flyspell-correct-at-point)
+  :init
+  (setq flyspell-correct-interface #'flyspell-correct-ivy))
 
 
 
@@ -1382,7 +1283,6 @@ Clear field placeholder if field was not modified."
     "m" 'dired-mark
     "u" 'dired-unmark
     "U" 'dired-unmark-all-marks
-    "c" 'helm-find-files
     "n" 'evil-search-next
     "N" 'evil-search-previous
     "q" 'mb/kill-this-buffer))
