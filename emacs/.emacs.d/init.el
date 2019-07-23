@@ -589,7 +589,8 @@ narrowed."
 
 ;; Hippie expand is dabbrev expand on steroids
 (require 'hippie-exp)
-(setq hippie-expand-try-functions-list '(try-expand-dabbrev
+(setq hippie-expand-try-functions-list '(yas-hippie-try-expand
+                                         try-expand-dabbrev
                                          try-expand-dabbrev-all-buffers
                                          try-expand-dabbrev-from-kill
                                          try-complete-file-name-partially
@@ -874,6 +875,10 @@ narrowed."
   ("C-M-x" . 'smex-major-mode-commands)
   :config
   (setq smex-save-file (expand-file-name  "smex-items"  mb-save-path)))
+
+;; writable grep for counsel
+(use-package wgrep
+  :ensure t)
 
 (use-package counsel
   :after ivy
@@ -2012,6 +2017,7 @@ Clear field placeholder if field was not modified."
 (global-set-key (kbd "C-x e")   'mb/eval-and-replace)
 (global-set-key [M-tab]         'mb/prev-buffer)
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
+(global-set-key (kbd "M-/")   'hippie-expand)
 
 (global-set-key [f4]    'mb/terminal)
 (global-set-key [M-f4]  'mb/projectile-base-term)
