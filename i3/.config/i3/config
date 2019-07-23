@@ -164,8 +164,8 @@ client.focused_inactive  $c_inactive    $c_inactive    $c_text  $c_inactive
 client.unfocused         $c_background  $c_background  $c_text  $c_background
 client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
 
-assign [class="^Firefox$"] 2
-assign [class="^Firefox-WORK$"] 10
+assign [class="^firefox$"] 2
+assign [class="^firefox-WORK$"] 10
 
 assign [class="^jetbrains-idea"] 3
 assign [class="^jetbrains-webstorm"] 3
@@ -204,8 +204,8 @@ for_window [window_role="^pop-up"] floating enable
 for_window [window_type="dialog"]  floating enable
 for_window [window_type="menu"]    floating enable
 
-for_window [class="^Firefox"] floating enable
-for_window [class="^Firefox" instance="Navigator"] floating disable, border pixel $border
+for_window [class="^firefox"] floating enable
+for_window [class="^firefox" instance="Navigator"] floating disable, border pixel $border
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
