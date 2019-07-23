@@ -78,6 +78,10 @@
 
 (require 'package)
 (setq package-enable-at-startup nil)
+
+;; FIXME remove this https://www.reddit.com/r/emacs/comments/cdf48c/failed_to_download_gnu_archive/etw4bar/
+(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
@@ -865,7 +869,11 @@ narrowed."
 
 ;; counsel use it for M-x
 (use-package smex
-  :ensure t)
+  :ensure t
+  :bind*
+  ("C-M-x" . 'smex-major-mode-commands)
+  :config
+  (setq smex-save-file (expand-file-name  "smex-items"  mb-save-path)))
 
 (use-package counsel
   :after ivy
