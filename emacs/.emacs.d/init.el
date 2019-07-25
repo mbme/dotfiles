@@ -895,6 +895,7 @@ narrowed."
   (evil-leader/set-key
     "r" 'counsel-recentf
     "y" 'counsel-yank-pop
+    "ff" 'counsel-find-file
     "SPC" 'counsel-ibuffer
     ))
 
