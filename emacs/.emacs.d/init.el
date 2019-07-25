@@ -844,6 +844,8 @@ narrowed."
 (use-package ivy
   :ensure t
   :diminish ivy-mode
+  :bind*
+  ("M-`" . 'ivy-resume)
   :config
   (ivy-mode 1)
 
@@ -853,11 +855,7 @@ narrowed."
         ivy-height 25)
 
   (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
-  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
-
-  (evil-leader/set-key
-    "`" 'ivy-resume
-    ))
+  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line))
 
 (use-package swiper
   :after ivy
