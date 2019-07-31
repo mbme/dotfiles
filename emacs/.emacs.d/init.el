@@ -774,19 +774,6 @@ narrowed."
   :after evil
   :ensure t)
 
-;; comment/uncomment
-(use-package evil-nerd-commenter
-  :after evil
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "ci" 'evilnc-comment-or-uncomment-lines
-    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "cc" 'evilnc-copy-and-comment-lines
-    "cp" 'evilnc-comment-or-uncomment-paragraphs
-    "cr" 'comment-or-uncomment-region
-    "cv" 'evilnc-toggle-invert-comment-line-by-line))
-
 
 
 ;; Ido mode: text menu item selecting
@@ -855,7 +842,10 @@ narrowed."
         ivy-height 25)
 
   (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
-  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line))
+  (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
+
+  (evil-leader/set-key
+    "`" 'ivy-resume))
 
 (use-package swiper
   :after ivy
@@ -891,10 +881,10 @@ narrowed."
   ("<f1> u" . 'counsel-unicode-char)
   :config
   (evil-leader/set-key
-    "r" 'counsel-recentf
+    "SPC" 'counsel-recentf
     "y" 'counsel-yank-pop
     "ff" 'counsel-find-file
-    "SPC" 'counsel-ibuffer
+    "bb" 'counsel-ibuffer
     ))
 
 
