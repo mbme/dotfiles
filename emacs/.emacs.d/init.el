@@ -883,6 +883,7 @@ narrowed."
   :config
   (evil-leader/set-key
     "SPC" 'counsel-recentf
+    "r" 'counsel-recentf
     "y" 'counsel-yank-pop
     "ff" 'counsel-find-file
     "bb" 'counsel-ibuffer
