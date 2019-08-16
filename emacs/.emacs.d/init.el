@@ -934,7 +934,10 @@ narrowed."
   (defun mb/counsel-projectile-ag-dwim ()
     "Search in the project with ag using thing at the point"
     (interactive)
-    (let ((counsel-projectile-ag-initial-input '(projectile-symbol-or-selection-at-point)))
+    (let ((counsel-projectile-ag-initial-input '(let ((value (projectile-symbol-or-selection-at-point)))
+                                                  (if (string= value "")
+                                                      value
+                                                    (shell-quote-argument value)))))
       (counsel-projectile-ag)))
 
   (evil-leader/set-key
