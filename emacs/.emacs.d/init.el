@@ -23,17 +23,19 @@
 ;; dir for temp files
 (defvar mb-save-path (expand-file-name "save-files/" mb-dotfiles-dir))
 
+(defvar mb-font-menlo "menlo-13")
+(defvar mb-font-dejavu "dejavu sans mono-12")
+(defvar mb-font-inconsolata "Inconsolata-12")
+(defvar mb-font-ubuntu "ubuntu mono-13")
+(defvar mb-font-droid "droid sans mono-13")
+(defvar mb-font-liberation "liberation mono-13")
+(defvar mb-font-roboto "roboto-13")
+(defvar mb-font-roboto-condensed "roboto condensed-13")
 
-;; (defvar mb-font "inconsolata:spacing=100")
-;; (defvar mb-font "source code pro:spacing=100")
-;; (defvar mb-font "ubuntu mono:spacing=100")
-;; (defvar mb-font "droid sans mono:spacing=100")
-;; (defvar mb-font "meslo lg s dz:spacing=100")
-;; (defvar mb-font "liberation mono:spacing=100")
-;; (defvar mb-font "roboto:spacing=100")
-;; (defvar mb-font "roboto condensed:spacing=100")
-
-(defvar mb-font (if mb-is-mac-os "menlo-13" "dejavu sans mono-12"))
+(defvar mb-font
+  (if mb-is-mac-os
+      mb-font-menlo
+    mb-font-ubuntu))
 
 (defvar mb-tab-size        4)
 (defvar mb-web-indent-size 2)
@@ -174,6 +176,7 @@
 (add-hook 'find-file-hooks 'goto-address-prog-mode)
 
 ;; Font
+(setq font-use-system-font nil)
 (setq-default default-font mb-font)
 ;; set font for all windows
 (add-to-list 'default-frame-alist `(font . ,mb-font))
