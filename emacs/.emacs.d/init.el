@@ -569,7 +569,7 @@ narrowed."
 
   ;; (mb/load-theme! 'solarized-dark)
   (mb/load-theme! 'solarized-light)
-  )
+  (setq solarized-use-less-bold t))
 
 
 
