@@ -342,7 +342,7 @@ It wouldn't be associated with the buffer."
   (interactive)
   (let ((commands (if mb-is-mac-os
                       (-concat (list "open" "-a" "Terminal" default-directory) args)
-                    (-concat (list "termite") args))))
+                    (-concat (list "mb-terminal") args))))
     (apply 'mb/launch-application commands)))
 
 (defun mb/projectile-base-term (&rest args)

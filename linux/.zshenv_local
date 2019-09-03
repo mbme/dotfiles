@@ -7,7 +7,7 @@
 #export DESKTOP_SESSION="lxde"
 #export XDG_MENU_PREFIX="lxde-"
 
-export TERMINAL="termite"
+export TERMINAL="mb-terminal"
 export BROWSER="firefox"
 
 # enable WebRenderer in Firefox 64
