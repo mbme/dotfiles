@@ -38,3 +38,7 @@ colors:
     magenta: '0x6c71c4' # violet
     cyan:    '0x93a1a1' # base1
     white:   '0xfdf6e3' # base3
+
+key_bindings:
+  # spawn new instance in the same dir on Alt-Enter
+  - { key: Return, mods: Alt, action: SpawnNewInstance }

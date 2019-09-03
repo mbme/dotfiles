@@ -29,6 +29,3 @@ path=($path $utils $npm_bin $yarn_bin)
 
 # OPAM CONFIGURATION
 #. "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
-
-# for termite to be able to open new terminal in current dir
-. /etc/profile.d/vte.sh
