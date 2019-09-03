@@ -2,13 +2,13 @@
 
 # simple terminal wrapper
 
-terminal="termite"
+terminal="alacritty"
 
 if [ "$1" = "-e" ]
 then
     command="${@:2}"
     echo "running terminal: executing '$command'"
-    $terminal --exec="$command"
+    $terminal -e "$command"
 else
     echo "running terminal"
     $terminal

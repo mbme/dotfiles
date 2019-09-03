@@ -2,7 +2,7 @@
 
 W=`xdotool getactivewindow`
 S1=`xprop -id ${W} |awk '/WM_CLASS/{print $4}'`
-S2='"Termite"'
+S2='"Alacritty"'
 
 if [ $1 = "copy" ]; then
     if [ $S1 = $S2 ]; then
