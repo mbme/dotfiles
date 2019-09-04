@@ -81,9 +81,6 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 
-;; FIXME remove this https://www.reddit.com/r/emacs/comments/cdf48c/failed_to_download_gnu_archive/etw4bar/
-(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
-
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 (package-initialize)
@@ -934,21 +931,21 @@ narrowed."
   :after projectile
   :ensure t
   :config
-  (defun mb/counsel-projectile-ag-dwim ()
+  (defun mb/counsel-projectile-rg-dwim ()
     "Search in the project with ag using thing at the point"
     (interactive)
-    (let ((counsel-projectile-ag-initial-input '(let ((value (projectile-symbol-or-selection-at-point)))
+    (let ((counsel-projectile-rg-initial-input '(let ((value (projectile-symbol-or-selection-at-point)))
                                                   (if (string= value "")
                                                       value
                                                     (shell-quote-argument value)))))
-      (counsel-projectile-ag)))
+      (counsel-projectile-rg)))
 
   (evil-leader/set-key
     "pd" 'counsel-projectile-find-dir
     "pf" 'counsel-projectile-find-file
     "pF" 'counsel-projectile-find-file-dwim
-    "ps" 'counsel-projectile-ag
-    "pS" 'mb/counsel-projectile-ag-dwim
+    "ps" 'counsel-projectile-rg
+    "pS" 'mb/counsel-projectile-rg-dwim
     "pb" 'counsel-projectile-switch-to-buffer
     "pp" 'counsel-projectile-switch-project
     ))

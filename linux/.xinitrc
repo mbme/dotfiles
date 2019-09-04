@@ -93,7 +93,7 @@ redshift-gtk &
 
 # without DBUS_SESSION_BUS_ADDRESS terminal started
 # from emacs can't communicate with gnome keyring daemon
-systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH RUST_SRC_PATH CARGO_HOME
+systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH RUST_SRC_PATH CARGO_HOME WINIT_HIDPI_FACTOR
 systemctl --user start emacs &
 
 log "starting i3 wm"

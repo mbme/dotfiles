@@ -39,6 +39,8 @@ else
     TERM=xterm
 fi
 
+export WINIT_HIDPI_FACTOR=1
+
 # Source temp config
 if [[ -s "$HOME/.zshenv_temp" ]]; then
     source "$HOME/.zshenv_temp"
