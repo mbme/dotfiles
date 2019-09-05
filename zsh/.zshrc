@@ -20,6 +20,7 @@ alias la="ls ${lsflags} -la"
 alias svim='sudo vim'
 alias tailf='tail -f -n 1000'
 alias -r g='git'
+alias gp='git push'
 alias r='ranger'
 alias ydl='noglob youtube-dl -o "%(title)s.%(ext)s"'
 alias ydl-mp3='noglob youtube-dl -x --audio-format mp3 -o "%(title)s.%(ext)s"'
