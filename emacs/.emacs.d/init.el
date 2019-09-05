@@ -836,7 +836,11 @@ narrowed."
   :config
   (ivy-mode 1)
 
-  (setq ivy-use-virtual-buffers t
+  (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+
+  (setq
+   ivy-initial-inputs-alist nil ; remove the ^ (caret) symbol from the input
+   ivy-use-virtual-buffers t
         ivy-count-format "(%d/%d) "
         ivy-wrap t
         ivy-height 25)
@@ -931,6 +935,7 @@ narrowed."
   :after projectile
   :ensure t
   :config
+  (mb/ensure-bin-tool-exists "rg") ; use ripgrep
   (defun mb/counsel-projectile-rg-dwim ()
     "Search in the project with ag using thing at the point"
     (interactive)

@@ -1,5 +1,3 @@
-unalias gb
-
 alias glxgears='vblank_mode=0 glxgears'
 alias remove_final_newline="perl -pi -e 'chomp if eof'"
 alias xlogs='tail -f -n 1000 ~/.xorg.log'
