@@ -10,7 +10,10 @@ font:
     style: Oblique
 
   size: 11.0
-    
+
+# need this so that solarized looks good
+draw_bold_text_with_bright_colors: false
+
 # Colors (Solarized Light)
 colors:
   # Default colors
