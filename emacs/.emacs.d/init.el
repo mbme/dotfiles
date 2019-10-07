@@ -1067,10 +1067,17 @@ Clear field placeholder if field was not modified."
   :diminish flyspell-mode
   :init
   (mb/ensure-bin-tool-exists "aspell")
-  (setq ispell-personal-dictionary (expand-file-name "aspell.en.pws" mb-dotfiles-dir)
-        ispell-program-name "aspell" ; use aspell instead of ispell
-        ;; ispell-extra-args '("--sug-mode=ultra" "--run-together" "--run-together-limit=5" "--run-together-min=2")
-        )
+
+  (setq ispell-program-name "aspell") ; use aspell instead of ispell
+  (setq ispell-personal-dictionary (expand-file-name "aspell.en.pws" mb-dotfiles-dir))
+  (setq-default ispell-extra-args '("--sug-mode=ultra"
+                                    "--lang=en_US"))
+
+  ;; Make sure new aspell is installed
+  (when (string-match-p "--camel-case"
+                        (shell-command-to-string (concat ispell-program-name " --help")))
+    (push "--camel-case" ispell-extra-args))
+
   (add-hook 'text-mode-hook 'flyspell-mode)
   (add-hook 'prog-mode-hook (lambda ()
                               (setq flyspell-consider-dash-as-word-delimiter-flag t)
