@@ -240,6 +240,7 @@ for_window [class="^Gcolor2"]     floating enable
 for_window [class="^Vncviewer"]   floating enable
 for_window [class="^Remmina"]     floating enable
 for_window [class="^dota_linux"]  floating enable
+for_window [class="^Nm-connection-editor"]  floating enable
 for_window [class="^Gtk-recordMyDesktop"] floating enable
 # for_window [class="^Termite"]     floating enable
 

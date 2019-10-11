@@ -74,6 +74,8 @@ kbdd
 redshift-gtk &
 #redshift & # start without UI
 
+nm-applet &
+
 #unclutter -idle 3 -jitter 5 -noevents -root &
 
 #conky -c $home/.config/conkyrc &

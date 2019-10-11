@@ -16,7 +16,7 @@ esac
 
 # Aliases
 alias ls="ls ${lsflags}"
-alias la="ls ${lsflags} -la"
+alias la="ls ${lsflags} -lah"
 alias svim='sudo vim'
 alias tailf='tail -f -n 1000'
 alias -r g='git'

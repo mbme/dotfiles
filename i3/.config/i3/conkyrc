@@ -19,14 +19,14 @@ TEXT
 {"full_text":"[ BAT","color":"\#888888","separator":false,"separator_block_width":6},
 {"full_text":"$battery_short${if_match "$battery_short" == "F"}$else $battery_time$endif","color":"\#EEEEEE","separator":true,"separator_block_width":16},
 # WIRELESS NETWORK
-${if_up wlp3s0}\
+${if_up wlp2s0}\
 {"full_text":"WIFI","color":"\#888888","separator":false,"separator_block_width":6},\
-{"full_text":"${wireless_essid wlp3s0}${wireless_link_qual_perc wlp3s0}% ${addrs wlp3s0}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
+{"full_text":"${wireless_essid wlp2s0}${wireless_link_qual_perc wlp2s0}% ${addrs wlp2s0}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
 $endif\
 # WIRED NETWORK
-${if_up enp2s0}\
+${if_up eno1}\
 {"full_text":"LAN ","color":"\#888888","separator":false,"separator_block_width":0},\
-{"full_text":"${addrs enp2s0}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
+{"full_text":"${addrs eno1}","color":"\#EEEEEE","separator":true,"separator_block_width":16},\
 $endif\
 # VPN NETWORK
 ${if_up ppp0}\
