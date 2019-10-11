@@ -50,9 +50,6 @@ $endif\
 
 {"full_text":"]","color":"\#888888","separator":false,"separator_block_width":300},\
 
-
-# Volume level
-{"full_text":"${exec mb-speakers status}","color":"\#EEEEEE","separator":true,"separator_block_width":16},
 # Date
 {"full_text":"${time %b %d, %a}","color":"\#EEEEEE","separator":true,"separator_block_width":16},
 # Time
