@@ -174,6 +174,7 @@ assign [class="Chromium"] 4
 assign [class="chromium"] 4
 assign [class="Chrome"] 4
 assign [class="Google-chrome-beta"] 4
+assign [class="Google-chrome"] 4
 assign [class="/usr/bin/chromium-continuous-bin"] 4
 
 assign [class="Steam"] 5
@@ -209,6 +210,7 @@ for_window [class="^firefox" instance="Navigator"] floating disable, border pixe
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
+for_window [class="^Google-chrome"] border pixel $border
 for_window [class="^Google-chrome-beta"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin" title="^Developer Tools"] floating disable, border pixel $border
