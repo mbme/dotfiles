@@ -852,6 +852,13 @@ narrowed."
   (evil-leader/set-key
     "`" 'ivy-resume))
 
+(use-package ivy-posframe
+  :after ivy
+  :ensure t
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  (ivy-posframe-mode 1))
+
 (use-package swiper
   :after ivy
   :ensure t
