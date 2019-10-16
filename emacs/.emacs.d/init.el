@@ -855,6 +855,7 @@ narrowed."
 (use-package ivy-posframe
   :after ivy
   :ensure t
+  :diminish ivy-posframe-mode
   :config
   (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
   (ivy-posframe-mode 1))
