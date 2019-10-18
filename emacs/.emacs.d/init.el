@@ -857,7 +857,7 @@ narrowed."
   :ensure t
   :diminish ivy-posframe-mode
   :config
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-window-center)))
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
   (ivy-posframe-mode 1))
 
 (use-package swiper
@@ -893,6 +893,9 @@ narrowed."
   ("<f1> i" . 'counsel-info-lookup-symbol)
   ("<f1> u" . 'counsel-unicode-char)
   :config
+  (setq counsel-yank-pop-truncate-radius 5)
+  (ivy-configure 'counsel-yank-pop
+    :height 25)
   (evil-leader/set-key
     "SPC" 'counsel-recentf
     "r" 'counsel-recentf
