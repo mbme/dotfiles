@@ -841,9 +841,9 @@ narrowed."
   (setq
    ivy-initial-inputs-alist nil ; remove the ^ (caret) symbol from the input
    ivy-use-virtual-buffers t
-        ivy-count-format "(%d/%d) "
-        ivy-wrap t
-        ivy-height 25)
+   ivy-count-format "(%d/%d) "
+   ivy-wrap t
+   ivy-height 25)
 
   (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
   (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
@@ -857,7 +857,9 @@ narrowed."
   :ensure t
   :diminish ivy-posframe-mode
   :config
-  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center)))
+  (setq
+   ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
+   ivy-posframe-width 120)
   (ivy-posframe-mode 1))
 
 (use-package swiper
