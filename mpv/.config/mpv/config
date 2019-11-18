@@ -4,3 +4,5 @@ ao=pulse
 #no-sub-auto
 #no-sub-ass
 no-sub
+# auto load external audio files if they have exact same name
+audio-file-auto=exact
