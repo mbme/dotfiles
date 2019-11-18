@@ -64,7 +64,7 @@ xautolock -time 60 -locker "mb-lock-screen" &
 #syndaemon -t -k -i 2 -d
 #log "started synaptics daemon"
 
-compton -b &
+picom -b &
 
 kupfer --no-splash &
 
