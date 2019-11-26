@@ -7,12 +7,24 @@ else
   export CLICOLOR=1
 fi
 
+
+
+# Current title tweaks
+autoload -Uz add-zsh-hook
+
 # Set current directory as a terminal title
-case $TERM in
-    xterm*)
-        precmd () {print -Pn "\e]0;%~\a"}
-        ;;
-esac
+function set-title-precmd() {
+  printf "\e]2;%s\a" "${PWD/#$HOME/~}"
+}
+add-zsh-hook precmd set-title-precmd
+
+# Add current command to terminal title
+function set-title-preexec() {
+  printf "\e]2;%s\a" "${PWD/#$HOME/~} $1"
+}
+add-zsh-hook preexec set-title-preexec
+
+
 
 # Aliases
 alias ls="ls ${lsflags}"
@@ -25,6 +37,8 @@ alias r='ranger'
 alias ydl='noglob youtube-dl -o "%(title)s.%(ext)s"'
 alias ydl-mp3='noglob youtube-dl -x --audio-format mp3 -o "%(title)s.%(ext)s"'
 alias zip-package='7z a -mx=0'
+
+
 
 # History
 HISTFILE=~/.histfile
@@ -41,6 +55,8 @@ setopt hist_reduce_blanks       # Remove extra blanks from each command added to
 setopt hist_verify              # Don't execute immediately upon history expansion
 setopt inc_append_history       # Write to history file immediately, not when shell quits
 setopt share_history            # Share history among all sessions
+
+
 
 # search in history with Up/Down
 autoload -U up-line-or-beginning-search
