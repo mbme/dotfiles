@@ -424,17 +424,6 @@ narrowed."
   ;; revert buffer to see changes in FS
   (revert-buffer t t))
 
-(defun mb/tslint-fix-file ()
-  "Fix some issues in current file using `tslint --fix'."
-  (interactive)
-  (message "mb: tslint --fix this file")
-  (when (buffer-modified-p)
-    (save-buffer))
-  (shell-command (concat "tslint --fix " (buffer-file-name)))
-  ;; revert buffer to see changes in FS
-  (revert-buffer t t))
-
-
 (defun mb/advice-ensure-evil-insert-state (origin-fun &rest args)
   "Ensure that evil is in insert state before executing ORIGIN-FUN with ARGS."
   (evil-insert-state)
@@ -1782,6 +1771,7 @@ Clear field placeholder if field was not modified."
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
   ("\\.tsx\\'"        . web-mode)
+  ("\\.ts\\'"        . web-mode)
   ("\\.js\\'"         . web-mode)
   ("\\.jsx\\'"        . web-mode)
   ("\\.vue\\'"        . web-mode)
@@ -1807,7 +1797,7 @@ Clear field placeholder if field was not modified."
       (message "mb: WEB MODE FOR JSX")))
 
   (defun mb/web-mode-tsx-hacks ()
-    "Enable tide & tslint for tsx in flycheck."
+    "Enable tide for tsx in flycheck."
     (when (string-equal "tsx" (file-name-extension buffer-file-name))
       (tide-setup)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
@@ -1816,12 +1806,13 @@ Clear field placeholder if field was not modified."
 
       (setq web-mode-enable-auto-quoting nil)
 
+      (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
+      (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
+
       (message "mb: WEB MODE FOR TSX")))
 
   (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
-  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
 
   (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
@@ -1971,7 +1962,7 @@ Clear field placeholder if field was not modified."
 ;; Typescript mode
 (use-package typescript-mode
   :ensure t
-  :mode ("\\.ts$" . typescript-mode)
+  ;; :mode ("\\.ts$" . typescript-mode)
   :config
   ;; (mb/ensure-bin-tool-exists "tslint")
   (setq typescript-indent-level mb-web-indent-size)
@@ -1990,9 +1981,9 @@ Clear field placeholder if field was not modified."
   :config
   (evil-add-command-properties #'tide-jump-to-definition :jump t)
 
-  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
-  (flycheck-add-next-checker 'typescript-tide '(warning . javascript-eslint) 'append)
+  ;; (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
+  ;; (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
+  ;; (flycheck-add-next-checker 'typescript-tide '(warning . javascript-eslint) 'append)
   (message "mb: TIDE MODE"))
 
 
