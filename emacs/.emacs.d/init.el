@@ -1798,7 +1798,8 @@ Clear field placeholder if field was not modified."
 
   (defun mb/web-mode-tsx-hacks ()
     "Enable tide for tsx in flycheck."
-    (when (string-equal "tsx" (file-name-extension buffer-file-name))
+    (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
+              (string-equal "ts" (file-name-extension buffer-file-name)))
       (tide-setup)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
       (eldoc-mode 1)
