@@ -1704,8 +1704,8 @@ Clear field placeholder if field was not modified."
 ;; JS2 mode
 (use-package js2-mode
   :ensure t
-  ;; :mode
-  ;; ("\\.js\\'" . js2-mode)
+  :mode
+  ("\\.cjs\\'" . js2-mode)
   ;; ("\\.jsx\\'" . js2-jsx-mode)
   :interpreter ("node" . js2-jsx-mode)
   :defines
@@ -1814,14 +1814,14 @@ Clear field placeholder if field was not modified."
       (eldoc-mode 1)
       (tide-hl-identifier-mode 1)
 
-      ;; (flycheck-add-next-checker 'tsx-tide '(warning . typescript-tslint) 'append)
-
       (setq web-mode-enable-auto-quoting nil)
 
       (message "mb: WEB MODE FOR TSX")))
 
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
-  (flycheck-add-mode 'typescript-tslint 'js2-mode)
+  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
+  (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
 
   (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
   (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
@@ -1973,8 +1973,10 @@ Clear field placeholder if field was not modified."
   :ensure t
   :mode ("\\.ts$" . typescript-mode)
   :config
-  (mb/ensure-bin-tool-exists "tslint")
+  ;; (mb/ensure-bin-tool-exists "tslint")
   (setq typescript-indent-level mb-web-indent-size)
+
+  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
 
   (message "mb: TYPESCRIPT MODE"))
 
@@ -1987,6 +1989,10 @@ Clear field placeholder if field was not modified."
          (before-save . tide-format-before-save))
   :config
   (evil-add-command-properties #'tide-jump-to-definition :jump t)
+
+  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
+  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
+  (flycheck-add-next-checker 'typescript-tide '(warning . javascript-eslint) 'append)
   (message "mb: TIDE MODE"))
 
 

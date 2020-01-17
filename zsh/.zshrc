@@ -20,7 +20,7 @@ add-zsh-hook precmd set-title-precmd
 
 # Add current command to terminal title
 function set-title-preexec() {
-  printf "\e]2;%s\a" "${PWD/#$HOME/~} $1"
+  printf "\e]2;%s\a" "${PWD/#$HOME/~} > $1"
 }
 add-zsh-hook preexec set-title-preexec
 
