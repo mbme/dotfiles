@@ -1807,9 +1807,6 @@ Clear field placeholder if field was not modified."
 
       (setq web-mode-enable-auto-quoting nil)
 
-      (flycheck-add-next-checker 'typescript-tide 'javascript-eslint 'append)
-      (flycheck-add-next-checker 'tsx-tide 'javascript-eslint 'append)
-
       (message "mb: WEB MODE FOR TSX")))
 
   (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
@@ -1960,31 +1957,28 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Typescript mode
-(use-package typescript-mode
-  :ensure t
-  ;; :mode ("\\.ts$" . typescript-mode)
-  :config
-  ;; (mb/ensure-bin-tool-exists "tslint")
-  (setq typescript-indent-level mb-web-indent-size)
-
-  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-
-  (message "mb: TYPESCRIPT MODE"))
-
 (use-package tide
   :ensure t
   :defer t
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode)
-         (before-save . tide-format-before-save))
+  :after (company flycheck)
+  :hook ((before-save . tide-format-before-save))
   :config
   (evil-add-command-properties #'tide-jump-to-definition :jump t)
 
-  ;; (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-  ;; (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
-  ;; (flycheck-add-next-checker 'typescript-tide '(warning . javascript-eslint) 'append)
+  (flycheck-define-generic-checker 'ts-tide
+    "A TS syntax checker using tsserver."
+    :start #'tide-flycheck-start
+    :verify #'tide-flycheck-verify
+    :modes '(web-mode)
+    :predicate (lambda ()
+                 (and
+                  (tide-file-extension-p "ts")
+                  (tide-flycheck-predicate))))
+
+  (add-to-list 'flycheck-checkers 'ts-tide)
+  (flycheck-add-next-checker 'ts-tide '(warning . javascript-eslint) 'append)
+  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
+
   (message "mb: TIDE MODE"))
 
 
