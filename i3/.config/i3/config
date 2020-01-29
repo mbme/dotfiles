@@ -201,6 +201,7 @@ for_window [window_type="menu"]    floating enable
 
 for_window [class="^firefox"] floating enable
 for_window [class="^firefox" instance="Navigator"] floating disable, border pixel $border
+for_window [window_role="PictureInPicture"] floating enable, sticky enable, border pixel $border
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
