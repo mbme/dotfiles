@@ -1790,6 +1790,8 @@ Clear field placeholder if field was not modified."
     (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
               (string-equal "js" (file-name-extension buffer-file-name)))
 
+      (tide-setup)
+      (eldoc-mode 1)
       (flycheck-add-mode 'javascript-eslint 'web-mode)
 
       (setq web-mode-enable-auto-quoting nil)
@@ -1802,8 +1804,9 @@ Clear field placeholder if field was not modified."
               (string-equal "ts" (file-name-extension buffer-file-name)))
       (tide-setup)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      ;; formats the buffer before saving
+      (add-hook 'before-save-hook 'tide-format-before-save)
       (eldoc-mode 1)
-      (tide-hl-identifier-mode 1)
 
       (setq web-mode-enable-auto-quoting nil)
 
@@ -1961,7 +1964,6 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :after (company flycheck)
-  :hook ((before-save . tide-format-before-save))
   :config
   (evil-add-command-properties #'tide-jump-to-definition :jump t)
 
