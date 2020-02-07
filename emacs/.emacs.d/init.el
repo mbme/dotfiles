@@ -763,6 +763,14 @@ narrowed."
   :after evil
   :ensure t)
 
+;; manage comments
+(use-package evil-commentary
+  :after evil
+  :ensure t
+  :config
+  (evil-commentary-mode)
+  (define-key evil-commentary-mode-map (kbd "M-;") 'evil-commentary-line))
+
 
 
 ;; Ido mode: text menu item selecting
