@@ -41,29 +41,6 @@
 (defvar mb-web-indent-size 2)
 (defvar mb-encoding        'utf-8)
 
-;; general colors
-(defvar mb-color1  "#f2f1f0")
-(defvar mb-color2  "#b58900")
-(defvar mb-color3  "#586e75")
-(defvar mb-color4  "#465a61")
-(defvar mb-color5  "#93a1a1")
-(defvar mb-color6  "#073642")
-(defvar mb-color7  "#E74C3C")
-(defvar mb-color8  "#8aa234")
-(defvar mb-color9  "#FF851B")
-(defvar mb-color10 "#3498DB")
-(defvar mb-color11 "#9B59B6")
-(defvar mb-color12 "#e3e3d3")
-(defvar mb-color13 "#EEE8D5")
-
-;; status bar colors for evil states
-(defvar  mb-evil-insert-face    mb-color8)
-(defvar  mb-evil-normal-face    mb-color7)
-(defvar  mb-evil-visual-face    mb-color2)
-(defvar  mb-evil-emacs-face     mb-color11)
-(defvar  mb-evil-replace-face   mb-color6)
-(defvar  mb-evil-operator-face  mb-color10)
-
 ;; load customizations file if it exists
 (load mb-customizations-file t)
 
@@ -546,16 +523,33 @@ narrowed."
 
 ;; Solarized theme
 (use-package solarized-theme
+  :disabled
   :ensure t
   :config
-  ;; selection (region) colors
-  (set-face-attribute 'region nil
-                      :background mb-color12
-                      :foreground mb-color6)
-
   ;; (mb/load-theme! 'solarized-dark)
   (mb/load-theme! 'solarized-light)
   (setq solarized-use-less-bold t))
+
+;; Nord theme https://github.com/arcticicestudio/nord-emacs
+(use-package nord-theme
+  :ensure t
+  :config
+  (mb/load-theme! 'nord))
+
+;; Doom themes https://awesomeopensource.com/project/hlissner/emacs-doom-themes
+(use-package doom-themes
+  :disabled
+  :ensure t
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold nil   ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  (setq doom-nord-region-highlight 'frost)
+  (mb/load-theme! 'doom-nord)
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config))
 
 
 
@@ -632,15 +626,6 @@ narrowed."
 
   ;; Exit to normal state after save
   (add-hook 'after-save-hook 'evil-normal-state)
-
-
-  ;; cursor colors for evil states
-  (setq  evil-emacs-state-cursor     (list  mb-evil-emacs-face     'box)
-         evil-normal-state-cursor    (list  mb-evil-normal-face    'hollow)
-         evil-visual-state-cursor    (list  mb-evil-visual-face    'box)
-         evil-insert-state-cursor    (list  mb-evil-insert-face    'bar)
-         evil-replace-state-cursor   (list  mb-evil-replace-face   'hollow)
-         evil-operator-state-cursor  (list  mb-evil-operator-face  'hollow))
 
   (cl-loop for (mode . state) in '((inferior-emacs-lisp-mode . emacs)
                                    (pylookup-mode . emacs)
@@ -767,6 +752,7 @@ narrowed."
 (use-package evil-commentary
   :after evil
   :ensure t
+  :diminish evil-commentary-mode
   :config
   (evil-commentary-mode)
   (define-key evil-commentary-mode-map (kbd "M-;") 'evil-commentary-line))
@@ -1322,9 +1308,15 @@ Clear field placeholder if field was not modified."
 ;; Highlight all matches of the word under the cursor
 (use-package highlight-thing
   :ensure t
+  :defer t
   :diminish highlight-thing-mode
   :hook (prog-mode . highlight-thing-mode)
   :config
+  (set-face-attribute 'highlight-thing nil
+                      :foreground (face-foreground 'highlight)
+                      :background (face-background 'highlight))
+  ;; Don't highlight the thing at point itself
+  (setq highlight-thing-exclude-thing-under-point t)
   (setq highlight-thing-delay-seconds 1.5))
 
 
@@ -1365,8 +1357,9 @@ Clear field placeholder if field was not modified."
                             (lhs (list (powerline-raw (mb/powerline-evil-tag) mode-line)
                                        (powerline-buffer-id)
                                        (powerline-raw "%*")
+                                       (funcall separator-left mode-line face2)
                                        (powerline-vc face2 'r)
-                                       (funcall separator-left mode-line face1)
+                                       (funcall separator-left face2 face1)
                                        (powerline-major-mode face1 'l)
                                        (powerline-raw " " face1)
                                        (powerline-process face1)
@@ -1495,8 +1488,8 @@ Clear field placeholder if field was not modified."
   (add-hook 'ruby-mode-hook 'highlight-indentation-current-column-mode)
   (add-hook 'yaml-mode-hook 'highlight-indentation-current-column-mode)
   :config
-  (set-face-background 'highlight-indentation-face mb-color12)
-  (set-face-background 'highlight-indentation-current-column-face mb-color13))
+  (set-face-background 'highlight-indentation-face (face-background 'highlight))
+  (set-face-background 'highlight-indentation-current-column-face (face-background 'highlight)))
 
 
 
@@ -1577,8 +1570,6 @@ Clear field placeholder if field was not modified."
   :defer t
   :init (evil-leader/set-key "gt" 'git-timemachine)
   :config
-  (set-face-attribute 'git-timemachine-minibuffer-detail-face nil :foreground mb-color10)
-
   (evil-make-overriding-map git-timemachine-mode-map 'normal)
   ;; force update evil keymaps after git-timemachine-mode loaded
   (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps))
