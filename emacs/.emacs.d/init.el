@@ -1873,7 +1873,7 @@ Clear field placeholder if field was not modified."
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-indent-offset  mb-tab-size
-        rust-format-on-save nil)
+        rust-format-on-save t)
   (message "mb: RUST MODE"))
 
 (use-package flycheck-rust
@@ -1887,7 +1887,9 @@ Clear field placeholder if field was not modified."
   :ensure t
   :init
   (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode))
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  :config
+  (setq racer-cmd "racer"))
 
 (use-package company-racer
   :after rust-mode
