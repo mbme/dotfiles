@@ -1872,8 +1872,7 @@ Clear field placeholder if field was not modified."
   :mode ("\\.rs$" . rust-mode)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
-  (setq rust-indent-offset  mb-tab-size
-        rust-format-on-save t)
+  (setq rust-format-on-save t)
   (message "mb: RUST MODE"))
 
 (use-package flycheck-rust
