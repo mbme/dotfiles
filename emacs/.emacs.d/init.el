@@ -1881,19 +1881,28 @@ Clear field placeholder if field was not modified."
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-(use-package racer
-  :after rust-mode
-  :ensure t
-  :init
-  (add-hook 'rust-mode-hook #'racer-mode)
-  (add-hook 'racer-mode-hook #'eldoc-mode)
-  :config
-  (setq racer-cmd "racer"))
+;; (use-package racer
+;;   :after rust-mode
+;;   :ensure t
+;;   :init
+;;   (add-hook 'rust-mode-hook #'racer-mode)
+;;   (add-hook 'racer-mode-hook #'eldoc-mode)
+;;   :config
+;;   (setq racer-cmd "racer"))
 
-(use-package company-racer
-  :after rust-mode
+;; (use-package company-racer
+;;   :after rust-mode
+;;   :ensure t
+;;   :init (add-to-list 'company-backends 'company-racer))
+
+
+(use-package lsp-mode
   :ensure t
-  :init (add-to-list 'company-backends 'company-racer))
+  :init (setq lsp-keymap-prefix "s-l")
+  :hook ((rust-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :config
+  (setq lsp-prefer-capf t))
 
 
 
