@@ -4,5 +4,5 @@ if [ -z "$DISPLAY" ]; then
     vim "$@"
 else
     # -a is alternate editor
-    emacsclient -c -a vim --socket-name /tmp/emacs1000/server -n "$@"
+    emacsclient -c -a vim -n "$@"
 fi

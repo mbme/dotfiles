@@ -174,8 +174,12 @@
  initial-major-mode 'text-mode
 
  ;; reduce the frequency of garbage collection by making it happen on
- ;; each 30MB of allocated data (the default is on every 0.76MB)
- gc-cons-threshold 30000000
+ ;; each 100MB of allocated data (the default is on every 0.76MB)
+ gc-cons-threshold 100000000
+
+ ;; Increase the amount of data which Emacs reads from the process.
+ ;; default is too low 4k considering that the some of the language server responses are in 800k - 3M range.
+ read-process-output-max (* 1024 1024) ;; 1mb
 
  ;; prevent creating backup files
  make-backup-files nil
@@ -962,7 +966,7 @@ narrowed."
   company-dabbrev-downcase
   :config
   (setq
-   company-idle-delay                0.12
+   company-idle-delay                0.1
    company-tooltip-limit             20
    company-minimum-prefix-length     2
    company-echo-delay                0
@@ -1803,8 +1807,6 @@ Clear field placeholder if field was not modified."
               (string-equal "ts" (file-name-extension buffer-file-name)))
       (tide-setup)
       (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      ;; formats the buffer before saving
-      (add-hook 'before-save-hook 'tide-format-before-save)
       (eldoc-mode 1)
 
       (setq web-mode-enable-auto-quoting nil)
@@ -1898,11 +1900,28 @@ Clear field placeholder if field was not modified."
 
 (use-package lsp-mode
   :ensure t
-  :init (setq lsp-keymap-prefix "s-l")
+  :defer t
+  :init
+  (setq lsp-keymap-prefix "s-l")
+  (setq lsp-idle-delay 0.500)
   :hook ((rust-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
-  :config
-  (setq lsp-prefer-capf t))
+         (lsp-mode . lsp-enable-which-key-integration)))
+
+(use-package lsp-ui
+  :ensure t
+  :defer t
+  :after (lsp-mode))
+
+(use-package lsp-ivy
+  :ensure t
+  :defer t
+  :after (lsp-mode))
+
+(use-package company-lsp
+  :ensure t
+  :defer t
+  :after (lsp-mode company))
+
 
 
 
