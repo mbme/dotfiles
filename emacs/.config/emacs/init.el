@@ -1883,21 +1883,10 @@ Clear field placeholder if field was not modified."
   :init
   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-;; (use-package racer
-;;   :after rust-mode
-;;   :ensure t
-;;   :init
-;;   (add-hook 'rust-mode-hook #'racer-mode)
-;;   (add-hook 'racer-mode-hook #'eldoc-mode)
-;;   :config
-;;   (setq racer-cmd "racer"))
-
-;; (use-package company-racer
-;;   :after rust-mode
-;;   :ensure t
-;;   :init (add-to-list 'company-backends 'company-racer))
 
 
+
+;; Language server protocol
 (use-package lsp-mode
   :ensure t
   :defer t
@@ -1906,16 +1895,6 @@ Clear field placeholder if field was not modified."
   (setq lsp-idle-delay 0.500)
   :hook ((rust-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)))
-
-(use-package lsp-ui
-  :ensure t
-  :defer t
-  :after (lsp-mode))
-
-(use-package lsp-ivy
-  :ensure t
-  :defer t
-  :after (lsp-mode))
 
 (use-package company-lsp
   :ensure t
