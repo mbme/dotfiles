@@ -1692,46 +1692,6 @@ Clear field placeholder if field was not modified."
 
 
 
-
-;; JS2 mode
-(use-package js2-mode
-  :ensure t
-  :mode
-  ("\\.cjs\\'" . js2-mode)
-  ;; ("\\.jsx\\'" . js2-jsx-mode)
-  :interpreter ("node" . js2-jsx-mode)
-  :defines
-  js2-consistent-level-indent-inner-bracket-p
-  js2-pretty-multiline-decl-indentation-p
-  :config
-  (setq js2-basic-offset mb-web-indent-size
-        js2-highlight-level 3
-        js2-skip-preprocessor-directives t
-        ;; idiomatic closing bracket position
-        js2-consistent-level-indent-inner-bracket-p t
-        ;; allow for multi-line var indenting
-        js2-pretty-multiline-decl-indentation-p t
-
-        js-switch-indent-offset mb-web-indent-size
-
-        ;; Don't highlight missing variables in js2-mode: we have jslint for that
-        js2-highlight-external-variables          nil
-        js2-mode-show-parse-errors                nil
-        js2-mode-show-strict-warnings             nil
-        js2-missing-semi-one-line-override        nil
-        js2-strict-inconsistent-return-warning    nil
-        js2-strict-cond-assign-warning            nil
-        js2-strict-var-redeclaration-warning      nil
-        js2-strict-var-hides-function-arg-warning nil
-        js2-strict-missing-semi-warning           nil)
-
-  ;; ensure that we're in insert state when inserting js line break
-  (advice-add 'js2-line-break :around #'mb/advice-ensure-evil-insert-state)
-
-  (message "mb: JS2 MODE"))
-
-
-
 ;; Json-mode
 (use-package json-mode
   :ensure t
@@ -2018,6 +1978,7 @@ Clear field placeholder if field was not modified."
   :defer t
   :config
   (message "mb: GROOVY MODE"))
+
 
 
 ;; Dockerfile mode
