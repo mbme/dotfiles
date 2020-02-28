@@ -676,6 +676,9 @@ narrowed."
   (define-key evil-normal-state-map (kbd "M-f") 'evil-scroll-page-down)
   (define-key evil-normal-state-map (kbd "M-b") 'evil-scroll-page-up)
 
+  (define-key evil-normal-state-map "gr" 'xref-find-references)
+  (define-key evil-normal-state-map "gD" 'xref-find-definitions-other-window)
+
   ;; move everywhere with M-hjkl
   (global-set-key (kbd "M-j") 'evil-next-line)
   (global-set-key (kbd "M-k") 'evil-previous-line)
@@ -761,6 +764,12 @@ narrowed."
   (evil-commentary-mode)
   (define-key evil-commentary-mode-map (kbd "M-;") 'evil-commentary-line))
 
+;; align text into columns - gl<space> or gL<space>
+(use-package evil-lion
+  :ensure t
+  :config
+  (evil-lion-mode))
+
 
 
 ;; Ido mode: text menu item selecting
@@ -840,6 +849,7 @@ narrowed."
     "`" 'ivy-resume))
 
 (use-package ivy-posframe
+  :disabled ;; FIXME enable when this is fixed https://github.com/tumashu/ivy-posframe/issues/85
   :after ivy
   :ensure t
   :diminish ivy-posframe-mode
@@ -848,6 +858,20 @@ narrowed."
    ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
    ivy-posframe-width 120)
   (ivy-posframe-mode 1))
+
+;; show references to variables in ivy
+(use-package ivy-xref
+  :after ivy
+  :ensure t
+  :init
+  ;; xref initialization is different in Emacs 27 - there are two different
+  ;; variables which can be set rather than just one
+  (when (>= emacs-major-version 27)
+    (setq xref-show-definitions-function #'ivy-xref-show-defs))
+  ;; Necessary in Emacs <27. In Emacs 27 it will affect all xref-based
+  ;; commands other than xref-find-definitions (e.g. project-find-regexp)
+  ;; as well
+  (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
 
 (use-package swiper
   :after ivy
@@ -1325,65 +1349,14 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Powerline
-(use-package powerline
+;; Mode line
+(use-package doom-modeline
   :ensure t
   :config
-  ;; from https://github.com/raugturi/powerline-evil
-  (defun mb/powerline-evil-tag ()
-    "Get customized tag value for current evil state."
-    (let* ((visual-block (and (evil-visual-state-p)
-                              (eq evil-visual-selection 'block)))
-           (visual-line (and (evil-visual-state-p)
-                             (eq evil-visual-selection 'line))))
-      (cond (visual-block " +V+ ")
-            (visual-line " -V- ")
-            (t evil-mode-line-tag))))
-
-  (defun mb/powerline-default-evil-theme ()
-    "Setup the default mode-line."
-    (interactive)
-    (setq-default mode-line-format
-                  '("%e"
-                    (:eval
-                     (let* ((active (powerline-selected-window-active))
-                            (mode-line (if active 'mode-line 'mode-line-inactive))
-                            (face1 (if active 'powerline-active1 'powerline-inactive1))
-                            (face2 (if active 'powerline-active2 'powerline-inactive2))
-
-                            (separator-left (intern (format "powerline-%s-%s"
-                                                            (powerline-current-separator)
-                                                            (car powerline-default-separator-dir))))
-                            (separator-right (intern (format "powerline-%s-%s"
-                                                             (powerline-current-separator)
-                                                             (cdr powerline-default-separator-dir))))
-
-                            (lhs (list (powerline-raw (mb/powerline-evil-tag) mode-line)
-                                       (powerline-buffer-id)
-                                       (powerline-raw "%*")
-                                       (funcall separator-left mode-line face2)
-                                       (powerline-vc face2 'r)
-                                       (funcall separator-left face2 face1)
-                                       (powerline-major-mode face1 'l)
-                                       (powerline-raw " " face1)
-                                       (powerline-process face1)
-                                       (powerline-narrow face1 'r)
-                                       (funcall separator-left face1 face2)))
-                            (rhs (list (powerline-raw global-mode-string face2 'r)
-                                       (when (and (boundp 'anzu--state) anzu--state)
-                                         (powerline-raw (anzu--update-mode-line) face2))
-                                       (funcall separator-right face2 face1)
-                                       (powerline-minor-modes face1)
-                                       (funcall separator-right face1 mode-line)
-                                       (powerline-raw "%4l" mode-line 'l)
-                                       (powerline-raw ":" mode-line)
-                                       (powerline-raw "%2c" mode-line)
-                                       (powerline-raw "%4p" mode-line 'l))))
-                       (concat (powerline-render lhs)
-                               (powerline-fill face2 (powerline-width rhs))
-                               (powerline-render rhs)))))))
-
-  (mb/powerline-default-evil-theme))
+  (setq doom-modeline-buffer-file-name-style 'relative-from-project
+        doom-modeline-icon nil
+        doom-modeline-unicode-fallback nil)
+  (doom-modeline-mode 1))
 
 
 
@@ -1684,10 +1657,6 @@ Clear field placeholder if field was not modified."
         js-indent-level         mb-web-indent-size)
 
   (add-hook 'js-mode-hook 'rainbow-mode)
-
-  (add-hook 'js-mode-hook (lambda ()
-                            ;; (setq imenu-create-index-function 'mb/imenu-js-make-index)
-                            ))
   (message "mb: JS MODE"))
 
 
@@ -1714,6 +1683,22 @@ Clear field placeholder if field was not modified."
 
 
 
+;; Javascript
+(use-package js
+  :defer t
+  :hook (js-mode . lsp)
+  :config
+  (message "mb: JS MODE"))
+
+
+
+;; Typescript
+(use-package typescript-mode
+  :ensure t
+  :defer t
+  :hook (typescript-mode . lsp))
+
+
 ;; WebMode
 (use-package web-mode
   :ensure t
@@ -1733,10 +1718,6 @@ Clear field placeholder if field was not modified."
   ("\\.eco\\'"        . web-mode)
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
-  ("\\.tsx\\'"        . web-mode)
-  ("\\.ts\\'"        . web-mode)
-  ("\\.js\\'"         . web-mode)
-  ("\\.jsx\\'"        . web-mode)
   ("\\.vue\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
@@ -1746,38 +1727,6 @@ Clear field placeholder if field was not modified."
         )
 
   :config
-  ;; React.js JSX-related configs
-  ;; use eslint with web-mode for jsx files
-  (defun mb/web-mode-jsx-hacks ()
-    "Enable eslint for jsx in flycheck."
-    (when (or (string-equal "jsx" (file-name-extension buffer-file-name))
-              (string-equal "js" (file-name-extension buffer-file-name)))
-
-      (tide-setup)
-      (eldoc-mode 1)
-      (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-      (setq web-mode-enable-auto-quoting nil)
-
-      (message "mb: WEB MODE FOR JSX")))
-
-  (defun mb/web-mode-tsx-hacks ()
-    "Enable tide for tsx in flycheck."
-    (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
-              (string-equal "ts" (file-name-extension buffer-file-name)))
-      (tide-setup)
-      (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (eldoc-mode 1)
-
-      (setq web-mode-enable-auto-quoting nil)
-
-      (message "mb: WEB MODE FOR TSX")))
-
-  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-  (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
-  (add-hook 'web-mode-hook 'mb/web-mode-jsx-hacks)
   (add-hook 'web-mode-hook 'rainbow-mode)
 
   (message "mb: WEB MODE"))
@@ -1851,15 +1800,22 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :init
-  (setq lsp-keymap-prefix "s-l")
-  (setq lsp-idle-delay 0.500)
+  (setq lsp-keymap-prefix "s-l"
+        lsp-idle-delay                 0.500
+        lsp-auto-execute-action        nil
+        lsp-before-save-edits          nil
+        lsp-enable-indentation         nil
+        lsp-enable-on-type-formatting  nil
+        lsp-prefer-flymake             nil)
   :hook ((rust-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)))
 
 (use-package company-lsp
   :ensure t
   :defer t
-  :after (lsp-mode company))
+  :after (lsp-mode company)
+  :config
+  (setq company-lsp-cache-candidates 'auto))
 
 
 
@@ -1925,30 +1881,6 @@ Clear field placeholder if field was not modified."
   :config
   (message "mb: ESHELL MODE"))
 
-
-
-(use-package tide
-  :ensure t
-  :defer t
-  :after (company flycheck)
-  :config
-  (evil-add-command-properties #'tide-jump-to-definition :jump t)
-
-  (flycheck-define-generic-checker 'ts-tide
-    "A TS syntax checker using tsserver."
-    :start #'tide-flycheck-start
-    :verify #'tide-flycheck-verify
-    :modes '(web-mode)
-    :predicate (lambda ()
-                 (and
-                  (tide-file-extension-p "ts")
-                  (tide-flycheck-predicate))))
-
-  (add-to-list 'flycheck-checkers 'ts-tide)
-  (flycheck-add-next-checker 'ts-tide '(warning . javascript-eslint) 'append)
-  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
-
-  (message "mb: TIDE MODE"))
 
 
 ;; Groovy mode (for Jenkinsfile)
@@ -2018,6 +1950,7 @@ Clear field placeholder if field was not modified."
   "s"  'save-buffer
   "lm" 'evil-show-marks
   "u"  'undo-tree-visualize
+  "i"  'counsel-semantic-or-imenu
 
   "bd" 'mb/delete-current-buffer-file
   "br" 'mb/rename-file-and-buffer
