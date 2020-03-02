@@ -1379,26 +1379,6 @@ Clear field placeholder if field was not modified."
   (setq flycheck-indication-mode 'right-fringe
         flycheck-temp-prefix "FLYCHECK_XXY")
 
-  ;; from http://www.lunaryorn.com/2014/07/30/new-mode-line-support-in-flycheck.html
-  (setq flycheck-mode-line
-        '(:eval
-          (pcase flycheck-last-status-change
-            (`not-checked nil)
-            (`no-checker (propertize " -" 'face 'warning))
-            (`running (propertize " ..." 'face 'success))
-            (`errored (propertize " !" 'face 'error))
-            (`finished
-             (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
-                    (no-errors (cdr (assq 'error error-counts)))
-                    (no-warnings (cdr (assq 'warning error-counts)))
-                    (face (cond (no-errors 'error)
-                                (no-warnings 'warning)
-                                (t 'success))))
-               (propertize (format " %s/%s" (or no-errors 0) (or no-warnings 0))
-                           'face face)))
-            (`interrupted " -")
-            (`suspicious '(propertize " ?" 'face 'warning)))))
-
   (evil-add-command-properties #'flycheck-first-error :jump t)
   (evil-add-command-properties #'flycheck-next-error :jump t)
   (evil-add-command-properties #'flycheck-previous-error :jump t)
@@ -1686,8 +1666,9 @@ Clear field placeholder if field was not modified."
 ;; Javascript
 (use-package js
   :defer t
-  :hook (js-mode . lsp)
   :config
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (flycheck-add-next-checker 'lsp 'javascript-eslint)))
   (message "mb: JS MODE"))
 
 
@@ -1695,8 +1676,7 @@ Clear field placeholder if field was not modified."
 ;; Typescript
 (use-package typescript-mode
   :ensure t
-  :defer t
-  :hook (typescript-mode . lsp))
+  :defer t)
 
 
 ;; WebMode
@@ -1808,6 +1788,8 @@ Clear field placeholder if field was not modified."
         lsp-enable-on-type-formatting  nil
         lsp-prefer-flymake             nil)
   :hook ((rust-mode . lsp)
+         (js-mode . lsp)
+         (typescript-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)))
 
 (use-package company-lsp
