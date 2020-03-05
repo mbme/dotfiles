@@ -1781,12 +1781,8 @@ Clear field placeholder if field was not modified."
   :defer t
   :init
   (setq lsp-keymap-prefix "s-l"
-        lsp-idle-delay                 0.500
-        lsp-auto-execute-action        nil
-        lsp-before-save-edits          nil
-        lsp-enable-indentation         nil
-        lsp-enable-on-type-formatting  nil
-        lsp-prefer-flymake             nil)
+        lsp-idle-delay 0.500
+        lsp-prefer-flymake nil)
   :hook ((rust-mode . lsp)
          (js-mode . lsp)
          (typescript-mode . lsp)
@@ -1794,8 +1790,6 @@ Clear field placeholder if field was not modified."
 
 (use-package company-lsp
   :ensure t
-  :defer t
-  :after (lsp-mode company)
   :config
   (setq company-lsp-cache-candidates 'auto))
 
