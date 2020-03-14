@@ -1353,9 +1353,11 @@ Clear field placeholder if field was not modified."
 (use-package doom-modeline
   :ensure t
   :config
-  (setq doom-modeline-buffer-file-name-style 'relative-from-project
+  (setq doom-modeline-buffer-file-name-style 'truncate-with-project
         doom-modeline-icon nil
-        doom-modeline-unicode-fallback nil)
+        doom-modeline-unicode-fallback nil
+        doom-modeline-buffer-encoding nil
+        doom-modeline-env-version nil)
   (doom-modeline-mode 1))
 
 
@@ -1627,20 +1629,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Javascript
-(use-package js-mode
-  :defer t
-  :defines javascript-indent-level js-indent-level js-switch-indent-offset
-  :config
-  (setq javascript-indent-level mb-web-indent-size
-        js-switch-indent-offset mb-web-indent-size
-        js-indent-level         mb-web-indent-size)
-
-  (add-hook 'js-mode-hook 'rainbow-mode)
-  (message "mb: JS MODE"))
-
-
-
 ;; Json-mode
 (use-package json-mode
   :ensure t
@@ -1664,19 +1652,22 @@ Clear field placeholder if field was not modified."
 
 
 ;; Javascript
-(use-package js
+(use-package js-mode
   :defer t
+  :defines javascript-indent-level js-indent-level js-switch-indent-offset
+  :mode
+  ("\\.cjs\\'" . js-mode)
   :config
+  (setq javascript-indent-level mb-web-indent-size
+        js-switch-indent-offset mb-web-indent-size
+        js-indent-level         mb-web-indent-size)
+
+  (add-hook 'js-mode-hook 'rainbow-mode)
+
   (add-hook 'lsp-mode-hook (lambda ()
                              (flycheck-add-next-checker 'lsp 'javascript-eslint)))
   (message "mb: JS MODE"))
 
-
-
-;; Typescript
-(use-package typescript-mode
-  :ensure t
-  :defer t)
 
 
 ;; WebMode
@@ -1699,6 +1690,8 @@ Clear field placeholder if field was not modified."
   ("\\.ejs\\'"        . web-mode)
   ("\\.djhtml\\'"     . web-mode)
   ("\\.vue\\'"        . web-mode)
+  ("\\.ts\\'"         . web-mode)
+  ("\\.tsx\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
         web-mode-markup-indent-offset mb-web-indent-size ; html tag in html file
@@ -1708,6 +1701,9 @@ Clear field placeholder if field was not modified."
 
   :config
   (add-hook 'web-mode-hook 'rainbow-mode)
+
+  (add-hook 'lsp-mode-hook (lambda ()
+                             (flycheck-add-next-checker 'lsp 'javascript-eslint)))
 
   (message "mb: WEB MODE"))
 
@@ -1779,14 +1775,15 @@ Clear field placeholder if field was not modified."
 (use-package lsp-mode
   :ensure t
   :defer t
-  :init
-  (setq lsp-keymap-prefix "s-l"
-        lsp-idle-delay 0.500
-        lsp-prefer-flymake nil)
   :hook ((rust-mode . lsp)
          (js-mode . lsp)
          (typescript-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration)))
+         (web-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :init
+  (setq lsp-keymap-prefix "s-l"
+        lsp-idle-delay 0.500
+        lsp-rust-server 'rust-analyzer))
 
 (use-package company-lsp
   :ensure t
