@@ -1702,8 +1702,21 @@ Clear field placeholder if field was not modified."
   :config
   (add-hook 'web-mode-hook 'rainbow-mode)
 
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (flycheck-add-next-checker 'lsp 'javascript-eslint)))
+  (defun mb/web-mode-tsx-hacks ()
+    "Enable tide for tsx in flycheck."
+    (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
+              (string-equal "ts" (file-name-extension buffer-file-name)))
+
+      (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
+      (flycheck-add-mode 'javascript-eslint 'web-mode)
+      (setq flycheck-check-syntax-automatically '(save mode-enabled))
+      (flycheck-add-next-checker 'lsp 'javascript-eslint)
+
+      (lsp)
+
+      (message "mb: WEB MODE FOR TSX")))
+
+  (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
 
   (message "mb: WEB MODE"))
 
@@ -1777,13 +1790,18 @@ Clear field placeholder if field was not modified."
   :defer t
   :hook ((rust-mode . lsp)
          (js-mode . lsp)
-         (typescript-mode . lsp)
-         (web-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :init
   (setq lsp-keymap-prefix "s-l"
         lsp-idle-delay 0.500
-        lsp-rust-server 'rust-analyzer))
+
+        lsp-auto-configure t
+
+        lsp-rust-server 'rust-analyzer
+        lsp-signature-render-documentation nil
+
+        lsp-eldoc-render-all nil 
+        lsp-eldoc-enable-hover t))
 
 (use-package company-lsp
   :ensure t
