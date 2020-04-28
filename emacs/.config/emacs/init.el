@@ -770,6 +770,15 @@ narrowed."
   :config
   (evil-lion-mode))
 
+;; display evil marks on fringe
+(use-package evil-fringe-mark
+  :after evil
+  :ensure t
+  :config
+  (setq-default left-fringe-width 20)
+
+  (global-evil-fringe-mark-mode))
+
 
 
 ;; Ido mode: text menu item selecting
@@ -1652,11 +1661,12 @@ Clear field placeholder if field was not modified."
 
 
 ;; Javascript
-(use-package js-mode
-  :defer t
+(use-package js
   :defines javascript-indent-level js-indent-level js-switch-indent-offset
   :mode
   ("\\.cjs\\'" . js-mode)
+  ("\\.js\\'"  . js-mode)
+  ("\\.jsx\\'" . js-mode)
   :config
   (setq javascript-indent-level mb-web-indent-size
         js-switch-indent-offset mb-web-indent-size
@@ -1664,9 +1674,33 @@ Clear field placeholder if field was not modified."
 
   (add-hook 'js-mode-hook 'rainbow-mode)
 
-  (add-hook 'lsp-mode-hook (lambda ()
-                             (flycheck-add-next-checker 'lsp 'javascript-eslint)))
   (message "mb: JS MODE"))
+
+
+
+(use-package tide
+  :ensure t
+  :defer t
+  :after (company flycheck)
+  :config
+  (evil-add-command-properties #'tide-jump-to-definition :jump t)
+
+  (flycheck-define-generic-checker 'ts-tide
+    "A TS syntax checker using tsserver."
+    :start #'tide-flycheck-start
+    :verify #'tide-flycheck-verify
+    :modes '(web-mode)
+    :predicate (lambda ()
+                 (and
+                  (tide-file-extension-p "ts")
+                  (tide-flycheck-predicate))))
+  (add-to-list 'flycheck-checkers 'ts-tide)
+
+  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
+  (flycheck-add-next-checker 'ts-tide '(warning . javascript-eslint) 'append)
+  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
+
+  (message "mb: TIDE MODE"))
 
 
 
@@ -1702,21 +1736,17 @@ Clear field placeholder if field was not modified."
   :config
   (add-hook 'web-mode-hook 'rainbow-mode)
 
-  (defun mb/web-mode-tsx-hacks ()
-    "Enable tide for tsx in flycheck."
-    (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
-              (string-equal "ts" (file-name-extension buffer-file-name)))
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'lsp 'web-mode)
 
-      (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-      (flycheck-add-mode 'javascript-eslint 'web-mode)
-      (setq flycheck-check-syntax-automatically '(save mode-enabled))
-      (flycheck-add-next-checker 'lsp 'javascript-eslint)
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
+                        (string-equal "ts" (file-name-extension buffer-file-name)))
 
-      (lsp)
-
-      (message "mb: WEB MODE FOR TSX")))
-
-  (add-hook 'web-mode-hook 'mb/web-mode-tsx-hacks)
+                (tide-setup)
+                (eldoc-mode)
+                (message "mb: WEB MODE FOR TS(X)"))))
 
   (message "mb: WEB MODE"))
 
@@ -1789,18 +1819,23 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :hook ((rust-mode . lsp)
-         (js-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration))
   :init
   (setq lsp-keymap-prefix "s-l"
         lsp-idle-delay 0.500
+        lsp-keep-workspace-alive nil
+        lsp-enable-folding nil
+        lsp-diagnostic-package :none
+        lsp-enable-snippet nil
+        lsp-enable-symbol-highlighting nil
 
         lsp-auto-configure t
 
         lsp-rust-server 'rust-analyzer
+        lsp-rust-full-docs t
         lsp-signature-render-documentation nil
 
-        lsp-eldoc-render-all nil 
+        lsp-eldoc-render-all nil
         lsp-eldoc-enable-hover t))
 
 (use-package company-lsp
