@@ -75,7 +75,6 @@ redshift-gtk &
 #redshift & # start without UI
 
 nm-applet &
-pasystray -t -N none &
 blueman-tray
 safeeyes &
 

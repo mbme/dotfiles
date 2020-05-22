@@ -117,8 +117,8 @@ bar {
     font         $font
     position     top
     mode         invisible
-    wheel_up_cmd   nop
-    wheel_down_cmd nop
+    bindsym button4 nop
+    bindsym button5 nop
 
     colors {
            # solarized
@@ -138,7 +138,7 @@ bar {
            urgent_workspace    $c_urgent    $c_urgent      $c_text
     }
 
-    status_command exec $HOME/.config/i3/conky-i3bar.sh
+    status_command i3status-rs $HOME/.config/i3/i3status-rust-config.toml
 }
 
 exec_always --no-startup-id $HOME/.config/i3/toggle_bar.sh clear
@@ -237,7 +237,7 @@ for_window [class="^Wine"]        floating enable
 for_window [class="^Workrave"]    floating enable
 for_window [class="^Mojosetup"]   floating enable # GOG installer
 for_window [class="^Safeeyes"]    floating enable 
-for_window [class="^Gcolor2"]     floating enable
+for_window [class="^Gcolor3"]     floating enable
 for_window [class="^Vncviewer"]   floating enable
 for_window [class="^Remmina"]     floating enable
 for_window [class="^dota_linux"]  floating enable
@@ -257,6 +257,3 @@ for_window [window_role="^bubble$"] floating enable
 
 # exec_always --no-startup-id wmname LG3D
 exec_always --no-startup-id wmname Sawfish
-
-# set per-workspace layouts
-# exec $HOME/.config/i3/per-workspace-layout.pl
