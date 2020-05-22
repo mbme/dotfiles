@@ -858,7 +858,6 @@ narrowed."
     "`" 'ivy-resume))
 
 (use-package ivy-posframe
-  :disabled ;; FIXME enable when this is fixed https://github.com/tumashu/ivy-posframe/issues/85
   :after ivy
   :ensure t
   :diminish ivy-posframe-mode

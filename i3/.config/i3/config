@@ -174,6 +174,7 @@ assign [class="/usr/bin/chromium-continuous-bin"] 4
 assign [class="Steam"] 5
 
 assign [class="Skype"] 7
+assign [class="TelegramDesktop"] 7
 assign [class="Slack"] 7
 assign [class="discord"] 7
 assign [class="Franz"] 7

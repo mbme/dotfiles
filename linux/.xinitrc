@@ -45,9 +45,6 @@ log "loaded keybindings"
 
 /usr/lib/geoclue-2.0/demos/agent &
 
-# disable touchpad
-synclient TouchpadOff=1
-
 # update x resources db
 xrdb -merge $HOME/.Xresources
 
@@ -64,7 +61,10 @@ xautolock -time 60 -locker "mb-lock-screen" &
 #syndaemon -t -k -i 2 -d
 #log "started synaptics daemon"
 
-picom -b &
+#picom -b &
+
+# auto detect external monitors
+autorandr-launcher -d
 
 kupfer --no-splash &
 
@@ -76,6 +76,8 @@ redshift-gtk &
 
 nm-applet &
 pasystray -t -N none &
+blueman-tray
+safeeyes &
 
 #unclutter -idle 3 -jitter 5 -noevents -root &
 

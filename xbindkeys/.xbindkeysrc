@@ -1,36 +1,41 @@
 # run xbindkeys -k to select keybinding
 
 # Increase volume
-"mb-speakers up"
+"mb-audio speakers up"
     m:0x0 + c:123
     XF86AudioRaiseVolume
 # win-shift-pageup
-"mb-speakers up"
+"mb-audio speakers up"
     m:0x50 +c:112
     Mod2+Mod4 + Prior
 
 # Decrease volume
-"mb-speakers down"
+"mb-audio speakers down"
     m:0x0 + c:122
     XF86AudioLowerVolume
 # win-shift-pagedown
-"mb-speakers down"
+"mb-audio speakers down"
     m:0x50 +c:117
     Mod2+Mod4 + Next
 
 # Toggle mute
-"mb-speakers toggle"
+"mb-audio -n speakers toggle"
     m:0x0 + c:121
     XF86AudioMute
 
 # Toggle mute microphone
-"mb-mic-toggle"
+"mb-audio -n mic toggle"
     m:0x1 + c:121
     Shift + XF86AudioMute
 
+"mb-audio -n mic toggle"
+    m:0x0 + c:198
+    XF86AudioMicMute
+
+
 
 # Toggle touchpad
-"mb-touchpad-toggle"
+"mb-touchpad -n toggle"
     m:0x0 + c:199
     XF86TouchpadToggle
 
@@ -53,7 +58,7 @@
     Mod4 + F7
 
 
-"mb-touchpad-toggle"
+"mb-touchpad -n toggle"
     m:0x40 + c:75
     Mod4 + F9
 
