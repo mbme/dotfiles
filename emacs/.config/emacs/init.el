@@ -1727,6 +1727,7 @@ Clear field placeholder if field was not modified."
   ("\\.tsx\\'"        . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
+        web-mode-enable-auto-quoting nil
         web-mode-markup-indent-offset mb-web-indent-size ; html tag in html file
         web-mode-css-indent-offset    mb-web-indent-size ; css in html file
         web-mode-code-indent-offset   mb-web-indent-size ; js code in html file
@@ -1736,7 +1737,6 @@ Clear field placeholder if field was not modified."
   (add-hook 'web-mode-hook 'rainbow-mode)
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-mode 'lsp 'web-mode)
 
   (add-hook 'web-mode-hook
             (lambda ()
@@ -1802,14 +1802,8 @@ Clear field placeholder if field was not modified."
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-format-on-save t)
+
   (message "mb: RUST MODE"))
-
-(use-package flycheck-rust
-  :after rust-mode
-  :ensure t
-  :init
-  (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
-
 
 
 
@@ -1824,11 +1818,12 @@ Clear field placeholder if field was not modified."
         lsp-idle-delay 0.500
         lsp-keep-workspace-alive nil
         lsp-enable-folding nil
-        lsp-diagnostic-package :none
+        lsp-diagnostic-package :flycheck
         lsp-enable-snippet nil
         lsp-enable-symbol-highlighting nil
-
-        lsp-auto-configure t
+        lsp-enable-file-watchers nil
+        lsp-enable-on-type-formatting  nil
+        lsp-prefer-capf t
 
         lsp-rust-server 'rust-analyzer
         lsp-rust-full-docs t
@@ -1836,12 +1831,6 @@ Clear field placeholder if field was not modified."
 
         lsp-eldoc-render-all nil
         lsp-eldoc-enable-hover t))
-
-(use-package company-lsp
-  :ensure t
-  :config
-  (setq company-lsp-cache-candidates 'auto))
-
 
 
 
