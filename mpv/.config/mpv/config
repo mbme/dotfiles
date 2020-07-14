@@ -1,6 +1,11 @@
 hwdec=auto
 hwdec-codecs=all
 ao=pulse
+
+# audio normalization
+af=acompressor
+audio-normalize-downmix=yes
+
 #no-sub-auto
 #no-sub-ass
 no-sub

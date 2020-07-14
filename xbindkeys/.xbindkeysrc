@@ -19,7 +19,7 @@
     Mod2+Mod4 + Next
 
 # Toggle mute
-"mb-audio -n speakers toggle"
+"mb-audio speakers toggle"
     m:0x0 + c:121
     XF86AudioMute
 

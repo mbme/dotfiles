@@ -159,7 +159,6 @@ client.unfocused         $c_background  $c_background  $c_text  $c_background
 client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
 
 assign [class="^firefox$"] 2
-assign [class="^firefox-WORK$"] 10
 
 assign [class="^jetbrains-idea"] 3
 assign [class="^jetbrains-webstorm"] 3

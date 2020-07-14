@@ -12,8 +12,7 @@ separator = " "
 [icons]
 name = "awesome"
 [icons.overrides]
-time = ""
-
+time = "           "
 
 [[block]]
 block = "keyboard_layout"
@@ -52,12 +51,11 @@ interval = 1
 block = "temperature"
 collapsed = false
 interval = 10
-format = "{average}°"
-chip = "*-isa-*"
+format = "{max}°"
 good = 40
-idle = 60
-info = 70
-warning = 90
+idle = 70
+info = 90
+warning = 98
 
 [[block]]
 block = "sound"
