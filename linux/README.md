@@ -1,6 +1,8 @@
 # tools
 * sway
-* i3status-rust
+* swaylock
+* swayidle
+* waybar
 * wmname
 * polkit-gnome
 * gnome-keyring
@@ -8,8 +10,6 @@
 
 * kanshi - automatically switch display configurations
 * wdisplays - display configuration GUI
-* swaylock
-* swayidle
 * mako - notification daemon
 * redshift-wayland-git
 * blueman-tray - bluetooth

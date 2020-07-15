@@ -47,5 +47,7 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 
     export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
+    systemctl --user import-environment
+
     exec systemd-cat -t sway sway
 fi
