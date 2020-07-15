@@ -11,18 +11,5 @@ alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
 
 # PATH must be set in .zshrc because /etc/profile override PATH set in .zshenv
-
-#export GEM_HOME="$(ruby -e "puts Gem.user_dir")"
-#ruby_bin="$GEM_HOME/bin"
-
-npm_bin="$HOME/.npm-global/bin"
-yarn_bin="$HOME/.config/yarn/global/node_modules/.bin"
-
-rust_bin="$HOME/.cargo/bin"
-
-utils="$HOME/bin"
-
-path=($path $utils $npm_bin $yarn_bin $rust_bin)
-
-# OPAM CONFIGURATION
-#. "$HOME/.opam/opam-init/init.zsh" > /dev/null 2> /dev/null || true
+# export env variables from systemd
+eval $(systemctl --user show-environment)

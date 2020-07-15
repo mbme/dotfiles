@@ -16,8 +16,6 @@ log () {
 
 # log "display mode 1600x900"
 
-$HOME/bin/mb-external-monitor &
-
 ### ---------------
 
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
@@ -57,14 +55,10 @@ hsetroot -solid "#002B36"
 # enable auto screenlock
 xautolock -time 60 -locker "mb-lock-screen" &
 
-# disable mouse clicks for 2 seconds if typing
-#syndaemon -t -k -i 2 -d
-#log "started synaptics daemon"
-
 #picom -b &
 
 # auto detect external monitors
-autorandr-launcher -d
+autorandr --change
 
 kupfer --no-splash &
 
@@ -97,7 +91,7 @@ safeeyes &
 
 # without DBUS_SESSION_BUS_ADDRESS terminal started
 # from emacs can't communicate with gnome keyring daemon
-systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH RUST_SRC_PATH CARGO_HOME WINIT_HIDPI_FACTOR
+systemctl --user import-environment PATH SSH_AUTH_SOCK HOME DBUS_SESSION_BUS_ADDRESS GOPATH RUST_SRC_PATH
 systemctl --user start emacs &
 
 log "starting i3 wm"

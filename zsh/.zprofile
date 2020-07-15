@@ -9,10 +9,6 @@ export EDITOR='vim'
 export VISUAL='vim'
 export PAGER='less'
 
-if [[ -z "$LANG" ]]; then
-  export LANG='en_US.UTF-8'
-fi
-
 # Ensure path arrays do not contain duplicates.
 typeset -gU cdpath fpath mailpath path
 
@@ -29,8 +25,3 @@ if [[ ! -d "$TMPDIR" ]]; then
 fi
 
 TMPPREFIX="${TMPDIR%/}/zsh"
-
-# Source local config
-if [[ -s "$HOME/.zprofile_local" ]]; then
-  source "$HOME/.zprofile_local"
-fi
