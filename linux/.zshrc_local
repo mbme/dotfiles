@@ -1,7 +1,4 @@
-alias glxgears='vblank_mode=0 glxgears'
 alias remove_final_newline="perl -pi -e 'chomp if eof'"
-alias xlogs='tail -f -n 1000 ~/.xorg.log'
-alias xlog="tailf $HOME/.local/share/xorg/Xorg.0.log"
 
 # SYSTEMD-related aliases
 alias -r n='sudo netctl switch-to'
@@ -13,3 +10,8 @@ alias -r ctlu='systemctl --user'
 # PATH must be set in .zshrc because /etc/profile override PATH set in .zshenv
 # export env variables from systemd
 eval $(systemctl --user show-environment)
+
+if [ -n "$DESKTOP_SESSION" ];then
+    eval $(gnome-keyring-daemon)
+    export SSH_AUTH_SOCK
+fi

@@ -38,6 +38,10 @@
 "mb-touchpad -n toggle"
     m:0x0 + c:199
     XF86TouchpadToggle
+    
+"mb-touchpad -n toggle"
+    m:0x40 + c:75
+    Mod4 + F9
 
 # increase backlight
 "mb-backlight inc"
@@ -58,9 +62,6 @@
     Mod4 + F7
 
 
-"mb-touchpad -n toggle"
-    m:0x40 + c:75
-    Mod4 + F9
 
 
 #terminal

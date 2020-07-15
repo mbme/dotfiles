@@ -11,14 +11,14 @@ shutdown
 halt
 poweroff"
 
-res=$(echo "$cases" | rofi -dmenu)
+res=$(echo "$cases" | wofi --dmenu)
 
 case "$res" in
     "lock screen")
         mb-lock-screen
         ;;
     "logout")
-        i3-msg exit
+        swaymsg exit
         ;;
     "suspend" | "sleep")
         mb-lock-screen && systemctl suspend

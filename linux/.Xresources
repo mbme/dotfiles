@@ -8,8 +8,6 @@ Xft.rgba: rgb
 
 Xcursor.theme: Simple-and-Soft
 
-*i3wm.font: xft:Ubuntu Mono 11
-
 ! Copyright (c) 2016-present Arctic Ice Studio <development@arcticicestudio.com>
 ! Copyright (c) 2016-present Sven Greb <code@svengreb.de>
 

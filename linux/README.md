@@ -1,25 +1,18 @@
 # tools
-* xbindkeys
-* xautolock
-* xrdb
-* xsetroot
-* hsetroot
-* autorandr
-* kbdd
-* wmctrl
-* polkit-mate-authentication-agent
-* gnome-keyring-daemon
+* sway
+* i3status-rust
+* wmname
+* polkit-gnome
+* gnome-keyring
+* libsecret
 
-# apps
-* i3
-* kupfer
-* redshift
-* nm-applet
-* blueman
-* safeeyes
-* gnome-screenshot
-* rofi
+* kanshi - automatically switch display configurations
+* wdisplays - display configuration GUI
+* swaylock
+* swayidle
+* mako - notification daemon
+* redshift-wayland-git
+* blueman-tray - bluetooth
+* nm-applet - network manager applet
+* wofi - command runner
 
-# other
-* ripgrep
-* git
