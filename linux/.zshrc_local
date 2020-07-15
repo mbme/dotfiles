@@ -7,10 +7,6 @@ alias -r jnl='journalctl -e -f -b'
 alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
 
-# PATH must be set in .zshrc because /etc/profile override PATH set in .zshenv
-# export env variables from systemd
-eval $(systemctl --user show-environment)
-
 if [ -n "$DESKTOP_SESSION" ];then
     eval $(gnome-keyring-daemon)
     export SSH_AUTH_SOCK

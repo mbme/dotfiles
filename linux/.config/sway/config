@@ -18,6 +18,7 @@ input type:keyboard {
     xkb_options grp:rctrl_toggle,grp_led:caps,caps:escape
 }
 input type:touchpad {
+    scroll_factor 0.3
     dwt enabled
     click_method clickfinger
     tap enabled
@@ -193,6 +194,11 @@ workspace_layout               tabbed
 mouse_warping                  none
 focus_on_window_activation     urgent
 
+default_border normal $border
+default_floating_border normal  $border
+hide_edge_borders --i3 smart
+
+
 #class                   border         backgr         text     indicator
 client.focused           $c_active      $c_active      $c_text  $c_active
 client.focused_inactive  $c_inactive    $c_inactive    $c_text  $c_inactive
@@ -200,6 +206,7 @@ client.unfocused         $c_background  $c_background  $c_text  $c_background
 client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
 
 assign [class="^firefox$"] 2
+assign [app_id="firefox"] 2
 
 assign [class="^jetbrains-idea"] 3
 assign [class="^jetbrains-webstorm"] 3
@@ -223,15 +230,13 @@ assign [class="Gitter"] 7
 assign [class="HipChat"] 7
 
 assign [class="Liferea"]  8
+assign [app_id="liferea"]  8
 assign [class="Thunderbird" instance="Mail"] 8
+assign [app_id="thunderbird"] 8
 
 assign [title="Transmission" class="Transmission-gtk"]  9
 assign [class="Quodlibet"]  9
 
-
-default_border normal $border
-default_floating_border normal  $border
-hide_edge_borders smart
 
 for_window [class="^Oblogout"] fullscreen
 
@@ -243,6 +248,8 @@ for_window [window_type="menu"]    floating enable
 for_window [class="^firefox"] floating enable
 for_window [class="^firefox" instance="Navigator"] floating disable, border pixel $border
 for_window [window_role="PictureInPicture"] floating enable, sticky enable, border pixel $border
+for_window [app_id="firefox"] border pixel $border
+for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, border pixel $border
 
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
@@ -262,6 +269,7 @@ for_window [class="^Slack"] border pixel $border
 for_window [class="^Thunderbird" instance="Calendar"] floating enable
 for_window [class="^Thunderbird" instance="Msgcompose"] floating enable
 for_window [class="^Thunderbird"] border pixel $border
+for_window [app_id="thunderbird"] border pixel $border
 
 for_window [class="^jetbrains-idea"]     border pixel $border
 for_window [class="^jetbrains-webstorm"] border pixel $border
@@ -271,6 +279,7 @@ for_window [class="^Kupfer.py"]      floating enable, border pixel $border
 for_window [class="^Quodlibet"] border pixel $border
 for_window [class="^Pcmanfm"]   border pixel $border
 for_window [class="^Liferea"]   border pixel $border
+for_window [app_id="liferea"]   border pixel $border
 for_window [class="^Nitrogen"]    floating enable
 for_window [class="^Pavucontrol"] floating enable
 for_window [class="^Wine"]        floating enable

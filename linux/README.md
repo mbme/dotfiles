@@ -15,4 +15,5 @@
 * blueman-tray - bluetooth
 * nm-applet - network manager applet
 * wofi - command runner
+* light - to control backlight
 

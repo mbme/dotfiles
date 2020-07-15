@@ -2,5 +2,50 @@
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
     export DESKTOP_SESSION=sway
     export XDG_SESSION_TYPE=wayland
+
+
+    export TERMINAL=mb-terminal
+    export BROWSER=firefox
+
+    # enable WebRenderer in Firefox 64
+    export MOZ_ACCELERATED="true"
+    export MOZ_WEBRENDER="true"
+    export MOZ_DBUS_REMOTE="true" # https://mastransky.wordpress.com/2020/03/16/wayland-x11-how-to-run-firefox-in-mixed-environment/
+
+    # GTK2 theme
+    export GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:$HOME/.gtkrc-2.0
+
+    # Use XToolkit in java applications
+    export AWT_TOOLKIT=XToolkit
+    export _JAVA_AWT_WM_NONREPARENTING=1
+    export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.xrender=true'
+
+    # to disable gtk3 at-spi helpers
+    export NO_AT_BRIDGE=1
+
+    # disable wine adding win soft menu items
+    export WINEDLLOVERRIDES=winemenubuilder.exe=d
+
+    export CARGO_HOME=$HOME/.cargo
+
+    export WINIT_HIDPI_FACTOR=1
+
+    # gnome keyring
+    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+
+    # Wayland
+    export QT_QPA_PLATFORM=wayland
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+    export SDL_VIDEODRIVER=wayland
+    export MOZ_ENABLE_WAYLAND="true"
+
+    # PATH
+    export NPM_BIN="$HOME/.npm-global/bin"
+    export YARN_BIN="$HOME/.config/yarn/global/node_modules/.bin"
+    export RUST_BIN="$HOME/.cargo/bin"
+    export UTILS_BIN="$HOME/bin"
+
+    export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
+
     exec systemd-cat -t sway sway
 fi
