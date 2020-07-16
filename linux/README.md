@@ -4,11 +4,13 @@
 * swayidle
 * waybar
 * wmname
+* kanshi - automatically switch display configurations
 * polkit-gnome
 * gnome-keyring
 * libsecret
 
-* kanshi - automatically switch display configurations
+# apps
+* safeeyes
 * wdisplays - display configuration GUI
 * mako - notification daemon
 * redshift-wayland-git

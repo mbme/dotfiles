@@ -1,7 +1,7 @@
-{
+profile laptop {
     output eDP-1 enable mode 1920x1080
 }
-{
+profile home2k {
     output eDP-1 disable
     output "Unknown AG271QG " enable mode 2560x1440
 }

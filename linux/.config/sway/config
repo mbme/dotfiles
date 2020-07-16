@@ -37,17 +37,15 @@ exec_always ~/.config/sway/kanshi.sh
 
 exec ~/.config/sway/polkit.sh
 
-# turn off and lock screen in 10min
+# turn off screen in 5min
 exec swayidle -w \
-    timeout 600 mb-lock-screen \
-    before-sleep mb-lock-screen
-    # timeout 570 'swaymsg "output * dpms off"' \
-    # resume 'swaymsg "output * dpms on"' \
-
+    timeout 300 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' 
 
 exec nm-applet --indicator
 exec blueman-tray
-exec redshift -l 49.842957:24.031111
+exec redshift
+exec safeeyes
 
 exec systemctl --user start pulseaudio
 exec systemctl --user start emacs
@@ -221,6 +219,7 @@ assign [class="Thunderbird" instance="Mail"] 8
 assign [app_id="thunderbird"] 8
 
 assign [title="Transmission" class="Transmission-gtk"]  9
+assign [app_id="transmission-gtk"]  9
 assign [class="Quodlibet"]  9
 
 
@@ -268,6 +267,7 @@ for_window [class="^Liferea"]   border pixel $border
 for_window [app_id="liferea"]   border pixel $border
 for_window [class="^Nitrogen"]    floating enable
 for_window [class="^Pavucontrol"] floating enable
+for_window [app_id="^pavucontrol"] floating enable
 for_window [class="^Wine"]        floating enable
 for_window [class="^Workrave"]    floating enable
 for_window [class="^Mojosetup"]   floating enable # GOG installer
@@ -293,11 +293,11 @@ for_window [window_role="^bubble$"] floating enable
 
 # Increase volume
 bindsym --locked XF86AudioRaiseVolume exec mb-audio speakers up
-bindsym Mod2+Mod4+Prior exec mb-audio speakers up # win-shift-pageup
+bindsym $mod+Prior exec mb-audio speakers up # win-pageup
 
 # Decrease volume
 bindsym --locked XF86AudioLowerVolume exec mb-audio speakers down
-bindsym Mod2+Mod4+Next exec mbm-audio speakers down # win-shift-pagedown
+bindsym $mod+Next exec mb-audio speakers down # win-pagedown
 
 # Toggle mute
 bindsym --locked XF86AudioMute exec mb-audio speakers toggle
@@ -308,26 +308,26 @@ bindsym XF86AudioMicMute exec mb-audio -n mic toggle
 
 # Toggle touchpad
 bindsym XF86TouchpadToggle exec mb-touchpad -n toggle
-bindsym Mod4+F9 exec mb-touchpad -n toggle
+bindsym $mod+F9 exec mb-touchpad -n toggle
 
 # increase backlight
 bindsym XF86MonBrightnessUp exec mb-backlight inc
-bindsym Mod4+F8 exec mb-backlight inc
+bindsym $mod+F8 exec mb-backlight inc
 
 # decrease backlight
 bindsym XF86MonBrightnessDown exec mb-backlight dec
-bindsym Mod4+F7 exec mb-backlight dec
+bindsym $mod+F7 exec mb-backlight dec
 
 # terminal
-bindsym Mod4+Return exec mb-terminal
+bindsym $mod+Return exec mb-terminal
 
 # app runner
-bindsym Mod4+F1 exec wofi --show=run
-bindsym --to-code Mod4+p exec wofi --show=drun
+bindsym $mod+F1 exec wofi --show=run
+bindsym --to-code $mod+p exec wofi --show=drun
 
 # Mako - notification daemon 
-bindsym Mod4+Escape exec makoctl dismiss
-bindsym Mod4+Shift+Escape exec makoctl dismiss --all
+bindsym $mod+Escape exec makoctl dismiss
+bindsym $mod+Shift+Escape exec makoctl dismiss --all
 
 # screenshot
 bindsym Print exec gnome-screenshot -i

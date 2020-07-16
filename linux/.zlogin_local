@@ -3,7 +3,6 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     export DESKTOP_SESSION=sway
     export XDG_SESSION_TYPE=wayland
 
-
     export TERMINAL=mb-terminal
     export BROWSER=firefox
 
@@ -30,9 +29,6 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 
     export WINIT_HIDPI_FACTOR=1
 
-    # gnome keyring
-    export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
-
     # Wayland
     export QT_QPA_PLATFORM=wayland
     export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -44,8 +40,11 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     export YARN_BIN="$HOME/.config/yarn/global/node_modules/.bin"
     export RUST_BIN="$HOME/.cargo/bin"
     export UTILS_BIN="$HOME/bin"
-
     export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
+
+    # gnome keyring
+    eval $(gnome-keyring-daemon)
+    export SSH_AUTH_SOCK
 
     systemctl --user import-environment
 

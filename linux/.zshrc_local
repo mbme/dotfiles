@@ -6,8 +6,3 @@ alias -r nstop='sudo netctl stop-all'
 alias -r jnl='journalctl -e -f -b'
 alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
-
-if [ -n "$DESKTOP_SESSION" ];then
-    eval $(gnome-keyring-daemon)
-    export SSH_AUTH_SOCK
-fi
