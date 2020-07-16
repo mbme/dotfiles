@@ -47,6 +47,8 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     export SSH_AUTH_SOCK
 
     systemctl --user import-environment
+    systemctl --user start pulseaudio
+    systemctl --user start emacs
 
     exec systemd-cat -t sway sway
 fi

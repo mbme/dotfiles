@@ -47,9 +47,6 @@ exec blueman-tray
 exec redshift
 exec safeeyes
 
-exec systemctl --user start pulseaudio
-exec systemctl --user start emacs
-
 # GTK3 settings
 exec_always {
     gsettings set org.gnome.desktop.interface gtk-theme 'Nordic'
