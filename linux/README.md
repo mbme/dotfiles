@@ -1,3 +1,6 @@
+# settings
+* locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
+
 # tools
 * sway
 * swaylock
@@ -15,7 +18,9 @@
 * mako - notification daemon
 * redshift-wayland-git
 * blueman-tray - bluetooth
+* udiskie - automounter for removable media
 * nm-applet - network manager applet
 * wofi - command runner
 * light - to control backlight
+* gsimplecal - calendar
 

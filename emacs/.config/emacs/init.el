@@ -1103,7 +1103,7 @@ Clear field placeholder if field was not modified."
   (setq ispell-program-name "aspell") ; use aspell instead of ispell
   (setq ispell-personal-dictionary (expand-file-name "aspell.en.pws" mb-dotfiles-dir))
   (setq-default ispell-extra-args '("--sug-mode=ultra"
-                                    "--lang=en_US"))
+                                    "--lang=en_GB"))
 
   ;; Make sure new aspell is installed
   (when (string-match-p "--camel-case"

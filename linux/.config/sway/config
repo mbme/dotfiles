@@ -46,6 +46,7 @@ exec nm-applet --indicator
 exec blueman-tray
 exec redshift
 exec safeeyes
+# exec udiskie --appindicator
 
 # GTK3 settings
 exec_always {
@@ -182,7 +183,6 @@ client.focused_inactive  $c_inactive    $c_inactive    $c_text  $c_inactive
 client.unfocused         $c_background  $c_background  $c_text  $c_background
 client.urgent            $c_urgent      $c_urgent      $c_text  $c_urgent
 
-assign [class="^firefox$"] 2
 assign [app_id="firefox"] 2
 
 assign [class="^jetbrains-idea"] 3
@@ -206,17 +206,13 @@ assign [class="Pidgin"] 7
 assign [class="Gitter"] 7
 assign [class="HipChat"] 7
 
-assign [class="Liferea"]  8
 assign [app_id="liferea"]  8
 assign [class="Thunderbird" instance="Mail"] 8
 assign [app_id="thunderbird"] 8
 
-assign [title="Transmission" class="Transmission-gtk"]  9
 assign [app_id="transmission-gtk"]  9
 assign [class="Quodlibet"]  9
 
-
-for_window [class="^Oblogout"] fullscreen
 
 # browser pop-ups
 for_window [window_role="^pop-up"] floating enable
@@ -252,28 +248,22 @@ for_window [app_id="thunderbird"] border pixel $border
 for_window [class="^jetbrains-idea"]     border pixel $border
 for_window [class="^jetbrains-webstorm"] border pixel $border
 
-for_window [class="^Kupfer.py"]      floating enable, border pixel $border
-
-for_window [class="^Quodlibet"] border pixel $border
 for_window [class="^Pcmanfm"]   border pixel $border
-for_window [class="^Liferea"]   border pixel $border
 for_window [app_id="liferea"]   border pixel $border
-for_window [class="^Nitrogen"]    floating enable
-for_window [class="^Pavucontrol"] floating enable
-for_window [app_id="^pavucontrol"] floating enable
+for_window [app_id="gsimplecal"] border pixel $border
+for_window [app_id="pavucontrol"] floating enable
 for_window [class="^Wine"]        floating enable
 for_window [class="^Workrave"]    floating enable
 for_window [class="^Mojosetup"]   floating enable # GOG installer
-for_window [class="^Safeeyes"]    floating enable 
+for_window [app_id="safeeyes"]    floating enable 
 for_window [class="^Gcolor3"]     floating enable
 for_window [class="^Vncviewer"]   floating enable
 for_window [class="^Remmina"]     floating enable
 for_window [class="^dota_linux"]  floating enable
-for_window [class="^Nm-connection-editor"]  floating enable
+for_window [app_id="nm-connection-editor"]  floating enable
 for_window [class="^Gtk-recordMyDesktop"] floating enable
 # for_window [class="^Termite"]     floating enable
 
-for_window [class="^Gnome-screenshot"] floating enable
 for_window [class="^Gnome-calculator"] floating enable border pixel $border
 for_window [class="^Gcr-prompter"]     floating enable
 for_window [class="^File-roller"]      floating enable border pixel $border

@@ -1,8 +1,8 @@
 alias remove_final_newline="perl -pi -e 'chomp if eof'"
 
 # SYSTEMD-related aliases
-alias -r n='sudo netctl switch-to'
-alias -r nstop='sudo netctl stop-all'
 alias -r jnl='journalctl -e -f -b'
 alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
+
+alias -r n='nnn'
