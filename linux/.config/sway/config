@@ -160,12 +160,7 @@ bindsym $mod+r mode "resize"
 
 bar {
     swaybar_command waybar
-    workspace_buttons yes
-    mode         invisible
 }
-
-exec_always ~/.config/sway/toggle_bar.sh clear
-bindsym $mod+grave exec ~/.config/sway/toggle_bar.sh toggle
 
 focus_follows_mouse            no
 popup_during_fullscreen        smart
@@ -175,6 +170,7 @@ workspace_layout               tabbed
 mouse_warping                  none
 focus_on_window_activation     urgent
 
+titlebar_padding 5 1
 default_border normal $border
 default_floating_border normal  $border
 hide_edge_borders --i3 smart
