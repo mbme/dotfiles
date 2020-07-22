@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-notify-send "test normal" "some text" && sleep 1 &&
-notify-send "test critical" "some other test" -u critical && sleep 1 &&
-notify-send "test low" "some text tooo looooong and soooo long" -u low && sleep 1 &&
-notify-send "little normal" && sleep 1

@@ -7,15 +7,18 @@
 * swayidle
 * waybar
 * wmname
+* zsh
+* starship
 * kanshi - automatically switch display configurations
 * wl-clipboard - cli tools for interacting with clipboard
 * mako - notification daemon
 * light - to control backlight
 
 # apps
+* alacritty - terminal
 * safeeyes
-* wdisplays - display configuration GUI
 * redshift-wayland-git
+* wdisplays - display configuration GUI
 * blueman-tray - bluetooth
 * udiskie - automounter for removable media
 * nm-applet - network manager applet
@@ -24,12 +27,18 @@
 * grim - capture the screenshot
 * slurp - select the part of the screen
 * swappy - simple drawing on top of images
+* zathura - pdf viewer
+* mpv - video player
+* imv - image viewer
 
 # cli tools
-* ripgrep
-* jq
+* ripgrep - search in files
+* jq - filter json
+* nnn - file manager
 
 # other
 * polkit-gnome
 * gnome-keyring
 * libsecret
+* xdg-utils
+* imagemagick

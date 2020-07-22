@@ -46,7 +46,7 @@ exec nm-applet --indicator
 exec blueman-tray
 exec redshift
 exec safeeyes
-# exec udiskie --appindicator
+exec udiskie --appindicator
 
 # GTK3 settings
 exec_always {
@@ -314,3 +314,6 @@ bindsym $mod+Shift+Escape exec makoctl dismiss --all
 
 # screenshot
 bindsym --release Print exec mb-screenshot
+
+# file manager
+bindsym $mod+n exec mb-terminal -e nnn
