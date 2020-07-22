@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+
+cases="screen
+screen & copy
+window
+window & copy
+part of the screen
+part of the screen & copy"
+
+res=$(echo "$cases" | wofi --dmenu)
+
+case "$res" in
+    "screen")
+        grim
+        ;;
+    "screen & copy")
+        grim -t png - | wl-copy -t image/png
+        ;;
+    "window")
+        grim -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" 
+        ;;
+    "window & copy")
+        grim -t png -g "$(swaymsg -t get_tree | jq -r '.. | select(.focused?) | .rect | "\(.x),\(.y) \(.width)x\(.height)"')" - | wl-copy -t image/png
+        ;;
+    "part of the screen")
+        grim -g "$(slurp)"
+        ;;
+    "part of the screen & copy")
+        grim -t png -g "$(slurp)" - | wl-copy -t image/png
+        ;;
+esac
+
+exit 0

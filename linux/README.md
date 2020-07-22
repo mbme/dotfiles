@@ -8,9 +8,7 @@
 * waybar
 * wmname
 * kanshi - automatically switch display configurations
-* polkit-gnome
-* gnome-keyring
-* libsecret
+* wl-clipboard - cli tools for interacting with clipboard
 
 # apps
 * safeeyes
@@ -24,3 +22,17 @@
 * light - to control backlight
 * gsimplecal - calendar
 
+# tools for screenshots
+* grim - capture the screenshot
+* slurp - select the part of the screen
+
+# cli tools
+* ripgrep
+* jq
+
+
+
+# other
+* polkit-gnome
+* gnome-keyring
+* libsecret
