@@ -1,5 +1,9 @@
 alias remove_final_newline="perl -pi -e 'chomp if eof'"
 
+alias ydl='noglob youtube-dl -o "%(title)s.%(ext)s"'
+alias ydl-mp3='noglob youtube-dl -x --audio-format mp3 -o "%(title)s.%(ext)s"'
+alias zip-package='7z a -mx=0'
+
 # SYSTEMD-related aliases
 alias -r jnl='journalctl -e -f -b'
 alias -r ctl='sudo systemctl'

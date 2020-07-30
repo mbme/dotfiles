@@ -1,5 +1,6 @@
 # settings
 * locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
+* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout
 
 # tools
 * sway
@@ -30,6 +31,7 @@
 * zathura - pdf viewer
 * mpv - video player
 * imv - image viewer
+* youtube-dl - download videos from video hosting services
 
 # cli tools
 * ripgrep - search in files

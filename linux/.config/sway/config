@@ -29,32 +29,7 @@ input type:touchpad {
 # Output configuration
 output * background #002B36 solid_color
 
-
-# Autostart
-exec_always wmname Sawfish
-exec_always xrdb -merge ~/.Xresources
-exec_always ~/.config/sway/kanshi.sh
-
-exec ~/.config/sway/polkit.sh
-
-# turn off screen in 5min
-exec swayidle -w \
-    timeout 300 'swaymsg "output * dpms off"' \
-    resume 'swaymsg "output * dpms on"' 
-
-exec nm-applet --indicator
-exec blueman-tray
-exec redshift
-exec safeeyes
-exec udiskie --appindicator
-
-# GTK3 settings
-exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'Nordic'
-    gsettings set org.gnome.desktop.interface icon-theme 'Paper'
-    gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
-    gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
-}
+xwayland enable
 
 font $font
 
@@ -317,3 +292,34 @@ bindsym --release Print exec mb-screenshot
 
 # file manager
 bindsym $mod+n exec mb-terminal -e nnn
+
+
+# AUTOSTART
+
+exec_always wmname Sawfish
+exec_always xrdb -merge ~/.Xresources
+exec_always ~/.config/sway/kanshi.sh
+
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY
+exec dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE
+
+exec ~/.config/sway/polkit.sh
+
+# turn off screen in 5min
+exec swayidle -w \
+    timeout 300 'swaymsg "output * dpms off"' \
+    resume 'swaymsg "output * dpms on"' 
+
+exec nm-applet --indicator
+exec blueman-tray
+exec redshift
+exec safeeyes
+exec udiskie ---appindicator
+
+# GTK3 settings
+exec_always {
+    gsettings set org.gnome.desktop.interface gtk-theme 'Nordic'
+    gsettings set org.gnome.desktop.interface icon-theme 'Paper'
+    gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
+    gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
+}
