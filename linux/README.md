@@ -12,6 +12,7 @@
 * starship
 * kanshi - automatically switch display configurations
 * wl-clipboard - cli tools for interacting with clipboard
+* clipman - clipboard manager
 * mako - notification daemon
 * light - to control backlight
 

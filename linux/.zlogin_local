@@ -6,7 +6,7 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
 
     # Wayland
     export XDG_SESSION_TYPE=wayland
-    export GDK_BACKEND=wayland
+    # export GDK_BACKEND=wayland # this breaks Electron apps
     export QT_QPA_PLATFORM=wayland
     export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
     export SDL_VIDEODRIVER=wayland

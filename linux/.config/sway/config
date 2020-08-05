@@ -294,6 +294,9 @@ bindsym --release Print exec mb-screenshot
 # file manager
 bindsym $mod+n exec mb-terminal -e nnn
 
+# clipboard manager
+bindsym --to-code $mod+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" --notify
+bindsym --to-code $mod+Shift+i exec clipman clear --all
 
 # AUTOSTART
 
@@ -310,6 +313,9 @@ exec ~/.config/sway/polkit.sh
 exec swayidle -w \
     timeout 300 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' 
+
+exec wl-paste -p -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman.json"
+exec wl-paste -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman.json"
 
 exec nm-applet --indicator
 exec blueman-tray
