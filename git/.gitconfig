@@ -3,7 +3,10 @@
 [core]
     autocrlf = input
     editor = vim
+    pager = less -r
     excludesfile = ~/.gitignore_global
+[color]
+    ui = true
 [push]
     default = simple
 [pull]
@@ -26,3 +29,5 @@
 	process = git-lfs filter-process
 	required = true
 	clean = git-lfs clean -- %f
+[pager]
+	branch = false

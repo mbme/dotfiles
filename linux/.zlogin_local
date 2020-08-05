@@ -1,10 +1,16 @@
 # run sway after login if this is first virtual terminal
 if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
     export DESKTOP_SESSION=sway
-    export XDG_SESSION_TYPE=wayland
-
     export TERMINAL=mb-terminal
     export BROWSER=firefox
+
+    # Wayland
+    export XDG_SESSION_TYPE=wayland
+    export GDK_BACKEND=wayland
+    export QT_QPA_PLATFORM=wayland
+    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+    export SDL_VIDEODRIVER=wayland
+    export MOZ_ENABLE_WAYLAND=1
 
     # enable WebRenderer in Firefox 64
     export MOZ_ACCELERATED=1
@@ -28,12 +34,6 @@ if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     export CARGO_HOME=$HOME/.cargo
 
     export WINIT_HIDPI_FACTOR=1
-
-    # Wayland
-    export QT_QPA_PLATFORM=wayland
-    export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-    export SDL_VIDEODRIVER=wayland
-    export MOZ_ENABLE_WAYLAND=1
 
     # PATH
     export NPM_BIN="$HOME/.npm-global/bin"

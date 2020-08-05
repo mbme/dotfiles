@@ -209,7 +209,8 @@ for_window [class="^/usr/bin/chromium-continuous-bin" title="^Developer Tools"] 
 
 for_window [class="^Emacs"] border normal
 
-for_window [class="^Steam" title="^Steam - News .*"] floating enable
+for_window [class="Steam"] border pixel $border
+for_window [class="^Steam" title="Steam - News"] floating enable
 
 for_window [class="^Franz"] border pixel $border
 for_window [class="^Peek"] floating enable
@@ -223,10 +224,10 @@ for_window [app_id="thunderbird"] border pixel $border
 for_window [class="^jetbrains-idea"]     border pixel $border
 for_window [class="^jetbrains-webstorm"] border pixel $border
 
-for_window [class="^Pcmanfm"]   border pixel $border
 for_window [app_id="liferea"]   border pixel $border
 for_window [app_id="gsimplecal"] border pixel $border
 for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="wdisplays"] floating enable
 for_window [class="^Wine"]        floating enable
 for_window [class="^Workrave"]    floating enable
 for_window [class="^Mojosetup"]   floating enable # GOG installer
@@ -314,7 +315,7 @@ exec nm-applet --indicator
 exec blueman-tray
 exec redshift
 exec safeeyes
-exec udiskie ---appindicator
+exec udiskie --appindicator
 
 # GTK3 settings
 exec_always {

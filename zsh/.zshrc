@@ -27,12 +27,14 @@ add-zsh-hook preexec set-title-preexec
 
 
 # Aliases
-alias ls="ls ${lsflags}"
+alias ls="ls ${lsflags} -lh"
 alias la="ls ${lsflags} -lah"
 alias svim='sudo vim'
 alias tailf='tail -f -n 1000'
 alias -r g='git'
 alias gp='git push'
+alias gpull='git pull'
+alias tree='tree -hsFC --du --dirsfirst'
 
 
 
