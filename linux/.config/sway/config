@@ -37,31 +37,31 @@ font $font
 floating_modifier $mod
 
 # kill focused window
-bindsym $mod+q kill
+bindsym --to-code $mod+q kill
 
 # enter fullscreen mode for the focused container
-bindsym $mod+Mod1+f fullscreen
+bindsym --to-code $mod+Mod1+f fullscreen
 
 # change focus
-bindsym $mod+h focus left
-bindsym $mod+j focus down
-bindsym $mod+k focus up
-bindsym $mod+l focus right
+bindsym --to-code $mod+h focus left
+bindsym --to-code $mod+j focus down
+bindsym --to-code $mod+k focus up
+bindsym --to-code $mod+l focus right
 
 # move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym --to-code $mod+Shift+h move left
+bindsym --to-code $mod+Shift+j move down
+bindsym --to-code $mod+Shift+k move up
+bindsym --to-code $mod+Shift+l move right
 
 # split in horizontal orientation
-bindsym $mod+Shift+g split h
+bindsym --to-code $mod+Shift+g split h
 # split in vertical orientation
-bindsym $mod+Shift+v split v
+bindsym --to-code $mod+Shift+v split v
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+Shift+s layout stacking
-bindsym $mod+Shift+w layout tabbed
-bindsym $mod+Shift+e layout toggle split
+bindsym --to-code $mod+Shift+s layout stacking
+bindsym --to-code $mod+Shift+w layout tabbed
+bindsym --to-code $mod+Shift+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
@@ -69,9 +69,9 @@ bindsym $mod+Shift+space floating toggle
 bindsym $mod+Mod1+space focus mode_toggle
 
 # focus the parent container
-bindsym $mod+Shift+a focus parent
+bindsym --to-code $mod+Shift+a focus parent
 # focus the child container
-bindsym $mod+Shift+d focus child
+bindsym --to-code $mod+Shift+d focus child
 
 # switch to workspace
 bindsym $mod+1 workspace 1
@@ -99,11 +99,11 @@ bindsym $mod+Shift+0 move container to workspace 10
 
 # Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
-bindsym $mod+Shift+x move workspace to output right
+bindsym --to-code $mod+Shift+x move workspace to output right
 
 # reload the configuration file
-bindsym $mod+Shift+r reload
-bindsym $mod+Shift+q exec mb-exit
+bindsym --to-code $mod+Shift+r reload
+bindsym --to-code $mod+Shift+q exec mb-exit
 
 # go to prev workspace
 bindsym $mod+Tab workspace back_and_forth
@@ -116,9 +116,9 @@ mode "resize" {
      # Pressing right will grow the window’s width.
      # Pressing up will shrink the window’s height.
      # Pressing down will grow the window’s height.
-     bindsym j resize shrink width 10 px or 10 ppt
-     bindsym k resize grow height 10 px or 10 ppt
-     bindsym l resize shrink height 10 px or 10 ppt
+     bindsym --to-code j resize shrink width 10 px or 10 ppt
+     bindsym --to-code k resize grow height 10 px or 10 ppt
+     bindsym --to-code l resize shrink height 10 px or 10 ppt
      bindsym semicolon resize grow width 10 px or 10 ppt
 
      # same bindings, but for the arrow keys
@@ -132,7 +132,7 @@ mode "resize" {
      bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym --to-code $mod+r mode "resize"
 
 bar {
     swaybar_command waybar
@@ -227,6 +227,7 @@ for_window [class="^jetbrains-webstorm"] border pixel $border
 for_window [app_id="liferea"]   border pixel $border
 for_window [app_id="gsimplecal"] border pixel $border
 for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="blueman-manager"] floating enable
 for_window [app_id="wdisplays"] floating enable
 for_window [class="^Wine"]        floating enable
 for_window [class="^Workrave"]    floating enable
@@ -292,7 +293,7 @@ bindsym $mod+Shift+Escape exec makoctl dismiss --all
 bindsym --release Print exec mb-screenshot
 
 # file manager
-bindsym $mod+n exec mb-terminal -e nnn
+bindsym --to-code $mod+n exec mb-terminal -e nnn
 
 # clipboard manager
 bindsym --to-code $mod+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" --notify
@@ -326,7 +327,7 @@ exec udiskie --appindicator
 # GTK3 settings
 exec_always {
     gsettings set org.gnome.desktop.interface gtk-theme 'Nordic'
-    gsettings set org.gnome.desktop.interface icon-theme 'Paper'
+    gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
     gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
     gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
 }

@@ -45,3 +45,8 @@
 * libsecret
 * xdg-utils
 * imagemagick
+
+# UI
+* nordic - GTK3 theme
+* papirus - icon theme
+* simple-and-soft - cursor theme
