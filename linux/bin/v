@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-if [ -z "$DISPLAY" ]; then
-    vim "$@"
-else
-    # -a is alternate editor
-    emacsclient -c -a vim -n "$@"
-fi

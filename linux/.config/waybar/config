@@ -32,21 +32,21 @@
     "on-click": "gsimplecal"
   },
   "cpu": {
-    "format": "<small>CPU  </small>{usage:2}%",
+    "format": "<small>CPU </small>{usage:3}%",
     "tooltip": true
   },
   "memory": {
-    "format": "<small>MEM  </small>{:2}%"
+    "format": "<small>MEM </small>{:3}%"
   },
   "disk": {
     "interval": 30,
-    "format": "<small>DISK </small>{percentage_used}%",
+    "format": "<small>DISK</small>{percentage_used:3}%",
     "path": "/home"
   },
   "temperature": {
     "hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
     "critical-threshold": 98,
-    "format": "<small>TEMP </small>{temperatureC:2}°"
+    "format": "<small>TEMP</small>{temperatureC:3}°"
   },
   "battery": {
     "states": {

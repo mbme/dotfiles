@@ -242,18 +242,45 @@
  ;; lines should be 80 characters wide, not 72
  fill-column 80)
 
-;; copy-paste (work with both terminal (S-INS) and X11 apps.):
-(when (and mb-is-linux (> (display-color-cells) 16)) ;if linux and not in CLI
-  ;;copy-paste should work (default in emacs24)
-  (setq select-enable-clipboard t
-        ;; with other X-clients
-        interprogram-paste-function 'x-cut-buffer-or-selection-value))
+
+;; display margins in terminal emacs
+(unless (display-graphic-p)
+  (setq-default
+   right-margin-width 1
+   left-margin-width 1))
+
+
+;; make sure emacs will try to split windows horizontally by default
+(setq split-height-threshold nil)
+(setq split-width-threshold 160)
+
+
+
+;; ---------------------------------------- copy-paste in Wayland https://gist.github.com/yorickvP/6132f237fbc289a45c808d8d75e0e1fb
+
+
+(setq wl-copy-process nil)
+
+(defun wl-copy (text)
+  (setq wl-copy-process (make-process :name "wl-copy"
+                                      :buffer nil
+                                      :command '("wl-copy" "-f" "-n")
+                                      :connection-type 'pipe))
+  (process-send-string wl-copy-process text)
+  (process-send-eof wl-copy-process))
+
+(defun wl-paste ()
+  (if (and wl-copy-process (process-live-p wl-copy-process))
+      nil ; should return nil if we're the current paste owner
+    (shell-command-to-string "wl-paste -n | tr -d \r")))
+
+(setq interprogram-cut-function 'wl-copy)
+(setq interprogram-paste-function 'wl-paste)
 
 
 
 
 ;; ---------------------------------------- UTILS
-
 
 
 
@@ -525,35 +552,11 @@ narrowed."
 
 
 
-;; Solarized theme
-(use-package solarized-theme
-  :disabled
-  :ensure t
-  :config
-  ;; (mb/load-theme! 'solarized-dark)
-  (mb/load-theme! 'solarized-light)
-  (setq solarized-use-less-bold t))
-
 ;; Nord theme https://github.com/arcticicestudio/nord-emacs
 (use-package nord-theme
   :ensure t
   :config
   (mb/load-theme! 'nord))
-
-;; Doom themes https://awesomeopensource.com/project/hlissner/emacs-doom-themes
-(use-package doom-themes
-  :disabled
-  :ensure t
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold nil   ; if nil, bold is universally disabled
-        doom-themes-enable-italic t) ; if nil, italics is universally disabled
-
-  (setq doom-nord-region-highlight 'frost)
-  (mb/load-theme! 'doom-nord)
-
-  ;; Enable flashing mode-line on errors
-  (doom-themes-visual-bell-config))
 
 
 
@@ -770,15 +773,6 @@ narrowed."
   :config
   (evil-lion-mode))
 
-;; display evil marks on fringe
-(use-package evil-fringe-mark
-  :after evil
-  :ensure t
-  :config
-  (setq-default left-fringe-width 20)
-
-  (global-evil-fringe-mark-mode))
-
 
 
 ;; Ido mode: text menu item selecting
@@ -857,15 +851,6 @@ narrowed."
   (evil-leader/set-key
     "`" 'ivy-resume))
 
-(use-package ivy-posframe
-  :after ivy
-  :ensure t
-  :diminish ivy-posframe-mode
-  :config
-  (setq
-   ivy-posframe-display-functions-alist '((t . ivy-posframe-display-at-frame-center))
-   ivy-posframe-width 120)
-  (ivy-posframe-mode 1))
 
 ;; show references to variables in ivy
 (use-package ivy-xref
@@ -880,15 +865,6 @@ narrowed."
   ;; commands other than xref-find-definitions (e.g. project-find-regexp)
   ;; as well
   (setq xref-show-xrefs-function #'ivy-xref-show-xrefs))
-
-(use-package swiper
-  :after ivy
-  :ensure t
-  :config
-  (evil-leader/set-key
-    "o" 'swiper
-    "O" 'swiper-thing-at-point
-    ))
 
 ;; counsel use it for M-x
 (use-package smex
@@ -907,7 +883,6 @@ narrowed."
   :ensure t
   :bind*
   ("M-x" . 'counsel-M-x)
-  ("C-s" . 'swiper)
   ("C-x C-f" . 'counsel-find-file)
   ("<f1> f" . 'counsel-describe-function)
   ("<f1> v" . 'counsel-describe-variable)
@@ -1312,6 +1287,7 @@ Clear field placeholder if field was not modified."
 
 ;; Dired
 (use-package dired
+  :defer t
   :config
   (require 'dired-x)
 
@@ -1383,11 +1359,16 @@ Clear field placeholder if field was not modified."
   ("M-e l" . mb/toggle-flyckeck-errors-list)
   ("M-e b" . flycheck-buffer)
   :init
+  (setq flycheck-indication-mode 'right-margin)
   (global-flycheck-mode)
 
   :config
-  (setq flycheck-indication-mode 'right-fringe
-        flycheck-temp-prefix "FLYCHECK_XXY")
+  (if (display-graphic-p)
+      (setq flycheck-indication-mode 'right-fringe)
+    (progn
+      (setq flycheck-indication-mode 'right-margin)))
+
+  (setq flycheck-temp-prefix "FLYCHECK_XXY")
 
   (evil-add-command-properties #'flycheck-first-error :jump t)
   (evil-add-command-properties #'flycheck-next-error :jump t)
@@ -1471,6 +1452,7 @@ Clear field placeholder if field was not modified."
 ;; Magit: UI for git
 (use-package magit
   :ensure t
+  :defer t
   :defines
   magit-last-seen-setup-instructions
   magit-status-buffer-switch-function
@@ -1573,6 +1555,11 @@ Clear field placeholder if field was not modified."
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
 
   (diff-hl-flydiff-mode)
+
+  ;; there is no fringe in terminal emacs, so use margins
+  (unless (display-graphic-p)
+    (diff-hl-margin-mode))
+
   (global-diff-hl-mode))
 
 
@@ -1923,6 +1910,7 @@ Clear field placeholder if field was not modified."
   (message "mb: GRAPHQL MODE"))
 
 
+
 ;; ---------------------------------------- GLOBAL KEYBINDINGS
 
 
@@ -1941,10 +1929,12 @@ Clear field placeholder if field was not modified."
   (global-set-key (kbd "C-<wheel-down>") 'text-scale-decrease))
 
 
+(define-key input-decode-map [?\C-\M-i] [M-tab]) ;; make M-tab work in terminal
+
 (global-set-key (kbd "C-x e")   'mb/eval-and-replace)
 (global-set-key [M-tab]         'mb/prev-buffer)
 (global-set-key (kbd "M-S-SPC") 'just-one-space)
-(global-set-key (kbd "M-/")   'hippie-expand)
+(global-set-key (kbd "M-/")     'hippie-expand)
 
 (global-set-key [f4]    'mb/terminal)
 (global-set-key [M-f4]  'mb/projectile-base-term)

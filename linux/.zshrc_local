@@ -41,5 +41,6 @@ n ()
     fi
 }
 alias r=n
+alias e='emacs -nw'
 
 export NNN_PLUG='t:-treeview'

@@ -67,6 +67,8 @@ bindsym --to-code $mod+Shift+e layout toggle split
 bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+Mod1+space focus mode_toggle
+# toggle sticy
+bindsym --to-code $mod+Shift+p sticky toggle
 
 # focus the parent container
 bindsym --to-code $mod+Shift+a focus parent
@@ -299,6 +301,9 @@ bindsym --to-code $mod+n exec mb-terminal -e nnn
 bindsym --to-code $mod+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" --notify
 bindsym --to-code $mod+Shift+i exec clipman clear --all
 
+# editor
+bindsym --to-code $mod+e exec alacritty -t Emacs -e emacs -nw
+
 # AUTOSTART
 
 exec_always wmname Sawfish
@@ -320,7 +325,7 @@ exec wl-paste -t text --watch clipman store --max-items=60 --histpath="~/.local/
 
 exec nm-applet --indicator
 exec blueman-tray
-exec redshift
+exec redshift-gtk -l 49.842957:24.031111
 exec safeeyes
 exec udiskie --appindicator
 

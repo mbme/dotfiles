@@ -8,7 +8,7 @@ if [ "$1" = "-e" ]
 then
     command="${@:2}"
     echo "running terminal: executing '$command'"
-    $terminal -e "$command"
+    $terminal -e $command
 else
     echo "running terminal"
     $terminal
