@@ -40,6 +40,7 @@
 * nnn - file manager
 
 # other
+* upower
 * polkit-gnome
 * gnome-keyring
 * libsecret

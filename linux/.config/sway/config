@@ -284,8 +284,8 @@ bindsym $mod+F7 exec mb-backlight dec
 bindsym $mod+Return exec mb-terminal
 
 # app runner
-bindsym $mod+F1 exec wofi --show=run
-bindsym --to-code $mod+p exec wofi --show=drun
+bindsym $mod+F1 exec wofi --show=run -i
+bindsym --to-code $mod+p exec wofi --show=drun -i
 
 # Mako - notification daemon 
 bindsym $mod+Escape exec makoctl dismiss
