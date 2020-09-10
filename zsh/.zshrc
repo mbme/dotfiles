@@ -85,6 +85,9 @@ unsetopt beep
 # Starship https://starship.rs/
 eval "$(starship init zsh)"
 
+# Send desktop notifications after long-running commands https://github.com/MichaelAquilina/zsh-auto-notify
+source "$HOME/.zsh/auto-notify.plugin.zsh"
+
 # Source local config
 if [[ -s "$HOME/.zshrc_local" ]]; then
     source "$HOME/.zshrc_local"

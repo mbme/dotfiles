@@ -1337,7 +1337,7 @@ Clear field placeholder if field was not modified."
 (use-package doom-modeline
   :ensure t
   :config
-  (setq doom-modeline-buffer-file-name-style 'truncate-with-project
+  (setq doom-modeline-buffer-file-name-style 'truncate-upto-project
         doom-modeline-icon nil
         doom-modeline-unicode-fallback nil
         doom-modeline-buffer-encoding nil
@@ -1910,6 +1910,13 @@ Clear field placeholder if field was not modified."
   (message "mb: GRAPHQL MODE"))
 
 
+
+;; PKGBUILD mode
+(use-package pkgbuild-mode
+  :ensure t
+  :defer t
+  :config
+  (message "mb: PKGBUILD MODE"))
 
 ;; ---------------------------------------- GLOBAL KEYBINDINGS
 

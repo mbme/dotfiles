@@ -35,9 +35,12 @@
 * youtube-dl - download videos from video hosting services
 
 # cli tools
+* nnn - file manager
 * ripgrep - search in files
 * jq - filter json
-* nnn - file manager
+* fd - better "find"
+* tokei - count lines of code
+* htop
 
 # other
 * upower

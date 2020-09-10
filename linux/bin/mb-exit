@@ -21,10 +21,10 @@ case "$res" in
         swaymsg exit
         ;;
     "suspend" | "sleep")
-        mb-lock-screen && systemctl suspend
+        mb-lock-screen & systemctl suspend
         ;;
     "hibernate")
-        mb-lock-screen && systemctl hibernate
+        mb-lock-screen & systemctl hibernate
         ;;
     "reboot" | "restart")
         systemctl reboot

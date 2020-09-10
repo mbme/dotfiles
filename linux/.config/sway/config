@@ -66,7 +66,7 @@ bindsym --to-code $mod+Shift+e layout toggle split
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
-bindsym $mod+Mod1+space focus mode_toggle
+bindsym $mod+Mod1+space focus mode_toggle # Alt
 # toggle sticy
 bindsym --to-code $mod+Shift+p sticky toggle
 
@@ -209,7 +209,8 @@ for_window [class="^Google-chrome-beta"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin"] border pixel $border
 for_window [class="^/usr/bin/chromium-continuous-bin" title="^Developer Tools"] floating disable, border pixel $border
 
-for_window [class="^Emacs"] border normal
+for_window [class="^Emacs"] border pixel $border
+for_window [app_id="Emacs"] border pixel $border
 
 for_window [class="Steam"] border pixel $border
 for_window [class="^Steam" title="Steam - News"] floating enable
@@ -228,6 +229,7 @@ for_window [class="^jetbrains-webstorm"] border pixel $border
 
 for_window [app_id="liferea"]   border pixel $border
 for_window [app_id="gsimplecal"] border pixel $border
+for_window [app_id="org.pwmt.zathura"] border pixel $border
 for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="blueman-manager"] floating enable
 for_window [app_id="wdisplays"] floating enable
@@ -299,10 +301,11 @@ bindsym --to-code $mod+n exec mb-terminal -e nnn
 
 # clipboard manager
 bindsym --to-code $mod+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" --notify
-bindsym --to-code $mod+Shift+i exec clipman clear --all
+bindsym --to-code $mod+Shift+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman-primary.json" --notify
+bindsym --to-code $mod+Mod1+i exec clipman clear --all
 
 # editor
-bindsym --to-code $mod+e exec alacritty -t Emacs -e emacs -nw
+bindsym --to-code $mod+e exec alacritty -t Emacs --class Emacs -e emacs -nw
 
 # AUTOSTART
 
@@ -320,8 +323,8 @@ exec swayidle -w \
     timeout 300 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' 
 
-exec wl-paste -p -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman.json"
 exec wl-paste -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman.json"
+exec wl-paste -p -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman-primary.json"
 
 exec nm-applet --indicator
 exec blueman-tray

@@ -1,12 +1,12 @@
 font:
   normal:
-    family: DejaVu Sans Mono
+    family: JetBrains Mono
     style: Regular
   bold:
-    family: DejaVu Sans Mono
+    family: JetBrains Mono
     style: Bold
   italic:
-    family: DejaVu Sans Mono
+    family: JetBrains Mono
     style: Oblique
 
   size: 11.0
