@@ -318,13 +318,13 @@ exec dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE
 
 exec ~/.config/sway/polkit.sh
 
-# turn off screen in 5min
+# turn off screen in 10min
 exec swayidle -w \
-    timeout 300 'swaymsg "output * dpms off"' \
+    timeout 600 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' 
 
-exec wl-paste -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman.json"
-exec wl-paste -p -t text --watch clipman store --max-items=60 --histpath="~/.local/share/clipman-primary.json"
+exec wl-paste -t text --watch clipman store --max-items=30 --histpath="~/.local/share/clipman.json"
+exec wl-paste -p -t text --watch clipman store -P --max-items=30 --histpath="~/.local/share/clipman-primary.json"
 
 exec nm-applet --indicator
 exec blueman-tray

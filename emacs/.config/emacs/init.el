@@ -847,6 +847,7 @@ narrowed."
   (define-key ivy-minibuffer-map (kbd "M-j") 'ivy-next-line)
   (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-previous-line)
   (define-key ivy-minibuffer-map (kbd "M-<return>") 'ivy-immediate-done)
+  (define-key ivy-minibuffer-map (kbd "C-j") 'ivy-immediate-done)
 
   (evil-leader/set-key
     "`" 'ivy-resume))

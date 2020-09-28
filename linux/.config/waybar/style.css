@@ -1,14 +1,13 @@
 * {
   border: none;
   border-radius: 0;
-  /* `otf-font-awesome` is required to be installed for icons */
-  font-family: monospace;
+  font-family: JetBrains Mono;
   font-size: 14px;
   min-height: 0;
 }
 
 window#waybar {
-  background-color: rgba(43, 48, 59, 0.5);
+  background-color: #2e3440;
   color: #ffffff;
   transition-property: background-color;
   transition-duration: .5s;
@@ -73,13 +72,22 @@ window#waybar {
 }
 
 #battery.critical:not(.charging) {
-  background-color: #f53c3c;
+  background-color: #bf616a;
   color: #ffffff;
   animation-name: blink;
   animation-duration: 0.5s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+
+#battery.charging {
+  background-color: inherit;
+  color: inherit;
+}
+
+#battery.warning:not(.charging) {
+  background-color: #ebcb8b;
 }
 
 label:focus {
@@ -92,5 +100,5 @@ label:focus {
 }
 
 #temperature.critical {
-  background-color: #eb4d4b;
+  background-color: #bf616a;
 }
