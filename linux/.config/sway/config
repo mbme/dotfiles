@@ -338,4 +338,7 @@ exec_always {
     gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
     gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
     gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
+
+    # allow to run GUI programs as a root
+    xhost si:localuser:root
 }
