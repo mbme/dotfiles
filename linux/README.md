@@ -28,6 +28,7 @@
 * gsimplecal - calendar
 * grim - capture the screenshot
 * slurp - select the part of the screen
+* wf-recorder - record the screen
 * swappy - simple drawing on top of images
 * zathura - pdf viewer
 * mpv - video player
@@ -51,6 +52,7 @@
 * imagemagick
 
 # UI
-* nordic - GTK3 theme
+* nordic - dark GTK3 theme
+* adwaita - light GTK3 theme
 * papirus - icon theme
 * simple-and-soft - cursor theme

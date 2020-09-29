@@ -554,9 +554,16 @@ narrowed."
 
 ;; Nord theme https://github.com/arcticicestudio/nord-emacs
 (use-package nord-theme
+  :disabled
   :ensure t
   :config
   (mb/load-theme! 'nord))
+
+
+(use-package solarized-theme
+  :ensure t
+  :config
+  (mb/load-theme! 'solarized-light))
 
 
 

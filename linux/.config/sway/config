@@ -334,7 +334,7 @@ exec udiskie --appindicator
 
 # GTK3 settings
 exec_always {
-    gsettings set org.gnome.desktop.interface gtk-theme 'Nordic'
+    gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
     gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
     gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
     gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
