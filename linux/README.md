@@ -19,7 +19,7 @@
 # apps
 * alacritty - terminal
 * safeeyes
-* redshift-wayland-git
+* gammastep - adjust display color temperature at night
 * wdisplays - display configuration GUI
 * blueman-tray - bluetooth
 * udiskie - automounter for removable media

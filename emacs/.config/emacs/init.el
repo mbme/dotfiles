@@ -614,6 +614,7 @@ narrowed."
 
 (use-package evil
   :ensure t
+  :after undo-tree
   ;; this must be set before loading evil
   :init
   ;; use C-u as scroll-up
@@ -621,6 +622,7 @@ narrowed."
   (defvar evil-want-Y-yank-to-eol t)
   (defvar evil-want-C-i-jump t)
   (defvar evil-want-keybinding nil)
+  (defvar evil-undo-system 'undo-tree)
 
   :config
   (setq

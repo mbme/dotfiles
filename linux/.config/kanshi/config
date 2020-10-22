@@ -7,6 +7,11 @@ profile home2k {
     output "Unknown AG271QG " enable mode 2560x1440
     exec pkill mako
 }
+profile home2k144 {
+    output eDP-1 disable
+    output "Unknown AG271QG #ASNxuIWF8vrd" enable mode 2560x1440@144
+    exec pkill mako
+}
 profile projector {
     output eDP-1 disable
     output "Optoma Corporation Optoma 1080P Q79C9180083" enable mode 1920x1080

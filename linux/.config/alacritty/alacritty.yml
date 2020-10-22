@@ -9,7 +9,7 @@ font:
     family: JetBrains Mono
     style: Oblique
 
-  size: 12.0
+  size: 11.5
 
 # need this so that solarized looks good
 draw_bold_text_with_bright_colors: false
