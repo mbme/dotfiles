@@ -136,6 +136,9 @@ mode "resize" {
 
 bindsym --to-code $mod+r mode "resize"
 
+# toggle waybar
+bindsym $mod+grave exec killall -SIGUSR1 waybar
+
 bar {
     swaybar_command waybar
 }

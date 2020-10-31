@@ -987,7 +987,7 @@ narrowed."
    company-tooltip-limit             20
    company-minimum-prefix-length     2
    company-echo-delay                0
-   company-auto-complete             nil
+   company-auto-commit               nil
    company-selection-wrap-around     t
 
    company-dabbrev-ignore-case       nil
@@ -1815,19 +1815,22 @@ Clear field placeholder if field was not modified."
         lsp-idle-delay 0.500
         lsp-keep-workspace-alive nil
         lsp-enable-folding nil
-        lsp-diagnostic-package :flycheck
         lsp-enable-snippet nil
         lsp-enable-symbol-highlighting nil
         lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting  nil
-        lsp-prefer-capf t
+        lsp-completion-provider :capf
+
+        lsp-modeline-code-actions-segments '(count name)
 
         lsp-rust-server 'rust-analyzer
         lsp-rust-full-docs t
         lsp-signature-render-documentation nil
 
         lsp-eldoc-render-all nil
-        lsp-eldoc-enable-hover t))
+        lsp-eldoc-enable-hover t)
+  :config
+  (evil-leader/set-key "a" 'lsp-execute-code-action))
 
 
 
