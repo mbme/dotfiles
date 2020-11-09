@@ -2,8 +2,7 @@
 Type=Application
 Name=nnn
 Comment=Terminal file manager
-Exec=nnn
-Terminal=true
+Exec=alacritty -e nnn
 Icon=nnn
 MimeType=inode/directory
 Categories=System;FileTools;FileManager;ConsoleOnly
