@@ -1634,28 +1634,6 @@ Clear field placeholder if field was not modified."
 
 
 
-;; Json-mode
-(use-package json-mode
-  :ensure t
-  :mode
-  ("\\.json\\'" . json-mode)
-  ("\\.eslintrc\\'" . json-mode)
-
-  :config
-  (defun mb/json-beautify (&rest ignored)
-    "Beautify json buffer.  Ignore all `IGNORED' vars."
-    (json-mode-beautify))
-  ;; set format function for json
-  (add-hook 'json-mode-hook (lambda ()
-                              (setq-local indent-region-function 'mb/json-beautify)))
-
-  ;; disable json-jsonlist checking for json files
-  (add-to-list 'flycheck-disabled-checkers 'json-jsonlint)
-
-  (message "mb: JSON MODE"))
-
-
-
 ;; Javascript
 (use-package js
   :defines javascript-indent-level js-indent-level js-switch-indent-offset
@@ -1669,34 +1647,15 @@ Clear field placeholder if field was not modified."
         js-indent-level         mb-web-indent-size)
 
   (add-hook 'js-mode-hook 'rainbow-mode)
+  (add-hook 'js-mode-hook (lambda ()
+                            (if (not (eq major-mode 'json-mode))
+                                (lsp)
+                              (lsp-diagnostics-mode)
+                              (flycheck-add-next-checker 'lsp '(warning . javascript-eslint) 'append))
+                            ))
+
 
   (message "mb: JS MODE"))
-
-
-
-(use-package tide
-  :ensure t
-  :defer t
-  :after (company flycheck)
-  :config
-  (evil-add-command-properties #'tide-jump-to-definition :jump t)
-
-  (flycheck-define-generic-checker 'ts-tide
-    "A TS syntax checker using tsserver."
-    :start #'tide-flycheck-start
-    :verify #'tide-flycheck-verify
-    :modes '(web-mode)
-    :predicate (lambda ()
-                 (and
-                  (tide-file-extension-p "ts")
-                  (tide-flycheck-predicate))))
-  (add-to-list 'flycheck-checkers 'ts-tide)
-
-  (add-to-list 'flycheck-disabled-checkers 'typescript-tslint)
-  (flycheck-add-next-checker 'ts-tide '(warning . javascript-eslint) 'append)
-  (flycheck-add-next-checker 'tsx-tide '(warning . javascript-eslint) 'append)
-
-  (message "mb: TIDE MODE"))
 
 
 
@@ -1735,14 +1694,20 @@ Clear field placeholder if field was not modified."
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
-                        (string-equal "ts" (file-name-extension buffer-file-name)))
+  (add-hook 'web-mode-hook (lambda ()
+                             (lsp)
+                             (lsp-diagnostics-mode)
+                             (flycheck-add-next-checker 'lsp '(warning . javascript-eslint) 'append)
+                             ))
 
-                (tide-setup)
-                (eldoc-mode)
-                (message "mb: WEB MODE FOR TS(X)"))))
+  ;; (add-hook 'web-mode-hook
+  ;;           (lambda ()
+  ;;             (when (or (string-equal "tsx" (file-name-extension buffer-file-name))
+  ;;                       (string-equal "ts" (file-name-extension buffer-file-name)))
+
+  ;;               (tide-setup)
+  ;;               (eldoc-mode)
+  ;;               (message "mb: WEB MODE FOR TS(X)"))))
 
   (message "mb: WEB MODE"))
 
@@ -1796,6 +1761,7 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :mode ("\\.rs$" . rust-mode)
+  :hook (rust-mode . lsp)
   :config
   (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-format-on-save t)
@@ -1808,8 +1774,7 @@ Clear field placeholder if field was not modified."
 (use-package lsp-mode
   :ensure t
   :defer t
-  :hook ((rust-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration))
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :init
   (setq lsp-keymap-prefix "s-l"
         lsp-idle-delay 0.500

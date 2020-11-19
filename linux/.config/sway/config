@@ -315,6 +315,7 @@ bindsym --to-code $mod+e exec alacritty -t Emacs --class Emacs -e emacs -nw
 exec_always wmname Sawfish
 exec_always xrdb -merge ~/.Xresources
 exec_always ~/.config/sway/kanshi.sh
+exec_always ~/.config/sway/gammastep.sh
 
 exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY
 exec dbus-update-activation-environment --systemd DISPLAY MOZ_DBUS_REMOTE
@@ -331,7 +332,6 @@ exec wl-paste -p -t text --watch clipman store -P --max-items=30 --histpath="~/.
 
 exec nm-applet --indicator
 exec blueman-tray
-exec gammastep -l 49.842957:24.031111
 exec safeeyes
 exec udiskie --appindicator
 
