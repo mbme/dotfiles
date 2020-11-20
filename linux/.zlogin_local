@@ -45,7 +45,7 @@ export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
 
 # run sway after login if this is first virtual terminal
-if [[ -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
+if [[ -x "$(command -v sway)" && -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
     # gnome keyring
     eval $(gnome-keyring-daemon)
     export SSH_AUTH_SOCK
