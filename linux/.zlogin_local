@@ -33,6 +33,7 @@ export NO_AT_BRIDGE=1
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
 
 export CARGO_HOME=$HOME/.cargo
+export GOPATH=$HOME/.go
 
 export WINIT_HIDPI_FACTOR=1
 
