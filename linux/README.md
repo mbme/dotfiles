@@ -7,7 +7,7 @@
 * swaylock
 * swayidle
 * waybar
-* wmname
+* xwayland
 * zsh
 * starship
 * kanshi - automatically switch display configurations
@@ -21,9 +21,10 @@
 * safeeyes
 * gammastep - adjust display color temperature at night
 * wdisplays - display configuration GUI
-* blueman-tray - bluetooth
+* blueman - bluetooth
 * udiskie - automounter for removable media
-* nm-applet - network manager applet
+* network-manager-applet - network manager applet
+* nm-connection-editor, networkmanager-openvpn - network manager ui
 * wofi - command runner
 * gsimplecal - calendar
 * grim - capture the screenshot
@@ -34,6 +35,7 @@
 * mpv - video player
 * imv - image viewer
 * youtube-dl - download videos from video hosting services
+* paprefs, pavucontrol - pulseaudio utils
 
 # cli tools
 * nnn - file manager
@@ -42,6 +44,7 @@
 * fd - better "find"
 * tokei - count lines of code
 * htop
+* udisks2 - mount usb drives
 
 # other
 * upower
@@ -49,10 +52,55 @@
 * gnome-keyring
 * libsecret
 * xdg-utils
+* xrdb
+* xhost
+* wmname
 * imagemagick
+* aspell, aspell-en - spellchecker
+* editorconfig
+* libpipewire02, xdg-desktop-portal-wlr - for screensharing
 
 # UI
 * nordic - dark GTK3 theme
 * adwaita - light GTK3 theme
 * papirus - icon theme
 * simple-and-soft - cursor theme
+* JetBrains Mono - monospace font 
+
+# Installation steps
+
+## Install Arch
+* install network manager
+* use locale en_GB.UTF-8 (so that week starts in Monday)
+* enable multilib in pacman conf
+* enable color output in pacman conf
+
+## Install basic configs for cli
+* mkdir ~/.config/pulse  ~/.local/share/applications 
+* install ssh, git, stow
+* install zsh, zsh-completions, starship, powerline-fonts
+* install udisks2 to mount usb drives
+* use usb drive to copy ssh config & certificates
+* clone dotfiles from github
+* stow zsh & git
+* install vim, run dotfiles/vim/install.sh, then stow vim
+* stow linux, utils
+* install rest of CLI tools
+
+## Install 
+* install video drivers
+* hardware acceleration
+* install sway, xwayland and other tools
+* clone typed-v and install mb-binutils
+* install and stow emacs
+* install pulseaudio 
+
+* firefox
+* thunderbird
+* liferea
+* chromium
+* transmission
+
+* slack
+* skype
+* google chrome
