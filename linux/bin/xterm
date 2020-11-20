@@ -2,4 +2,4 @@
 
 # GIO has a hardcoded list of supported terminals
 # xterm is in that list 
-mb-terminal "$@"
+alacritty -e "$@"

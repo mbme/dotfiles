@@ -27,6 +27,7 @@
 (defvar mb-font-dejavu "dejavu sans mono-12")
 (defvar mb-font-inconsolata "Inconsolata-12")
 (defvar mb-font-ubuntu "ubuntu mono-13")
+(defvar mb-font-jetbrains "jetbrains mono-13")
 (defvar mb-font-droid "droid sans mono-13")
 (defvar mb-font-liberation "liberation mono-13")
 (defvar mb-font-roboto "roboto-13")
@@ -35,7 +36,7 @@
 (defvar mb-font
   (if mb-is-mac-os
       mb-font-menlo
-    mb-font-ubuntu))
+    mb-font-jetbrains))
 
 (defvar mb-tab-size        4)
 (defvar mb-web-indent-size 2)
@@ -347,7 +348,7 @@ It wouldn't be associated with the buffer."
   (interactive)
   (let ((commands (if mb-is-mac-os
                       (-concat (list "open" "-a" "Terminal" default-directory) args)
-                    (-concat (list "mb-terminal") args))))
+                    (-concat (list "alacritty") args))))
     (apply 'mb/launch-application commands)))
 
 (defun mb/projectile-base-term (&rest args)
