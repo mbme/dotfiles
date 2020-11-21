@@ -562,6 +562,7 @@ narrowed."
 
 
 (use-package solarized-theme
+  :disabled
   :ensure t
   :config
   (mb/load-theme! 'solarized-light))
