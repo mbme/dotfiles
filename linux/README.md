@@ -1,8 +1,4 @@
-# settings
-* locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
-* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout
-
-# tools
+# Tools
 * sway
 * swaylock
 * swayidle
@@ -36,6 +32,7 @@
 * imv - image viewer
 * youtube-dl - download videos from video hosting services
 * paprefs, pavucontrol - pulseaudio utils
+* kdiff
 
 # cli tools
 * nnn - file manager
@@ -58,7 +55,8 @@
 * imagemagick
 * aspell, aspell-en - spellchecker
 * editorconfig
-* libpipewire02, xdg-desktop-portal-wlr - for screensharing
+* libpipewire02, xdg-desktop-portal-wlr - for screensharing (enable pipewire user service)
+* man-db
 
 # UI
 * nordic - dark GTK3 theme
@@ -71,9 +69,13 @@
 
 ## Install Arch
 * install network manager
-* use locale en_GB.UTF-8 (so that week starts in Monday)
+* locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
+* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout
 * enable multilib in pacman conf
 * enable color output in pacman conf
+* start/enable systemd-timesyncd
+* set vm.swappiness=10
+* on SSD enable fstrim.timer from util-linux
 
 ## Install basic configs for cli
 * mkdir ~/.config/pulse  ~/.local/share/applications 
@@ -98,9 +100,19 @@
 * firefox
 * thunderbird
 * liferea
+* file roller
 * chromium
 * transmission
+* gparted
 
+## Dev
+* rustup
+* cargo-outdated
+* Node.js
+* npm
+* yarn
+
+## Work
 * slack
 * skype
 * google chrome
