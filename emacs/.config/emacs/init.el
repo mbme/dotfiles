@@ -1636,6 +1636,14 @@ Clear field placeholder if field was not modified."
 
 
 
+(use-package json-mode
+  :ensure t
+  :defer t
+  :config
+  (message "mb: JSON MODE"))
+
+
+
 ;; Javascript
 (use-package js
   :defines javascript-indent-level js-indent-level js-switch-indent-offset
@@ -1650,8 +1658,8 @@ Clear field placeholder if field was not modified."
 
   (add-hook 'js-mode-hook 'rainbow-mode)
   (add-hook 'js-mode-hook (lambda ()
-                            (if (not (eq major-mode 'json-mode))
-                                (lsp)
+                            (when (not (eq major-mode 'json-mode))
+                              (lsp)
                               (lsp-diagnostics-mode)
                               (flycheck-add-next-checker 'lsp '(warning . javascript-eslint) 'append))
                             ))
