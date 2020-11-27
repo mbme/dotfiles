@@ -17,7 +17,7 @@
 * safeeyes
 * gammastep - adjust display color temperature at night
 * wdisplays - display configuration GUI
-* blueman - bluetooth
+* blueman - bluetooth manager GUI
 * udiskie - automounter for removable media
 * network-manager-applet - network manager applet
 * nm-connection-editor, networkmanager-openvpn - network manager ui
@@ -95,7 +95,7 @@
 * install sway, xwayland and other tools
 * clone typed-v and install mb-binutils
 * install and stow emacs
-* install pulseaudio 
+* install pulseaudio, pulseaudio bluetooth modules
 
 * firefox
 * thunderbird
@@ -108,9 +108,12 @@
 ## Dev
 * rustup
 * cargo-outdated
+* rust-analyzer
 * Node.js
 * npm
 * yarn
+
+* install yarn global typescript typescript-language-server
 
 ## Work
 * slack
