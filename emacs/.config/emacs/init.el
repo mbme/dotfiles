@@ -1805,6 +1805,8 @@ Clear field placeholder if field was not modified."
         lsp-modeline-code-actions-segments '(count name)
 
         lsp-rust-server 'rust-analyzer
+        lsp-rust-analyzer-proc-macro-enable t
+        lsp-rust-analyzer-cargo-load-out-dirs-from-check t
         lsp-rust-full-docs t
         lsp-signature-render-documentation nil
 
