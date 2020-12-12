@@ -55,7 +55,7 @@
 * imagemagick
 * aspell, aspell-en - spellchecker
 * editorconfig
-* libpipewire02, xdg-desktop-portal-wlr - for screensharing (enable pipewire user service)
+* libpipewire02, xdg-desktop-portal-wlr - for screensharing (enable pipewire user service) (enable chrome://flags/#enable-webrtc-pipewire-capturer)
 * man-db
 
 # UI

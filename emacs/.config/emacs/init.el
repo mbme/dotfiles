@@ -1705,10 +1705,16 @@ Clear field placeholder if field was not modified."
   (flycheck-add-mode 'javascript-eslint 'web-mode)
 
   (add-hook 'web-mode-hook (lambda ()
-                             (lsp)
-                             (lsp-diagnostics-mode)
-                             (flycheck-add-next-checker 'lsp '(warning . javascript-eslint) 'append)
-                             ))
+                             (when (or
+                                    (string-equal "ts" (file-name-extension buffer-file-name))
+                                    (string-equal "tsx" (file-name-extension buffer-file-name))
+                                    (string-equal "js" (file-name-extension buffer-file-name))
+                                    (string-equal "jsx" (file-name-extension buffer-file-name))
+                                    )
+                               (lsp)
+                               (lsp-diagnostics-mode)
+                               (flycheck-add-next-checker 'lsp '(warning . javascript-eslint) 'append)
+                               )))
 
   ;; (add-hook 'web-mode-hook
   ;;           (lambda ()
