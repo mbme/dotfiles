@@ -1903,6 +1903,7 @@ Clear field placeholder if field was not modified."
   :ensure t
   :defer t
   :config
+  (flycheck-add-mode 'javascript-eslint 'graphql-mode)
   (message "mb: GRAPHQL MODE"))
 
 
