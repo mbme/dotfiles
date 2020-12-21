@@ -1808,9 +1808,12 @@ Clear field placeholder if field was not modified."
         lsp-rust-analyzer-proc-macro-enable t
         lsp-rust-analyzer-cargo-load-out-dirs-from-check t
         lsp-rust-full-docs t
-        lsp-signature-render-documentation nil
+        lsp-rust-build-on-save t
+        lsp-rust-clippy-preference "on"
+        ;; lsp-signature-render-documentation nil
+        lsp-headerline-breadcrumb-enable nil
 
-        lsp-eldoc-render-all nil
+        ;; lsp-eldoc-render-all nil
         lsp-eldoc-enable-hover t)
   :config
   (evil-leader/set-key "a" 'lsp-execute-code-action))
