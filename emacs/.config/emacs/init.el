@@ -1381,6 +1381,7 @@ Clear field placeholder if field was not modified."
       (setq flycheck-indication-mode 'right-margin)))
 
   (setq flycheck-temp-prefix "FLYCHECK_XXY")
+  (setq flycheck-check-syntax-automatically '(mode-enable save))
 
   (evil-add-command-properties #'flycheck-first-error :jump t)
   (evil-add-command-properties #'flycheck-next-error :jump t)
@@ -1627,8 +1628,6 @@ Clear field placeholder if field was not modified."
   (add-to-list 'flycheck-checkers 'java)
 
   (add-hook 'java-mode-hook (lambda ()
-                              ;; check only on save
-                              (setq flycheck-check-syntax-automatically '(mode-enabled save))
                               ;; disable auto-indent
                               (electric-indent-local-mode 0)))
 
