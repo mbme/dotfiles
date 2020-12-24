@@ -1812,7 +1812,7 @@ Clear field placeholder if field was not modified."
         ;; lsp-signature-render-documentation nil
         lsp-headerline-breadcrumb-enable nil
 
-        ;; lsp-eldoc-render-all nil
+        lsp-eldoc-render-all nil
         lsp-eldoc-enable-hover t)
   :config
   (evil-leader/set-key "a" 'lsp-execute-code-action))
