@@ -63,7 +63,7 @@
 * adwaita - light GTK3 theme
 * papirus - icon theme
 * simple-and-soft - cursor theme
-* JetBrains Mono - monospace font 
+* Fonts: JetBrains Mono, dejavu, droid, noto (including emoji), liberation
 
 # Installation steps
 
