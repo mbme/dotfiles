@@ -1809,7 +1809,7 @@ Clear field placeholder if field was not modified."
         lsp-rust-full-docs t
         lsp-rust-build-on-save t
         lsp-rust-clippy-preference "on"
-        ;; lsp-signature-render-documentation nil
+        lsp-signature-render-documentation nil
         lsp-headerline-breadcrumb-enable nil
 
         lsp-eldoc-render-all nil

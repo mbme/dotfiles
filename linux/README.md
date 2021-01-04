@@ -32,7 +32,7 @@
 * if laptop, install tlp and enable service
 
 # Dev tools
-* cargo-outdated
+* cargo-outdated cargo-edit
 * rust-analyzer
 * Node.js
 * npm
@@ -59,6 +59,7 @@
 * tokei - count lines of code
 * htop
 * udisks2 - mount usb drives
+* trash-cli
 * zip
 * aspell, en - FIXME switch emacs to hunspell
 * hunspell, en_GB
@@ -75,6 +76,7 @@
 * imagemagick
 * xdg-desktop-portal-wlr - for screensharing (enable pipewire user service) (enable chrome://flags/#enable-webrtc-pipewire-capturer)
 * man-db
+* downgrade
 
 # Apps
 * Firefox - install config from dotfiles
