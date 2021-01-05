@@ -6,7 +6,7 @@ export BROWSER=firefox
 # Wayland
 export XDG_SESSION_TYPE=wayland
 export CLUTTER_BACKEND=wayland
-# export QT_QPA_PLATFORM=wayland
+export QT_QPA_PLATFORM=wayland
 export QT_QPA_PLATFORM=xcb
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 export QT_QPA_PLATFORMTHEME=qt5ct
