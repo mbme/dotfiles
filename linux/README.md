@@ -28,7 +28,8 @@
 * install and stow emacs
 * install just
 * clone typed-v and install mb-binutils
-* install pulseaudio, pulseaudio bluetooth modules
+* install pulseaudio 
+* if bluetooth, install pulseaudio bluetooth modules, start and enable mpris-proxy user servic
 * if laptop, install tlp and enable service
 
 # Dev tools
