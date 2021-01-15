@@ -45,3 +45,4 @@ alias e='emacs -nw'
 alias v='emacs -nw'
 
 export NNN_PLUG='t:-treeview;o:fzopen'
+export NNN_BMS="m:/run/media/$USER;"
