@@ -82,7 +82,7 @@
 # Apps
 * Firefox - install config from dotfiles
 * Thunderbird
-* Liferea
+* newsboat - rss reader
 * file roller
 * Chromium
 * transmission

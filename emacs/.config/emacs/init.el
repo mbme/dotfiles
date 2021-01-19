@@ -1577,6 +1577,40 @@ Clear field placeholder if field was not modified."
 
 
 
+;; Language server protocol
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :hook (lsp-mode . lsp-enable-which-key-integration)
+  :init
+  (setq lsp-keymap-prefix "s-l"
+        lsp-idle-delay 0.500
+        lsp-keep-workspace-alive nil
+        lsp-enable-folding nil
+        lsp-enable-snippet nil
+        lsp-enable-symbol-highlighting nil
+        lsp-enable-file-watchers nil
+        lsp-enable-on-type-formatting  nil
+        lsp-completion-provider :capf
+
+        lsp-modeline-code-actions-segments '(count name)
+
+        lsp-rust-server 'rust-analyzer
+        lsp-rust-analyzer-proc-macro-enable t
+        lsp-rust-analyzer-cargo-load-out-dirs-from-check t
+        lsp-rust-full-docs t
+        lsp-rust-build-on-save t
+        lsp-rust-clippy-preference "on"
+        lsp-signature-render-documentation nil
+        lsp-headerline-breadcrumb-enable nil
+
+        lsp-eldoc-render-all nil
+        lsp-eldoc-enable-hover t)
+  :config
+  (evil-leader/set-key "a" 'lsp-execute-code-action))
+
+
+
 ;; ---------------------------------------- LANGUAGES
 
 
@@ -1782,40 +1816,6 @@ Clear field placeholder if field was not modified."
   (setq rust-format-on-save t)
 
   (message "mb: RUST MODE"))
-
-
-
-;; Language server protocol
-(use-package lsp-mode
-  :ensure t
-  :defer t
-  :hook (lsp-mode . lsp-enable-which-key-integration)
-  :init
-  (setq lsp-keymap-prefix "s-l"
-        lsp-idle-delay 0.500
-        lsp-keep-workspace-alive nil
-        lsp-enable-folding nil
-        lsp-enable-snippet nil
-        lsp-enable-symbol-highlighting nil
-        lsp-enable-file-watchers nil
-        lsp-enable-on-type-formatting  nil
-        lsp-completion-provider :capf
-
-        lsp-modeline-code-actions-segments '(count name)
-
-        lsp-rust-server 'rust-analyzer
-        lsp-rust-analyzer-proc-macro-enable t
-        lsp-rust-analyzer-cargo-load-out-dirs-from-check t
-        lsp-rust-full-docs t
-        lsp-rust-build-on-save t
-        lsp-rust-clippy-preference "on"
-        lsp-signature-render-documentation nil
-        lsp-headerline-breadcrumb-enable nil
-
-        lsp-eldoc-render-all nil
-        lsp-eldoc-enable-hover t)
-  :config
-  (evil-leader/set-key "a" 'lsp-execute-code-action))
 
 
 
