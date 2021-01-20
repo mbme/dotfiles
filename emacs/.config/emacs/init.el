@@ -1510,10 +1510,6 @@ Clear field placeholder if field was not modified."
 
   (message "mb: initialized MAGIT"))
 
-(use-package evil-magit
-  :after (evil magit)
-  :ensure t)
-
 
 
 ;; Git-diff mode
