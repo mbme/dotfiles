@@ -31,4 +31,5 @@ user_pref("browser.safebrowsing.malware.enabled", false);
 user_pref("browser.safebrowsing.phishing.enabled", false);
 user_pref("browser.safebrowsing.downloads.enabled", false);
 
-
+// open "search in google" tab in background
+user_pref("browser.search.context.loadInBackground", true);
