@@ -3,7 +3,7 @@
 ## Install Arch
 * locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
 * install networkmanager dnsmasq
-* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout
+* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout, set HandlePowerKey=suspend, set HandleLidSwitch=lock
 * enable multilib in pacman conf
 * enable color output in pacman conf
 * start/enable systemd-timesyncd
@@ -29,8 +29,9 @@
 * install just
 * clone typed-v and install mb-binutils
 * install pulseaudio 
-* if bluetooth, install pulseaudio bluetooth modules, start and enable mpris-proxy user servic
+* if bluetooth, install pulseaudio bluetooth modules, start and enable mpris-proxy user service
 * if laptop, install tlp and enable service
+* for backlight, add user to video group; https://wiki.archlinux.org/index.php/Backlight#ACPI
 
 # Dev tools
 * cargo-outdated cargo-edit

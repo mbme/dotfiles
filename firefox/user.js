@@ -21,6 +21,21 @@ user_pref("ui.context_menus.after_mouseup", true);
 // disable Pocket
 user_pref("extensions.pocket.enabled", false);
 
+// force enable webrender https://wiki.archlinux.org/index.php/Firefox/Tweaks#Enable_WebRender_compositor
+user_pref("gfx.webrender.all", true);
+
+// enable hardware video acceleration https://wiki.archlinux.org/index.php/Firefox#Hardware_video_acceleration
+user_pref("media.ffmpeg.vaapi.enabled", true);
+user_pref("media.ffvpx.enabled", false);
+// user_pref("media.rdd-vpx.enabled", false);
+// user_pref("media.av1.enabled", false);
+
+// disable kinetic scroll
+user_pref("apz.gtk.kinetic_scroll.enabled", false);
+
+// lower touch scroll sensitivity
+user_pref("mousewheel.default.delta_multiplier_y", 55);
+
 // better privacy
 user_pref("privacy.trackingprotection.enabled", true);
 user_pref("media.peerconnection.ice.default_address_only", true);
