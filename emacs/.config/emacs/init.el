@@ -1808,7 +1808,6 @@ Clear field placeholder if field was not modified."
   :mode ("\\.rs$" . rust-mode)
   :hook (rust-mode . lsp)
   :config
-  (mb/ensure-bin-tool-exists "rustfmt")
   (setq rust-format-on-save t)
 
   (message "mb: RUST MODE"))
