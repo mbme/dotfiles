@@ -9,8 +9,8 @@ audio-normalize-downmix=yes
 #no-sub-auto
 #no-sub-ass
 no-sub
-# auto load external audio files if they have exact same name
-audio-file-auto=exact
+# auto load external audio files if they contain media filename
+audio-file-auto=fuzzy
 
 # use wayland
 gpu-context=wayland

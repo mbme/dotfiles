@@ -1,7 +1,7 @@
 {
   "layer": "top", // Waybar at top layer
   "position": "right", // Waybar position (top|bottom|left|right)
-  "modules-left": ["clock", "clock#date", "sway/workspaces", "sway/mode"],
+  "modules-left": ["clock", "clock#date", "clock#day-of-week", "sway/workspaces", "sway/mode"],
   "modules-center": ["tray"],
   "modules-right": ["pulseaudio", "pulseaudio#mic", "cpu", "temperature", "memory", "disk", "battery"],
   // Modules configuration
@@ -22,9 +22,13 @@
     "on-click": "gsimplecal"
   },
   "clock#date": {
-    // "timezone": "America/New_York",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>",
     "format": "{:%b %d}",
+    "on-click": "gsimplecal"
+  },
+  "clock#day-of-week": {
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt>{calendar}</tt>",
+    "format": "{:%A}",
     "on-click": "gsimplecal"
   },
   "cpu": {

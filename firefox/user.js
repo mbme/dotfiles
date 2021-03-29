@@ -10,6 +10,9 @@ user_pref("browser.tabs.allowTabDetach", false);
 // Hide title bar and window border
 user_pref("browser.tabs.drawInTitlebar", true);
 
+// Disable Ctrl-q to close FF
+user_pref("browser.quitShortcut.disabled", true);
+
 // https://wiki.archlinux.org/index.php/Firefox#Hardware_video_acceleration
 user_pref("media.av1.enabled", false); // youtube crashes as of FF82
 user_pref("media.ffmpeg.vaapi.enabled", true);
