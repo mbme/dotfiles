@@ -255,6 +255,8 @@ for_window [class="^File-roller"]      floating enable border pixel $border
 for_window [class="^Chrome" title="^Developer Tools.*"] floating disable, move to workspace 5
 for_window [window_role="^bubble$"] floating enable
 
+# enable floating for apps with custom app_id FLOAT
+for_window [app_id="FLOAT"] floating enable
 
 # KEYBINDINGS
 
@@ -301,6 +303,9 @@ bindsym --release Print exec mb-screenshot
 
 # file manager
 bindsym --to-code $mod+n exec alacritty -e nnn
+
+# google translate
+bindsym --to-code $mod+t exec alacritty -t "Translate" --class "FLOAT" -e trans -shell
 
 # clipboard manager
 bindsym --to-code $mod+i exec clipman pick --tool="wofi" --max-items=30 --histpath="~/.local/share/clipman.json" --notify

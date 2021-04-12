@@ -16,7 +16,7 @@
 * install pacman -S --needed base-devel git
 * install yay
 * mkdir ~/.config/pulse  ~/.local/share/applications 
-* install openssh, stow, rustup
+* install openssh, stow, rustup, sccache, lld
 * run `rustup default stable`
 * install zsh, zsh-completions, starship, powerline-fonts
 * install udisks2 to mount usb drives
@@ -42,6 +42,7 @@
 * kdiff3
 * editorconfig
 * install yarn global typescript typescript-language-server
+* android-tools, android-udev
 
 # Tools
 * sway
@@ -79,6 +80,7 @@
 * xdg-desktop-portal-wlr - for screensharing (enable pipewire user service) (enable chrome://flags/#enable-webrtc-pipewire-capturer)
 * man-db
 * downgrade
+* translate-shell - Google Translate
 
 # Apps
 * Firefox - install config from dotfiles
