@@ -295,8 +295,8 @@ bindsym $mod+F1 exec wofi --show=run -i
 bindsym --to-code $mod+p exec wofi --show=drun -i
 
 # Mako - notification daemon 
-bindsym $mod+Escape exec makoctl dismiss
-bindsym $mod+Shift+Escape exec makoctl dismiss --all
+bindsym $mod+Escape exec makoctl dismiss --all
+bindsym $mod+Shift+Escape exec makoctl restore
 
 # screenshot
 bindsym --release Print exec mb-screenshot

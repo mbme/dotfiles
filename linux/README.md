@@ -109,6 +109,7 @@
 * imv - image viewer
 * youtube-dl - download videos from video hosting services
 * paprefs, pavucontrol - pulseaudio utils
+* telegram-desktop
 
 # UI
 * nordic - dark GTK3 theme

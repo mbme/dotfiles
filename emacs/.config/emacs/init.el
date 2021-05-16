@@ -1580,8 +1580,9 @@ Clear field placeholder if field was not modified."
   :hook (lsp-mode . lsp-enable-which-key-integration)
   :init
   (setq lsp-keymap-prefix "s-l"
-        lsp-idle-delay 0.500
+        lsp-idle-delay 0.6
         lsp-keep-workspace-alive nil
+        lsp-rust-analyzer-server-display-inlay-hints nil
         lsp-enable-folding nil
         lsp-enable-snippet nil
         lsp-enable-symbol-highlighting nil
@@ -1594,11 +1595,12 @@ Clear field placeholder if field was not modified."
         lsp-rust-server 'rust-analyzer
         lsp-rust-analyzer-proc-macro-enable t
         lsp-rust-analyzer-cargo-load-out-dirs-from-check t
-        lsp-rust-full-docs t
         lsp-rust-build-on-save t
         lsp-rust-clippy-preference "on"
         lsp-signature-render-documentation nil
         lsp-headerline-breadcrumb-enable nil
+        lsp-enable-indentation nil
+        lsp-enable-on-type-formatting nil
 
         lsp-eldoc-render-all nil
         lsp-eldoc-enable-hover t)
@@ -1720,6 +1722,7 @@ Clear field placeholder if field was not modified."
   ("\\.vue\\'"        . web-mode)
   ("\\.ts\\'"         . web-mode)
   ("\\.tsx\\'"        . web-mode)
+  ("\\.svelte\\'"     . web-mode)
   :init
   (setq web-mode-enable-auto-pairing  nil
         web-mode-enable-auto-quoting nil
@@ -1739,6 +1742,7 @@ Clear field placeholder if field was not modified."
                                     (string-equal "tsx" (file-name-extension buffer-file-name))
                                     (string-equal "js" (file-name-extension buffer-file-name))
                                     (string-equal "jsx" (file-name-extension buffer-file-name))
+                                    (string-equal "svelte" (file-name-extension buffer-file-name))
                                     )
                                (lsp)
                                (lsp-diagnostics-mode)
@@ -1909,6 +1913,7 @@ Clear field placeholder if field was not modified."
 (use-package pkgbuild-mode
   :ensure t
   :defer t
+  :mode ("\\PKGBUILD.template\\'" . pkgbuild-mode)
   :config
   (message "mb: PKGBUILD MODE"))
 
