@@ -1,8 +1,5 @@
-// for 60hz monitor
-user_pref("layout.frame_rate", -1);
-
-// for 144hz monitor
-// user_pref("layout.frame_rate", 144);
+user_pref("layout.frame_rate", -1); // for 60hz monitor
+// user_pref("layout.frame_rate", 120);
 
 // do not detach tabs with drag-n-drop
 user_pref("browser.tabs.allowTabDetach", false);
@@ -12,11 +9,6 @@ user_pref("browser.tabs.drawInTitlebar", true);
 
 // Disable Ctrl-q to close FF
 user_pref("browser.quitShortcut.disabled", true);
-
-// https://wiki.archlinux.org/index.php/Firefox#Hardware_video_acceleration
-user_pref("media.av1.enabled", false); // youtube crashes as of FF82
-user_pref("media.ffmpeg.vaapi.enabled", true);
-user_pref("media.ffvpx.enabled", false);
 
 // https://wiki.archlinux.org/index.php/Firefox#Right_mouse_button_instantly_clicks_the_first_option_in_window_managers
 user_pref("ui.context_menus.after_mouseup", true);
@@ -31,7 +23,7 @@ user_pref("gfx.webrender.all", true);
 user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("media.ffvpx.enabled", false);
 // user_pref("media.rdd-vpx.enabled", false);
-// user_pref("media.av1.enabled", false);
+// user_pref("media.av1.enabled", false); // youtube crashes as of FF82
 
 // disable kinetic scroll
 user_pref("apz.gtk.kinetic_scroll.enabled", false);
