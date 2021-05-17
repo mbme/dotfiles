@@ -40,6 +40,8 @@ $ chmod 600 ~/.ssh/key
 
 * install video drivers
  * install mesa, lib32-mesa, vulkan-radeon, lib32-vulkan-radeon
+ * radeontop - to monitor radeon graphics card
+ * intel-gpu-tools - to monitor intel graphics card
 
 # Tools
 * ttf-dejavu
@@ -81,7 +83,10 @@ $ chmod 600 ~/.ssh/key
 * downgrade
 * translate-shell - Google Translate
 
-* if bluetooth, install pulseaudio bluetooth modules, start and enable mpris-proxy user service
+* if bluetooth
+  * install pulseaudio bluetooth modules
+  * install bluez bluez-utils
+  * start and enable mpris-proxy user service
 * run `rustup default stable`
 * clone typed-v and install mb-binutils
 * for backlight, add user to video group; https://wiki.archlinux.org/index.php/Backlight#ACPI
@@ -138,6 +143,13 @@ $ chmod 600 ~/.ssh/key
 * not-fonts, noto-fonts-emoji, noto-fonts-extra - Noto fonts
 
 # Configure hardware acceleration
+* video acceleration
+  * libva-utils for `vainfo`
+  * vdpauinfo
+  * VA-API support: libva-mesa-driver, lib32-libva-mesa-driver
+  * VDPAU support: mesa-vdpau, lib32-mesa-vdpau
+* Gstreamer support - gstreamer-vaapi
+* tweak video acceleration settings in firefox config
 
 ## Work
 * slack
