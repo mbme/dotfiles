@@ -23,9 +23,6 @@ export AWT_TOOLKIT=XToolkit
 export _JAVA_AWT_WM_NONREPARENTING=1
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.xrender=true'
 
-# to disable gtk3 at-spi helpers
-export NO_AT_BRIDGE=1
-
 # disable wine adding win soft menu items
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
 
