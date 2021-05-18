@@ -20,12 +20,21 @@
 # passwd <username>
 ```
 
-## Install basic configs for cli
+## Install basic cli and configs
 * install pacman -S --needed base-devel git go vim just
 * install yay
 * install openssh, stow, rustup, sccache, lld
 * install zsh, zsh-completions, starship, powerline-fonts
 * install udisks2 to mount usb drives
+* htop
+* zip
+* man-db
+* tree
+* ntfs-3g
+* upower
+* downgrade
+* aspell, en - FIXME switch emacs to hunspell
+* hunspell, en_GB
 * use usb drive to copy ssh config & certificates, fix permissions:
 ```
 $ chmod 700 ~/.ssh
@@ -37,17 +46,6 @@ $ chmod 600 ~/.ssh/key
 * mkdir ~/.config/pulse  ~/.config/systemd/user ~/.local/share/applications ~/.cargo
 * stow linux, utils, kdiff3, emacs
 * install pulseaudio 
-
-## Command line tools
-* htop
-* zip
-* man-db
-* tree
-* ntfs-3g
-* upower
-* downgrade
-* aspell, en - FIXME switch emacs to hunspell
-* hunspell, en_GB
 
 ## GUI
 * install video drivers
@@ -137,7 +135,7 @@ $ chmod 600 ~/.ssh/key
 * google chrome
 
 
-# Dev tools
+## Dev tools
 * ripgrep - search in files
 * jq - filter json
 * fd - better "find"
@@ -152,6 +150,7 @@ $ chmod 600 ~/.ssh/key
 * editorconfig-core-c
 * install yarn global typescript typescript-language-server
 * android-tools, android-udev
+
 
 ## Configure hardware acceleration
 * video acceleration
