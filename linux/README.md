@@ -32,7 +32,8 @@
 * tree
 * ntfs-3g
 * upower
-* downgrade
+* downgrade - allows to downgrade packages
+* reflector - rate pacman mirrors
 * aspell, en - FIXME switch emacs to hunspell
 * hunspell, en_GB
 * use usb drive to copy ssh config & certificates, fix permissions:
