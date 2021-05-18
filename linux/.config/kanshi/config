@@ -4,29 +4,23 @@ profile laptopROG {
 }
 profile laptop {
     output eDP-1 enable mode 1920x1080
-    exec pkill mako
 }
 profile home2k {
     output eDP-1 disable
     output "Unknown AG271QG " enable mode 2560x1440
-    exec pkill mako
 }
 profile home2k144 {
     output eDP-1 disable
     output "Unknown AG271QG #ASNxuIWF8vrd" enable mode 2560x1440@144
-    exec pkill mako
 }
 profile projector {
     output eDP-1 disable
     output "Optoma Corporation Optoma 1080P Q79C9180083" enable mode 1920x1080
-    exec pkill mako
 }
 profile work {
     output eDP-1 disable
     output "Dell Inc. DELL U2311H 6H2JC12R3PUL" enable mode 1920x1080@60
-    exec pkill mako
 }
 profile home2k144pc {
     output "Unknown AG271QG #ASNxuIWF8vrd" enable mode 2560x1440@144
-    exec pkill mako
 }
