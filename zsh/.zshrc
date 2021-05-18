@@ -1,3 +1,26 @@
+if [[ "$OSTYPE" == darwin* ]]; then
+  export BROWSER='open'
+fi
+
+# Ensure path arrays do not contain duplicates.
+typeset -gU cdpath fpath mailpath path
+
+# Set the list of directories that Zsh searches for programs.
+path=(
+  /usr/local/{bin,sbin}
+  $path
+)
+
+# Temporary Files
+if [[ ! -d "$TMPDIR" ]]; then
+  export TMPDIR="/tmp/$LOGNAME"
+  mkdir -p -m 700 "$TMPDIR"
+fi
+
+TMPPREFIX="${TMPDIR%/}/zsh"
+
+
+
 # GNU and BSD (macOS) ls flags aren't compatible
 ls --version &>/dev/null
 if [ $? -eq 0 ]; then
@@ -92,3 +115,24 @@ source "$HOME/.zsh/auto-notify.plugin.zsh"
 if [[ -s "$HOME/.zshrc_local" ]]; then
     source "$HOME/.zshrc_local"
 fi
+
+
+export LC_ALL=en_GB.UTF-8
+export LANG=en_GB.UTF-8
+
+export EDITOR=vim
+export VISUAL=vim
+export PAGER=less
+export TERM=xterm-256color
+
+export LESS="-r -i -J" # smart ignore case during search, render color text
+
+
+# Execute code that does not affect the current session in the background.
+{
+  # Compile the completion dump to increase startup speed.
+  zcompdump="${ZDOTDIR:-$HOME}/.zcompdump"
+  if [[ -s "$zcompdump" && (! -s "${zcompdump}.zwc" || "$zcompdump" -nt "${zcompdump}.zwc") ]]; then
+    zcompile "$zcompdump"
+  fi
+} &!
