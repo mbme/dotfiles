@@ -68,6 +68,7 @@ $ chmod 600 ~/.ssh/key
 * wl-clipboard - cli tools for interacting with clipboard
 * clipman - clipboard manager
 * mako - notification daemon
+* wev - monitor keypresses, like xev
 * libnotify
 * light - to control backlight
 * gnome-keyring

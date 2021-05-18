@@ -68,7 +68,7 @@ bindsym $mod+Shift+space floating toggle
 # change focus between tiling / floating windows
 bindsym $mod+Mod1+space focus mode_toggle # Alt
 # toggle sticy
-bindsym --to-code $mod+Shift+p sticky toggle
+bindsym --to-code $mod+Shift+m sticky toggle
 
 # focus the parent container
 bindsym --to-code $mod+Shift+a focus parent
@@ -291,8 +291,9 @@ bindsym $mod+F7 exec mb-backlight dec
 bindsym $mod+Return exec alacritty
 
 # app runner
-bindsym $mod+F1 exec wofi --show=run -i
+bindsym --to-code $mod+Shift+p exec wofi --show=run -i
 bindsym --to-code $mod+p exec wofi --show=drun -i
+bindsym XF86Launch1 exec wofi --show=drun -i
 
 # Mako - notification daemon 
 bindsym $mod+Escape exec makoctl dismiss --all
