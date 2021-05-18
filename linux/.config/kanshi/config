@@ -26,5 +26,4 @@ profile home2k144pc {
 }
 profile home4kpc {
     output "Iiyama North America PL4071UH 1143470300509" enable mode 3840x2160@60 scale 2
-    exec pkill mako
 }
