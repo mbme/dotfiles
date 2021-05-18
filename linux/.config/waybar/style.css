@@ -64,9 +64,15 @@ window#waybar {
 #cpu,
 #memory,
 #disk,
-#temperature,
-#battery {
+#temperature {
   padding: 8px 2px 8px 5px;
+}
+
+#backlight {
+  padding: 5px 2px 1px 5px;
+}
+#battery {
+  padding: 5px 2px 5px 5px;
 }
 
 @keyframes blink {
