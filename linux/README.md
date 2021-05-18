@@ -53,6 +53,7 @@ $ chmod 600 ~/.ssh/key
  * radeontop - to monitor radeon graphics card
  * intel-gpu-tools - to monitor intel graphics card
 * install greetd
+ * enable `greetd.service`
  * copy dotfiles/linux/run-sway.sh into /usr/local/bin/
  * Update `/etc/greetd/config.toml`: `command = "agreety --cmd run-sway.sh"`
 
