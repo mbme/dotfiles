@@ -2,3 +2,4 @@ README.md
 .gitignore
 .dir_colors.nord
 .dir_colors.solarized
+run-sway.sh

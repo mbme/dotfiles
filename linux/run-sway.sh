@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 export DESKTOP_SESSION=sway
 export XDG_CURRENT_DESKTOP=sway
 export TERMINAL=alacritty
@@ -23,7 +25,7 @@ export AWT_TOOLKIT=XToolkit
 export _JAVA_AWT_WM_NONREPARENTING=1
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.xrender=true'
 
-# to disable gtk3 at-spi helpers
+# to disable gtk3 at-spi warnings
 export NO_AT_BRIDGE=1
 
 # disable wine adding win soft menu items
@@ -41,15 +43,8 @@ export RUST_BIN="$HOME/.cargo/bin"
 export UTILS_BIN="$HOME/bin"
 export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
+# gnome keyring
+eval $(gnome-keyring-daemon)
+export SSH_AUTH_SOCK
 
-# run sway after login if this is first virtual terminal
-if [[ -x "$(command -v sway)" && -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then 
-    # gnome keyring
-    eval $(gnome-keyring-daemon)
-    export SSH_AUTH_SOCK
-
-    systemctl --user import-environment
-    systemctl --user start pulseaudio
-
-    exec systemd-cat -t sway sway
-fi
+exec systemd-cat -t sway sway
