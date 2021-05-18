@@ -44,7 +44,7 @@ $ chmod 600 ~/.ssh/key
 * stow zsh & git; switch user to zsh
 * stow vim, cd dotfiles/vim; ./install.sh
 * mkdir ~/.config/pulse  ~/.config/systemd/user ~/.local/share/applications ~/.cargo
-* stow linux, utils, kdiff3, emacs
+* stow linux, utils, kdiff3, emacs, newsboat
 * install pulseaudio 
 
 ## GUI
