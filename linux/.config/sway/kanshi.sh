@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-sleep 1
-
-pkill kanshi
+pkill kanshi || true
 
 kanshi

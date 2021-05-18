@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pkill -9 gammastep
+pkill -9 gammastep || true
 
 sleep 1
 

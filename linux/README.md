@@ -38,12 +38,26 @@ $ chmod 600 ~/.ssh/key
 * stow linux, utils, kdiff3, emacs
 * install pulseaudio 
 
-* install video drivers
- * install mesa, lib32-mesa, vulkan-radeon, lib32-vulkan-radeon
+## Command line tools
+* htop
+* zip
+* man-db
+* tree
+* ntfs-3g
+* upower
+* downgrade
+* aspell, en - FIXME switch emacs to hunspell
+* hunspell, en_GB
 
-# Tools
-* ttf-dejavu
-* sway
+## GUI
+* install video drivers
+ * Radeon: install mesa, lib32-mesa, vulkan-radeon, lib32-vulkan-radeon
+* install greetd
+ * copy dotfiles/linux/run-sway.sh into /usr/local/bin/
+ * Update `/etc/greetd/config.toml`: `command = "agreety --cmd run-sway.sh"`
+
+## Environment
+* sway, ttf-dejavu
 * swaylock
 * swayidle
 * waybar, otf-font-awesome
@@ -54,39 +68,77 @@ $ chmod 600 ~/.ssh/key
 * mako - notification daemon
 * libnotify
 * light - to control backlight
-* nnn - file manager
-* ripgrep - search in files
-* jq - filter json
-* fd - better "find"
-* tokei - count lines of code
-* aspell, en - FIXME switch emacs to hunspell
-* hunspell, en_GB
-* trash-cli
-* htop
-* zip
-* man-db
-* tree
-* ntfs-3g
-* upower
-* polkit-gnome
 * gnome-keyring
-* libsecret
-* xdg-utils
+* polkit-gnome
 * xorg-xrdb
 * xorg-xhost
 * wmname
-* xorg-xinput
-* imagemagick
-* xdg-desktop-portal-wlr - for screensharing (enable pipewire user service) (enable chrome://flags/#enable-webrtc-pipewire-capturer)
-* downgrade
+* alacritty - terminal
+* safeeyes - break reminder
+* gammastep - adjust display color temperature at night
+* udiskie - automounter for removable media
+* network-manager-applet - network manager applet
+* nm-connection-editor, networkmanager-openvpn - network manager ui
+* paprefs, pavucontrol - pulseaudio utils
+* wofi - command runner
+* gsimplecal - calendar
+* grim - capture the screenshot
+* slurp - select the part of the screen
+* wf-recorder - record the screen
+* swappy - simple drawing on top of images
+* nnn - file manager
 * translate-shell - Google Translate
 
-* if bluetooth, install pulseaudio bluetooth modules, start and enable mpris-proxy user service
+* nordic - dark GTK3 theme
+* adwaita (gtk default) - light GTK3 theme
+* papirus-icon-theme - icon theme
+* xcursor-simpleandsoft - cursor theme
+* ttf-jetbrains-mono - JetBrains Mono font
+* ttf-droid - Droid font 
+* noto-fonts, noto-fonts-emoji, noto-fonts-extra - Noto fonts
+
+* if bluetooth
+ * install pulseaudio bluetooth modules
+ * start and enable mpris-proxy user service
+ * install blueman - bluetooth manager GUI
+
+* trash-cli
+* libsecret
+* xdg-utils
+* imagemagick
+* xdg-desktop-portal-wlr - for screensharing 
+  * enable pipewire user service 
+  * enable chrome://flags/#enable-webrtc-pipewire-capturer
+
 * run `rustup default stable`
 * clone typed-v and install mb-binutils
 * for backlight, add user to video group; https://wiki.archlinux.org/index.php/Backlight#ACPI
 
+## Apps
+* Firefox - install config from dotfiles
+* Thunderbird
+* Chromium
+* transmission-gtk
+* telegram-desktop
+* newsboat - rss reader
+* file-roller - archive manager
+* gparted
+* wdisplays-git - display configuration GUI
+* zathura, zathura-pdf-mupdf - pdf viewer
+* mpv - video player
+* imv - image viewer
+* youtube-dl - download videos from video hosting services
+
+* slack
+* skype
+* google chrome
+
+
 # Dev tools
+* ripgrep - search in files
+* jq - filter json
+* fd - better "find"
+* tokei - count lines of code
 * emacs
 * kdiff3
 * cargo-outdated cargo-edit
@@ -98,48 +150,4 @@ $ chmod 600 ~/.ssh/key
 * install yarn global typescript typescript-language-server
 * android-tools, android-udev
 
-
-# Apps
-* Firefox - install config from dotfiles
-* Thunderbird
-* newsboat - rss reader
-* file-roller
-* Chromium
-* transmission-gtk
-* gparted
-* alacritty - terminal
-* safeeyes
-* gammastep - adjust display color temperature at night
-* wdisplays-git - display configuration GUI
-* blueman - bluetooth manager GUI
-* udiskie - automounter for removable media
-* network-manager-applet - network manager applet
-* nm-connection-editor, networkmanager-openvpn - network manager ui
-* wofi - command runner
-* gsimplecal - calendar
-* grim - capture the screenshot
-* slurp - select the part of the screen
-* wf-recorder - record the screen
-* swappy - simple drawing on top of images
-* zathura, zathura-pdf-mupdf - pdf viewer
-* mpv - video player
-* imv - image viewer
-* youtube-dl - download videos from video hosting services
-* paprefs, pavucontrol - pulseaudio utils
-* telegram-desktop
-
-# UI
-* nordic - dark GTK3 theme
-* adwaita (gtk default) - light GTK3 theme
-* papirus-icon-theme - icon theme
-* xcursor-simpleandsoft - cursor theme
-* ttf-jetbrains-mono - JetBrains Mono font
-* ttf-droid - Droid font 
-* not-fonts, noto-fonts-emoji, noto-fonts-extra - Noto fonts
-
-# Configure hardware acceleration
-
-## Work
-* slack
-* skype
-* google chrome
+## Configure hardware acceleration

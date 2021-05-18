@@ -322,7 +322,6 @@ exec_always xrdb -merge ~/.Xresources
 exec_always ~/.config/sway/kanshi.sh
 exec_always ~/.config/sway/gammastep.sh
 
-exec systemctl --user import-environment
 exec dbus-update-activation-environment --systemd --all
 
 exec ~/.config/sway/polkit.sh

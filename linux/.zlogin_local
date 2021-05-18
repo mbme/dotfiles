@@ -23,6 +23,9 @@ export AWT_TOOLKIT=XToolkit
 export _JAVA_AWT_WM_NONREPARENTING=1
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dsun.java2d.xrender=true'
 
+# to disable gtk3 at-spi warnings
+export NO_AT_BRIDGE=1
+
 # disable wine adding win soft menu items
 export WINEDLLOVERRIDES=winemenubuilder.exe=d
 
@@ -44,9 +47,6 @@ if [[ -x "$(command -v sway)" && -z $DISPLAY && $XDG_VTNR -eq 1 ]]; then
     # gnome keyring
     eval $(gnome-keyring-daemon)
     export SSH_AUTH_SOCK
-
-    systemctl --user import-environment
-    systemctl --user start pulseaudio
 
     exec systemd-cat -t sway sway
 fi
