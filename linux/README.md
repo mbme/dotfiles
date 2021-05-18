@@ -52,6 +52,8 @@ $ chmod 600 ~/.ssh/key
 ## GUI
 * install video drivers
  * Radeon: install mesa, lib32-mesa, vulkan-radeon, lib32-vulkan-radeon
+ * radeontop - to monitor radeon graphics card
+ * intel-gpu-tools - to monitor intel graphics card
 * install greetd
  * copy dotfiles/linux/run-sway.sh into /usr/local/bin/
  * Update `/etc/greetd/config.toml`: `command = "agreety --cmd run-sway.sh"`
@@ -99,6 +101,7 @@ $ chmod 600 ~/.ssh/key
 
 * if bluetooth
  * install pulseaudio bluetooth modules
+ * install bluez bluez-utils
  * start and enable mpris-proxy user service
  * install blueman - bluetooth manager GUI
 
@@ -151,3 +154,10 @@ $ chmod 600 ~/.ssh/key
 * android-tools, android-udev
 
 ## Configure hardware acceleration
+* video acceleration
+  * libva-utils for `vainfo`
+  * vdpauinfo
+  * VA-API support: libva-mesa-driver, lib32-libva-mesa-driver
+  * VDPAU support: mesa-vdpau, lib32-mesa-vdpau
+* Gstreamer support - gstreamer-vaapi
+* tweak video acceleration settings in firefox config
