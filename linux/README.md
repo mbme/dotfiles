@@ -10,7 +10,8 @@
 
 * if SSD install util-linux; enable fstrim.timer
 * start/enable systemd-timesyncd
-* install networkmanager dnsmasq, enable/start NetworkManager.service
+* install networkmanager, enable/start NetworkManager.service
+* install dnsmasq, enable/start it
 * if laptop, install tlp and enable service
 
 * install & configure sudo
@@ -46,7 +47,7 @@ $ chmod 600 ~/.ssh/key
 * stow vim, cd dotfiles/vim; ./install.sh
 * mkdir ~/.config/pulse  ~/.config/systemd/user ~/.local/share/applications ~/.cargo
 * stow linux, utils, kdiff3, emacs, newsboat
-* install pulseaudio 
+* install pulseaudio
 
 ## GUI
 * install video drivers
@@ -91,13 +92,14 @@ $ chmod 600 ~/.ssh/key
 * swappy - simple drawing on top of images
 * nnn - file manager
 * translate-shell - Google Translate
+* mate-calc - calculator
 
 * nordic - dark GTK3 theme
 * adwaita (gtk default) - light GTK3 theme
 * papirus-icon-theme - icon theme
 * xcursor-simpleandsoft - cursor theme
 * ttf-jetbrains-mono - JetBrains Mono font
-* ttf-droid - Droid font 
+* ttf-droid - Droid font
 * noto-fonts, noto-fonts-emoji, noto-fonts-extra - Noto fonts
 
 * if bluetooth
@@ -110,8 +112,8 @@ $ chmod 600 ~/.ssh/key
 * libsecret
 * xdg-utils
 * imagemagick
-* xdg-desktop-portal-wlr - for screensharing 
-  * enable pipewire user service 
+* xdg-desktop-portal-wlr - for screensharing
+  * enable pipewire user service
   * enable chrome://flags/#enable-webrtc-pipewire-capturer
 
 * run `rustup default stable`
@@ -119,8 +121,12 @@ $ chmod 600 ~/.ssh/key
 * for backlight, add user to video group; https://wiki.archlinux.org/index.php/Backlight#ACPI
 
 ## Apps
-* Firefox - install config from dotfiles
+* Firefox
+  * install config from dotfiles
+  * tweak settings of Cookie Auto Delete
 * Thunderbird
+  * add accounts
+  * configure to synchronise only latest 30 days
 * Chromium
 * transmission-gtk
 * telegram-desktop
@@ -145,7 +151,8 @@ $ chmod 600 ~/.ssh/key
 * tokei - count lines of code
 * emacs
 * kdiff3
-* cargo-outdated cargo-edit
+* cargo-outdated
+* cargo-release - helpers for release management
 * rust-analyzer
 * Node.js
 * npm

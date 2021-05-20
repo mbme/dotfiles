@@ -20,6 +20,7 @@ user_pref("extensions.pocket.enabled", false);
 user_pref("gfx.webrender.all", true);
 
 // enable hardware video acceleration https://wiki.archlinux.org/index.php/Firefox#Hardware_video_acceleration
+user_pref("media.ffmpeg.vaapi-drm-display.enabled", true);
 user_pref("media.ffmpeg.vaapi.enabled", true);
 user_pref("media.ffvpx.enabled", false);
 // user_pref("media.rdd-vpx.enabled", false);

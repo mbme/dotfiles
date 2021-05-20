@@ -31,6 +31,9 @@ output * background #002B36 solid_color
 
 xwayland enable
 
+# Cursor in xwayland
+seat seat0 xcursor_theme Simple-and-Soft 48
+
 font $font
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -316,6 +319,7 @@ bindsym --to-code $mod+Mod1+i exec clipman clear --all
 # editor
 bindsym --to-code $mod+e exec alacritty -t Emacs --class Emacs -e emacs -nw
 
+
 # AUTOSTART
 
 exec_always wmname Sawfish
@@ -347,7 +351,14 @@ exec_always {
     gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita'
     gsettings set org.gnome.desktop.interface icon-theme 'Papirus'
     gsettings set org.gnome.desktop.interface cursor-theme 'Simple-and-Soft'
-    gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 12'
+    gsettings set org.gnome.desktop.interface cursor-size 48
+
+    gsettings set org.gnome.desktop.interface font-name 'DejaVu Sans Bold Semi-Condensed 13'
+    gsettings set org.gnome.desktop.interface font-hinting 'slight'
+    gsettings set org.gnome.desktop.interface font-antialiasing 'rgba'
+
+    gsettings set org.gnome.desktop.interface scaling-factor 1
+    gsettings set org.gnome.desktop.interface text-scaling-factor 1
 
     # allow to run GUI programs as a root
     xhost si:localuser:root
