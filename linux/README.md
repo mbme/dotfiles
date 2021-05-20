@@ -1,12 +1,30 @@
 # Installation steps
 
+## Linux & Windows
+In case of dual-booting install Windows first.
+It will create an `EFI` partition.
+During Arch installation mount it as `/efi` and use `reFind` boot manager.
+
+## Partitioning
+* Partition table: `gpt`
+* 2 partitions
+  * (if not dual-booting) create EFI system partition as `/boot`  - 512Mb
+  * `/ (root)` - rest
+* use `systemd-boot` boot manager
+
 ## Install Arch
 * locale en_GB.UTF-8 cause week starts from Monday not from Sunday like in en_US.UTF-8
-* set KillUserProcesses=yes in /etc/systemd/logind.conf to kill user processes on logout, set HandlePowerKey=suspend, set HandleLidSwitch=lock
-* enable multilib in pacman conf
-* enable color output in pacman conf
-* set vm.swappiness=10
+* in /etc/systemd/logind.conf
+  * set KillUserProcesses=yes to kill user processes on logout
+  * set HandlePowerKey=suspend
+  * set HandleLidSwitch=lock
+* in /etc/pacman.conf
+  * enable multilib
+  * enable color output
 * add kernel parameters: mitigations=off random.trust_cpu=on
+
+* create/configure Swapfile if needed
+* set vm.swappiness=10
 
 * if SSD install util-linux; enable fstrim.timer
 * start/enable systemd-timesyncd
@@ -105,6 +123,7 @@ $ chmod 600 ~/.ssh/key
 * if bluetooth
  * install pulseaudio bluetooth modules
  * install bluez bluez-utils
+ * start and enable bluetooth service
  * start and enable mpris-proxy user service
  * install blueman - bluetooth manager GUI
 
@@ -170,3 +189,8 @@ $ chmod 600 ~/.ssh/key
   * VDPAU support: mesa-vdpau, lib32-mesa-vdpau
 * Gstreamer support - gstreamer-vaapi
 * tweak video acceleration settings in firefox config
+
+## Hibernation
+* create swapfile
+* add `resume` and `resume_offset` kernel parameters
+* add `resume` hook into `/etc/mkinitcpio.conf` and run `# mkinitcpio -P`
