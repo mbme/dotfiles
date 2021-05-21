@@ -24,14 +24,7 @@
 (defvar mb-save-path (expand-file-name "save-files/" mb-dotfiles-dir))
 
 (defvar mb-font-menlo "menlo-13")
-(defvar mb-font-dejavu "dejavu sans mono-12")
-(defvar mb-font-inconsolata "Inconsolata-12")
-(defvar mb-font-ubuntu "ubuntu mono-13")
 (defvar mb-font-jetbrains "jetbrains mono-13")
-(defvar mb-font-droid "droid sans mono-13")
-(defvar mb-font-liberation "liberation mono-13")
-(defvar mb-font-roboto "roboto-13")
-(defvar mb-font-roboto-condensed "roboto condensed-13")
 
 (defvar mb-font
   (if mb-is-mac-os
@@ -40,7 +33,6 @@
 
 (defvar mb-tab-size        4)
 (defvar mb-web-indent-size 2)
-(defvar mb-encoding        'utf-8)
 
 ;; load customizations file if it exists
 (load mb-customizations-file t)
@@ -210,13 +202,13 @@
  delete-by-moving-to-trash t)
 
 ;; Encoding
-(set-language-environment     mb-encoding)
-(set-default-coding-systems   mb-encoding)
-(setq locale-coding-system    mb-encoding)
-(set-terminal-coding-system   mb-encoding)
-(set-keyboard-coding-system   mb-encoding)
-(set-selection-coding-system  mb-encoding)
-(prefer-coding-system         mb-encoding)
+(set-language-environment     'utf-8)
+(set-default-coding-systems   'utf-8)
+(setq locale-coding-system    'utf-8)
+(set-terminal-coding-system   'utf-8)
+(set-keyboard-coding-system   'utf-8)
+(set-selection-coding-system  'utf-8)
+(prefer-coding-system         'utf-8)
 
 ;; dir to save info about interrupted sessions
 (setq auto-save-list-file-prefix mb-save-path)

@@ -24,8 +24,9 @@ Plugin 'ervandew/supertab'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 
-Plugin 'bling/vim-airline'
-Plugin 'altercation/vim-colors-solarized'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'overcache/NeoSolarized'
 Plugin 'airblade/vim-gitgutter'
 
 call vundle#end()
@@ -98,14 +99,17 @@ set mouse=a
 
 let g:netrw_liststyle=3 " show file tree in NetRW (Explore)
 
+" enable 24bit TrueColor support
+set termguicolors
+
+
+
 " ---------------------------------------- PLUGINS CONFIG
 
-" Solarized
-set t_Co=256
-let g:solarized_termcolors=256
-set background=dark
-" ignore errors if theme not found
-silent! colorscheme solarized
+
+
+" ignore error about missing theme during initial run
+silent! colorscheme NeoSolarized
 
 
 
@@ -114,7 +118,7 @@ set noshowmode
 set timeoutlen=50
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-"let g:airline_section_z (column number, line number, percentage)
+" let g:airline_section_z (column number, line number, percentage)
 let g:airline_section_z='%4l%3v%3p%%'
 let g:airline#extensions#hunks#enabled = 0
 
