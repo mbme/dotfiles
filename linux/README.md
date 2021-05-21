@@ -53,7 +53,6 @@ During Arch installation mount it as `/efi` and use `reFind` boot manager.
 * upower
 * downgrade - allows to downgrade packages
 * reflector - rate pacman mirrors
-* aspell, en - FIXME switch emacs to hunspell
 * hunspell, en_GB
 * use usb drive to copy ssh config & certificates, fix permissions:
 ```
@@ -90,8 +89,11 @@ $ chmod 600 ~/.ssh/key
 * wev - monitor keypresses, like xev
 * libnotify
 * light - to control backlight
-* gnome-keyring
-* polkit-gnome
+* gnome-keyring, seahorse - GUI for storing & unlocking SSH keys
+  * To automatically unlock gnome-keyring on login, edit `/etc/pam.d/greetd`:
+  * Add `auth optional pam_gnome_keyring.so` at the end of the `auth` section
+  * Add `session optional pam_gnome_keyring.so auto_start` at the end of the `session` section
+* polkit-gnome - allow apps to ask for root password if needed
 * xorg-xrdb
 * xorg-xhost
 * wmname
@@ -164,11 +166,11 @@ $ chmod 600 ~/.ssh/key
 
 
 ## Dev tools
+* emacs, aspell, aspell-en
 * ripgrep - search in files
 * jq - filter json
 * fd - better "find"
 * tokei - count lines of code
-* emacs
 * kdiff3
 * cargo-outdated
 * cargo-release - helpers for release management

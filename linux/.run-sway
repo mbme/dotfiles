@@ -36,7 +36,6 @@ export WINEDLLOVERRIDES=winemenubuilder.exe=d
 export CARGO_HOME=$HOME/.cargo
 export GOPATH=$HOME/.go
 
-export WINIT_HIDPI_FACTOR=1
 
 # PATH
 export NPM_BIN="$HOME/.npm-global/bin"
@@ -46,7 +45,7 @@ export UTILS_BIN="$HOME/bin"
 export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
 # gnome keyring
-eval $(gnome-keyring-daemon)
+eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
 exec systemd-cat -t sway sway --my-next-gpu-wont-be-nvidia
