@@ -32,7 +32,7 @@ output * background #002B36 solid_color
 xwayland enable
 
 # Cursor in xwayland
-seat seat0 xcursor_theme Simple-and-Soft 48
+seat seat0 xcursor_theme Simple-and-Soft 32
 
 font $font
 
@@ -208,6 +208,7 @@ for_window [window_role="PictureInPicture"] floating enable, sticky enable, bord
 for_window [app_id="firefox"] border pixel $border
 for_window [app_id="firefox" title="Picture-in-Picture"] floating enable, sticky enable, border pixel $border
 
+for_window [app_id="Chromium"] border pixel $border
 for_window [class="^Chromium"] border pixel $border
 for_window [class="^chromium"] border pixel $border
 for_window [class="^Google-chrome"] border pixel $border

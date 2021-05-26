@@ -10,6 +10,7 @@ alias windows-ids='swaymsg -t get_tree | grep app_id'
 
 # SYSTEMD-related aliases
 alias -r jnl='journalctl -e -f -b'
+alias -r jnlu='journalctl --user -e -f -b'
 alias -r ctl='sudo systemctl'
 alias -r ctlu='systemctl --user'
 

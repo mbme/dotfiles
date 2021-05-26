@@ -172,6 +172,7 @@ $ chmod 600 ~/.ssh/key
 * fd - better "find"
 * tokei - count lines of code
 * kdiff3
+* watchexec - run commands on file change
 * cargo-outdated
 * cargo-release - helpers for release management
 * rust-analyzer
