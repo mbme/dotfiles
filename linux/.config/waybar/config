@@ -32,21 +32,21 @@
     "on-click": "gsimplecal"
   },
   "cpu": {
-    "format": "<small>CPU </small>{usage:3}%",
+    "format": "CPU {usage:3}%",
     "tooltip": true
   },
   "memory": {
-    "format": "<small>MEM </small>{:3}%"
+    "format": "MEM {:3}%"
   },
   "disk": {
     "interval": 30,
-    "format": "<small>DISK</small>{percentage_used:3}%",
+    "format": "DISK{percentage_used:3}%",
     "path": "/home"
   },
   "temperature": {
     "hwmon-path": "/sys/class/hwmon/hwmon6/temp1_input",
     "critical-threshold": 98,
-    "format": "<small>TEMP</small>{temperatureC:3}°"
+    "format": "TEMP{temperatureC:3}°"
   },
   "battery": {
     "states": {
@@ -56,7 +56,6 @@
     "format": "{capacity}% {icon}",
     "format-charging": "{capacity}% ",
     "format-plugged": "{capacity}% ",
-    "format-alt": "{capacity}% {icon}",
     "format-icons": ["", "", "", "", ""]
   },
   "pulseaudio": {

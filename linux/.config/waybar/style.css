@@ -72,7 +72,7 @@ window#waybar {
   padding: 5px 2px 1px 5px;
 }
 #battery {
-  padding: 5px 2px 5px 5px;
+  padding: 5px 0px 5px 2px;
 }
 
 @keyframes blink {

@@ -4,8 +4,10 @@ user_pref("layout.frame_rate", -1); // for 60hz monitor
 // do not detach tabs with drag-n-drop
 user_pref("browser.tabs.allowTabDetach", false);
 
-// Hide title bar and window border
-user_pref("browser.tabs.drawInTitlebar", true);
+user_pref("browser.tabs.drawInTitlebar", false);
+
+// make tabs take less space
+user_pref("browser.uidensity", 1);
 
 // Disable Ctrl-q to close FF
 user_pref("browser.quitShortcut.disabled", true);

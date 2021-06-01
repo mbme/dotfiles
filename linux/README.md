@@ -48,6 +48,7 @@ During Arch installation mount it as `/efi` and use `reFind` boot manager.
 * htop
 * zip
 * man-db
+* tmux
 * tree
 * ntfs-3g
 * upower
