@@ -1,5 +1,6 @@
 hwdec=auto
 hwdec-codecs=all
+vo=gpu
 ao=pulse
 
 # audio normalization

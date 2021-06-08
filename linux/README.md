@@ -63,9 +63,9 @@ $ chmod 600 ~/.ssh/key
 * clone dotfiles from github
 * stow zsh & git; switch user to zsh
 * stow vim, cd dotfiles/vim; ./install.sh
-* mkdir ~/.config/pulse  ~/.config/systemd/user ~/.local/share/applications ~/.cargo
+* mkdir ~/.local/share/applications ~/.cargo
 * stow linux, utils, kdiff3, emacs, newsboat
-* install pulseaudio
+* install pipewire pipewire-pulse
 
 ## GUI
 * install video drivers
@@ -105,7 +105,7 @@ $ chmod 600 ~/.ssh/key
 * udiskie - automounter for removable media
 * network-manager-applet - network manager applet
 * nm-connection-editor, networkmanager-openvpn - network manager ui
-* paprefs, pavucontrol - pulseaudio utils
+* pavucontrol - pulseaudio utils
 * wofi - command runner
 * gsimplecal - calendar
 * grim - capture the screenshot
@@ -125,10 +125,8 @@ $ chmod 600 ~/.ssh/key
 * noto-fonts, noto-fonts-emoji, noto-fonts-extra - Noto fonts
 
 * if bluetooth
- * install pulseaudio bluetooth modules
  * install bluez bluez-utils
  * start and enable bluetooth service
- * start and enable mpris-proxy user service
  * install blueman - bluetooth manager GUI
 
 * trash-cli

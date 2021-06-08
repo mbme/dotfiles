@@ -2,11 +2,9 @@
 
 export DESKTOP_SESSION=sway
 export XDG_CURRENT_DESKTOP=sway
-export TERMINAL=alacritty
-export BROWSER=firefox
+export XDG_SESSION_TYPE=wayland
 
 # Wayland
-export XDG_SESSION_TYPE=wayland
 export CLUTTER_BACKEND=wayland
 export QT_QPA_PLATFORM=wayland
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -44,6 +42,10 @@ export RUST_BIN="$HOME/.cargo/bin"
 export UTILS_BIN="$HOME/bin"
 export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
+export TERMINAL=alacritty
+export BROWSER=firefox
+
+# nnn config
 export NNN_PLUG='t:-treeview;o:fzopen'
 export NNN_BMS="m:/run/media/$USER;s:/mnt/shares"
 

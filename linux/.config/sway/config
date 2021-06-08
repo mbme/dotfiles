@@ -328,11 +328,10 @@ exec_always xrdb -merge ~/.Xresources
 exec_always ~/.config/sway/kanshi.sh
 exec_always ~/.config/sway/gammastep.sh
 
-exec dbus-update-activation-environment --systemd --all
-
 exec ~/.config/sway/polkit.sh
 
 # turn off screen in 5min
+# lock screen before sleep and on lock hint
 exec swayidle -w \
     timeout 300 'swaymsg "output * dpms off"' \
     resume 'swaymsg "output * dpms on"' \
@@ -342,10 +341,19 @@ exec swayidle -w \
 exec wl-paste -t text --watch clipman store --max-items=30 --histpath="~/.local/share/clipman.json"
 exec wl-paste -p -t text --watch clipman store -P --max-items=30 --histpath="~/.local/share/clipman-primary.json"
 
+# Forward bluetooth midi controls via mpris2 so they are picked up by supporting media players
+exec mpris-proxy
+
 exec nm-applet --indicator
 exec blueman-tray
 exec safeeyes
 exec udiskie --appindicator
+
+# https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+exec hash dbus-update-activation-environment 2>/dev/null && \
+     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+
 
 # GTK3 settings
 exec_always {
