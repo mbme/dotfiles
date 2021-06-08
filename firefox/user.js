@@ -18,6 +18,14 @@ user_pref("ui.context_menus.after_mouseup", true);
 // disable Pocket
 user_pref("extensions.pocket.enabled", false);
 
+
+// disable video autoplay
+user_pref("media.autoplay.default", 5);
+user_pref("media.autoplay.blocking_policy", 2);
+user_pref("media.autoplay.allow-extension-background-pages", false);
+user_pref("media.autoplay.block-event.enabled", true);
+
+
 // force enable webrender https://wiki.archlinux.org/index.php/Firefox/Tweaks#Enable_WebRender_compositor
 user_pref("gfx.webrender.all", true);
 

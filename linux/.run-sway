@@ -44,6 +44,9 @@ export RUST_BIN="$HOME/.cargo/bin"
 export UTILS_BIN="$HOME/bin"
 export PATH=$PATH:$UTILS_BIN:$NPM_BIN:$YARN_BIN:$RUST_BIN
 
+export NNN_PLUG='t:-treeview;o:fzopen'
+export NNN_BMS="m:/run/media/$USER;s:/mnt/shares"
+
 # gnome keyring
 eval $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK

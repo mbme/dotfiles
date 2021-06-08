@@ -76,6 +76,7 @@ $ chmod 600 ~/.ssh/key
  * enable `greetd.service`
  * copy dotfiles/linux/run-sway.sh into /usr/local/bin/
  * Update `/etc/greetd/config.toml`: `command = "agreety --cmd run-sway.sh"`
+ * `systemctl edit greetd` and change service type to `idle` to prevent systemd logs overwriting login prompt
 
 ## Environment
 * sway, ttf-dejavu
