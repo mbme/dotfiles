@@ -182,6 +182,7 @@ assign [class="Steam"] 5
 
 assign [class="Skype"] 7
 assign [class="TelegramDesktop"] 7
+assign [app_id="telegramdesktop"] 7
 assign [class="Slack"] 7
 assign [class="discord"] 7
 assign [class="Franz"] 7
@@ -326,9 +327,10 @@ bindsym --to-code $mod+e exec alacritty -t Emacs --class Emacs -e emacs -nw
 exec_always wmname Sawfish
 exec_always xrdb -merge ~/.Xresources
 exec_always ~/.config/sway/kanshi.sh
-exec_always ~/.config/sway/gammastep.sh
 
 exec ~/.config/sway/polkit.sh
+
+exec wlsunset -l 49.842957 -L 24.031111
 
 # turn off screen in 5min
 # lock screen before sleep and on lock hint
@@ -346,7 +348,7 @@ exec mpris-proxy
 
 exec nm-applet --indicator
 exec blueman-tray
-exec safeeyes
+exec safeeyes -d
 exec udiskie --appindicator
 
 # https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start

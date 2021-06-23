@@ -101,7 +101,7 @@ $ chmod 600 ~/.ssh/key
 * wmname
 * alacritty - terminal
 * safeeyes - break reminder
-* gammastep - adjust display color temperature at night
+* wlsunset - adjust display color temperature at night
 * udiskie - automounter for removable media
 * network-manager-applet - network manager applet
 * nm-connection-editor, networkmanager-openvpn - network manager ui
